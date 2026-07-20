@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SparkyBot — Complete Command Reference</title>
+    <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🤖%3C/text%3E%3C/svg%3E" />
+    <style>
+        /* ─── RESET & BASE ─── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0f;
+            color: #e8e8f0;
+            line-height: 1.6;
+            transition: filter 0.3s ease;
+        }
+        a {
+            color: #7289da;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #8ea1e1;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ─── TYPOGRAPHY & ANIMATIONS ─── */
+        .gradient-text {
+            background: linear-gradient(135deg, #7289da, #a855f7, #7289da);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 5s ease infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .float-emoji {
+            display: inline-block;
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(114, 137, 218, 0.15);
+            color: #7289da;
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(114, 137, 218, 0.2);
+        }
+        .badge-glow {
+            box-shadow: 0 0 20px rgba(114, 137, 218, 0.15);
+        }
+        .badge-soon {
+            background: rgba(232, 184, 75, 0.15);
+            color: #e8b84b;
+            border-color: rgba(232, 184, 75, 0.2);
+            font-size: 0.65rem;
+            padding: 2px 10px;
+            vertical-align: middle;
+            margin-left: 6px;
+        }
+
+        /* ─── BUTTONS ─── */
+        .btn {
+            display: inline-block;
+            padding: 14px 36px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.3s ease;
+            border: none;
+            text-align: center;
+        }
+        .btn-primary {
+            background: #5865f2;
+            color: #fff;
+            box-shadow: 0 4px 24px rgba(88, 101, 242, 0.35);
+        }
+        .btn-primary:hover {
+            background: #4752c4;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(88, 101, 242, 0.45);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: #e8e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-3px);
+        }
+        .btn-outline {
+            background: transparent;
+            color: #e8e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+        }
+
+        /* ─── HEADER ─── */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo span {
+            background: #5865f2;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #fff;
+        }
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+        .nav-links a {
+            color: #a0a0b8;
+            transition: color 0.2s ease;
+        }
+        .nav-links a:hover {
+            color: #e8e8f0;
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+        .hero .badge {
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-size: clamp(2.6rem, 8vw, 4.8rem);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            max-width: 800px;
+            margin: 0 auto 20px;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            color: #a0a0b8;
+            max-width: 600px;
+            margin: 0 auto 36px;
+        }
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 40px 60px;
+            flex-wrap: wrap;
+            margin-top: 50px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #fff;
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: #80809a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ─── FEATURES ─── */
+        .section {
+            padding: 80px 0;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .section-sub {
+            text-align: center;
+            color: #a0a0b8;
+            max-width: 640px;
+            margin: 0 auto 50px;
+            font-size: 1.1rem;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 28px 24px;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.4s ease;
+            will-change: transform;
+        }
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-6px);
+            border-color: rgba(114, 137, 218, 0.2);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+        }
+        .feature-card.coming-soon {
+            opacity: 0.9;
+            border-style: dashed;
+            border-color: rgba(232, 184, 75, 0.25);
+        }
+        .feature-card.coming-soon:hover {
+            border-color: rgba(232, 184, 75, 0.5);
+        }
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .feature-card h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .feature-card p {
+            color: #9090aa;
+            font-size: 0.95rem;
+        }
+
+        /* ─── WHY ─── */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 24px;
+            margin-top: 20px;
+        }
+        .why-item {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            padding: 24px 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        .why-item:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .why-item .emoji {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .why-item h4 {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .why-item p {
+            color: #80809a;
+            font-size: 0.9rem;
+        }
+
+        /* ─── COMMANDS TABLE ─── */
+        .commands-section {
+            background: rgba(255, 255, 255, 0.015);
+        }
+        .perm-tier {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+        .perm-tier:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        .perm-tier summary {
+            padding: 18px 24px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.02);
+            transition: background 0.2s ease;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .perm-tier summary::-webkit-details-marker {
+            display: none;
+        }
+        .perm-tier summary:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .perm-tier summary .badge-perm {
+            font-size: 0.75rem;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 2px 12px;
+            border-radius: 20px;
+            color: #a0a0b8;
+            margin-left: auto;
+        }
+        .perm-tier .content {
+            padding: 16px 24px 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 6px 20px;
+        }
+        .perm-tier .content .cmd {
+            font-size: 0.9rem;
+            color: #c8c8d8;
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .perm-tier .content .cmd code {
+            background: rgba(88, 101, 242, 0.12);
+            color: #a0b4ff;
+            padding: 1px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            font-family: 'JetBrains Mono', monospace;
+            white-space: nowrap;
+        }
+        .perm-tier .content .cmd .desc {
+            color: #80809a;
+            font-size: 0.8rem;
+            margin-left: auto;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        @media (max-width: 600px) {
+            .perm-tier .content {
+                grid-template-columns: 1fr;
+            }
+            .perm-tier .content .cmd .desc {
+                white-space: normal;
+            }
+        }
+
+        /* ─── CTA ─── */
+        .cta-section {
+            background: radial-gradient(ellipse at center, rgba(88, 101, 242, 0.08), transparent 70%);
+            padding: 80px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .cta-section h2 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .cta-section p {
+            color: #a0a0b8;
+            max-width: 500px;
+            margin: 0 auto 32px;
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            padding: 40px 0 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            text-align: center;
+            color: #60607a;
+            font-size: 0.9rem;
+        }
+        footer .links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        footer .links a {
+            color: #80809a;
+            transition: color 0.2s ease;
+        }
+        footer .links a:hover {
+            color: #e8e8f0;
+        }
+
+        /* ─── COMING SOON OVERLAY ─── */
+        #comingSoon {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0f;
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+        #comingSoon .cs-content {
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            padding: 40px 24px;
+        }
+        #comingSoon .cs-icon {
+            font-size: 4.5rem;
+            display: block;
+            margin-bottom: 16px;
+            animation: float 4s ease-in-out infinite;
+        }
+        #comingSoon h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+        #comingSoon p.sub {
+            color: #a0a0b8;
+            font-size: 1.15rem;
+            margin-bottom: 40px;
+        }
+        .progress-wrap {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #7289da, #a855f7, #7289da);
+            background-size: 200% 200%;
+            border-radius: 20px;
+            transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            animation: shimmer 2s ease infinite;
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #60607a;
+        }
+        .progress-label span:last-child {
+            color: #a0a0b8;
+            font-weight: 500;
+        }
+        .cs-btn {
+            margin-top: 48px;
+        }
+
+        @media (max-width: 480px) {
+            #comingSoon h2 {
+                font-size: 2rem;
+            }
+            #comingSoon .cs-icon {
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 16px;
+                font-size: 0.85rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .hero {
+                padding: 40px 0 40px;
+            }
+            .stats-row {
+                gap: 20px 30px;
+            }
+            .stat-number {
+                font-size: 1.8rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .why-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .cta-section h2 {
+                font-size: 2rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .btn {
+                padding: 12px 24px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── HEADER ─── -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <span class="float-emoji">🤖</span> <span>SparkyBot</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#commands">Commands</a>
+                <a href="#cta">Invite</a>
+                <a href="#" class="btn btn-primary" style="padding:10px 24px;font-size:0.9rem;">Add to Server</a>
+                <a href="#" id="dashboardNavBtn" class="btn btn-outline" style="padding:10px 20px;font-size:0.85rem;">🌐 Dashboard</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ─── HERO ─── -->
+    <section class="hero" id="mainContent">
+        <div class="container">
+            <div class="badge badge-glow">🚀 All-in-One Discord Bot</div>
+            <h1>
+                Power up your Discord<br />
+                with <span class="gradient-text">SparkyBot</span>
+            </h1>
+            <p>
+                Moderation, tickets, economy, giveaways, logging, and more —
+                all in one free, reliable bot. Built for communities that demand the best.
+            </p>
+            <p style="font-size:0.9rem;color:#60607a;margin-top:-20px;margin-bottom:20px;">
+                No credit card required · Free forever · Setup in seconds
+            </p>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary">✨ Add to Discord</a>
+                <a href="#" class="btn btn-secondary">📖 Documentation</a>
+                <a href="#" class="btn btn-outline">💬 Support Server</a>
+                <a href="#" id="dashboardHeroBtn" class="btn btn-outline" style="border-color:rgba(168,85,247,0.3);">🌐 Dashboard</a>
+            </div>
+            <div class="stats-row">
+                <div class="stat-item">
+                    <span class="stat-number">99+</span>
+                    <span class="stat-label">Servers</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">10.0K+</span>
+                    <span class="stat-label">Users</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">18+</span>
+                    <span class="stat-label">Modules</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Free</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── FEATURES ─── -->
+    <section class="section" id="features">
+        <div class="container">
+            <h2 class="section-title">Everything your server needs</h2>
+            <p class="section-sub">
+                One bot, countless tools. Replace a dozen bots with SparkyBot
+                and keep your server clean and fast.
+            </p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">⚔️</span>
+                    <h3>Advanced Moderation</h3>
+                    <p>Kick, ban, mute, warn, jail, purge, and lockdown — all with detailed logging and customizable permissions.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🎟️</span>
+                    <h3>Ticket System</h3>
+                    <p>A complete support ticket system with transcripts, categories, claim/close, and staff roles.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">💰</span>
+                    <h3>Economy &amp; Leveling</h3>
+                    <p>Keep members engaged with a currency, shop, daily rewards, XP, and leveling system.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🎉</span>
+                    <h3>Giveaways</h3>
+                    <p>Create and manage giveaways with role requirements, multiple winners, and rerolls.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📄</span>
+                    <h3>Applications</h3>
+                    <p>Accept staff applications with custom questions, review flows, and automatic role assignment.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔊</span>
+                    <h3>Join-to-Create Voice</h3>
+                    <p>Let members create their own private voice channels with automatic cleanup when empty.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🎭</span>
+                    <h3>Reaction Roles</h3>
+                    <p>Assign roles via reactions with multiple modes and full customization.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📝</span>
+                    <h3>Logging</h3>
+                    <p>Comprehensive audit logs for messages, members, channels, roles, and moderation actions.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🛡️</span>
+                    <h3>Anti-Nuke Protection</h3>
+                    <p>Automatically detect and stop malicious mass-deletes, bans, and role changes.</p>
+                </div>
+                <div class="feature-card coming-soon">
+                    <span class="feature-icon">🌐</span>
+                    <h3>Web Dashboard <span class="badge badge-soon">🚧 Coming Soon</span></h3>
+                    <p>A clean, powerful web dashboard is currently in development. Manage your server without commands — launching soon!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── WHY SPARKYBOT ─── -->
+    <section class="section" style="padding-top:0;">
+        <div class="container">
+            <h2 class="section-title">Built different, on purpose</h2>
+            <p class="section-sub">We set out to build a bot that communities actually love to use.</p>
+            <div class="why-grid">
+                <div class="why-item"><span class="emoji">⚡</span><h4>Blazing Fast</h4><p>Optimized infrastructure means commands respond in milliseconds, not seconds.</p></div>
+                <div class="why-item"><span class="emoji">💎</span><h4>100% Free</h4><p>Every feature is free, forever. No paywalls, no premium tiers, no nitro-gating.</p></div>
+                <div class="why-item"><span class="emoji">🧩</span><h4>All-in-One</h4><p>Replace 10+ bots with one. Less clutter, fewer conflicts, faster server.</p></div>
+                <div class="why-item"><span class="emoji">💬</span><h4>Active Support</h4><p>A dedicated support team and community ready to help you in our server.</p></div>
+                <div class="why-item"><span class="emoji">🔄</span><h4>Constantly Updated</h4><p>New features and improvements ship regularly based on community feedback.</p></div>
+                <div class="why-item"><span class="emoji">🔒</span><h4>No Hidden Costs</h4><p>What you see is what you get. No surprise limits or feature locks down the line.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── COMPLETE COMMAND REFERENCE ─── -->
+    <section class="section commands-section" id="commands">
+        <div class="container">
+            <h2 class="section-title">Complete Command Reference</h2>
+            <p class="section-sub">
+                Every SparkyBot command, sorted by the permission required to run it.
+                Click a tier below to expand the full list.
+            </p>
+
+            <!-- TIER 1: BOT OWNER -->
+            <details class="perm-tier" open>
+                <summary>
+                    🔐 Bot Owner Only
+                    <span class="badge-perm">Highest</span>
+                </summary>
+                <div class="content">
+                    <div class="cmd"><code>/owner setlog</code> <span class="desc">Set owner log channel</span></div>
+                    <div class="cmd"><code>/owner removelog</code> <span class="desc">Remove owner log channel</span></div>
+                    <div class="cmd"><code>/owner checklog</code> <span class="desc">Check owner log status</span></div>
+                    <div class="cmd"><code>/owner listservers</code> <span class="desc">List all servers the bot is in</span></div>
+                    <div class="cmd"><code>/owner reload</code> <span class="desc">Reload a cog</span></div>
+                    <div class="cmd"><code>/owner restart</code> <span class="desc">Restart the bot</span></div>
+                    <div class="cmd"><code>/owner shutdown</code> <span class="desc">Shut down the bot</span></div>
+                    <div class="cmd"><code>/owner globalannounce</code> <span class="desc">Send announcement to all servers</span></div>
+                    <div class="cmd"><code>/owner leaveserver</code> <span class="desc">Make the bot leave a server</span></div>
+                    <div class="cmd"><code>/owner serverstats</code> <span class="desc">View bot-wide statistics</span></div>
+                    <div class="cmd"><code>/owner globalpoll</code> <span class="desc">Create a global poll</span></div>
+                    <div class="cmd"><code>/owner pollclose</code> <span class="desc">Close a global poll early</span></div>
+                    <div class="cmd"><code>/owner pollresults</code> <span class="desc">View poll results</span></div>
+                    <div class="cmd"><code>/owner pollban</code> <span class="desc">Ban a user from a poll</span></div>
+                    <div class="cmd"><code>/owner pollunban</code> <span class="desc">Unban a user from a poll</span></div>
+                    <div class="cmd"><code>/owner polldelete</code> <span class="desc">Delete a global poll</span></div>
+                    <div class="cmd"><code>/owner polllist</code> <span class="desc">List all global polls</span></div>
+                    <div class="cmd"><code>/owner 247approve</code> <span class="desc">Approve 24/7 mode for a server</span></div>
+                    <div class="cmd"><code>/owner 247unapprove</code> <span class="desc">Remove 24/7 approval</span></div>
+                    <div class="cmd"><code>/owner 247list</code> <span class="desc">List approved 24/7 servers</span></div>
+                </div>
+            </details>
+
+            <!-- TIER 2: ADMINISTRATOR -->
+            <details class="perm-tier">
+                <summary>
+                    🛡️ Administrator
+                    <span class="badge-perm">Server Admin</span>
+                </summary>
+                <div class="content">
+                    <div class="cmd"><code>/admin reset</code> <span class="desc">Reset a module's settings</span></div>
+                    <div class="cmd"><code>/mod jail</code> <span class="desc">Jail a member</span></div>
+                    <div class="cmd"><code>/mod unjail</code> <span class="desc">Unjail a member</span></div>
+                    <div class="cmd"><code>/mod setjailrole</code> <span class="desc">Set the jail role</span></div>
+                    <div class="cmd"><code>/mod setlog</code> <span class="desc">Set moderation log channel</span></div>
+                    <div class="cmd"><code>/tkt manage add</code> <span class="desc">Add a ticket category</span></div>
+                    <div class="cmd"><code>/tkt manage remove</code> <span class="desc">Remove a ticket category</span></div>
+                    <div class="cmd"><code>/tkt manage reset</code> <span class="desc">Reset categories to defaults</span></div>
+                    <div class="cmd"><code>/tkt manage cat</code> <span class="desc">Set ticket category name</span></div>
+                    <div class="cmd"><code>/tkt manage time</code> <span class="desc">Set staff support hours</span></div>
+                    <div class="cmd"><code>/tkt manage rmtime</code> <span class="desc">Remove support hours</span></div>
+                    <div class="cmd"><code>/tkt manage embed</code> <span class="desc">Set custom ticket embed</span></div>
+                    <div class="cmd"><code>/tkt fields add</code> <span class="desc">Add a form field</span></div>
+                    <div class="cmd"><code>/tkt fields remove</code> <span class="desc">Remove a form field</span></div>
+                    <div class="cmd"><code>/tkt staff type</code> <span class="desc">Add/remove type staff role</span></div>
+                    <div class="cmd"><code>/tkt staff global</code> <span class="desc">Add/remove global staff role</span></div>
+                    <div class="cmd"><code>/tkt customize menu</code> <span class="desc">Customize ticket panel</span></div>
+                    <div class="cmd"><code>/antinuke enable</code> <span class="desc">Enable anti-nuke</span></div>
+                    <div class="cmd"><code>/antinuke disable</code> <span class="desc">Disable anti-nuke</span></div>
+                    <div class="cmd"><code>/antinuke punishment</code> <span class="desc">Set default punishment</span></div>
+                    <div class="cmd"><code>/antinuke setlog</code> <span class="desc">Set anti-nuke log channel</span></div>
+                    <div class="cmd"><code>/antinuke eventconfig</code> <span class="desc">Configure event settings</span></div>
+                    <div class="cmd"><code>/antinuke whitelist</code> <span class="desc">Whitelist a user</span></div>
+                    <div class="cmd"><code>/antinuke whitelistrole</code> <span class="desc">Whitelist a role</span></div>
+                    <div class="cmd"><code>/antinuke forbidchannel</code> <span class="desc">Forbid a channel</span></div>
+                    <div class="cmd"><code>/antinuke forbidcategory</code> <span class="desc">Forbid a category</span></div>
+                    <div class="cmd"><code>/antinuke clearviolations</code> <span class="desc">Clear violations</span></div>
+                    <div class="cmd"><code>/logging setchannel</code> <span class="desc">Set logging channel</span></div>
+                    <div class="cmd"><code>/logging config</code> <span class="desc">Toggle log events</span></div>
+                    <div class="cmd"><code>/logging toggle</code> <span class="desc">Enable/disable logging</span></div>
+                    <div class="cmd"><code>/forumlock set</code> <span class="desc">Set forum auto-lock</span></div>
+                    <div class="cmd"><code>/forumlock setlog</code> <span class="desc">Set forum lock log</span></div>
+                    <div class="cmd"><code>/forumlock remove</code> <span class="desc">Remove forum lock</span></div>
+                    <div class="cmd"><code>/forumlock toggle</code> <span class="desc">Toggle forum lock</span></div>
+                    <div class="cmd"><code>/forumlock update</code> <span class="desc">Update forum lock duration</span></div>
+                    <div class="cmd"><code>/verify setup</code> <span class="desc">Setup verification system</span></div>
+                    <div class="cmd"><code>/verify panel</code> <span class="desc">Post verification panel</span></div>
+                    <div class="cmd"><code>/verify reset</code> <span class="desc">Reset verification data</span></div>
+                    <div class="cmd"><code>/verify cleanup</code> <span class="desc">Clean up verification channels</span></div>
+                    <div class="cmd"><code>/application create</code> <span class="desc">Create an application</span></div>
+                    <div class="cmd"><code>/application delete</code> <span class="desc">Delete an application</span></div>
+                    <div class="cmd"><code>/eco setrolerole</code> <span class="desc">Configure role shop item</span></div>
+                    <div class="cmd"><code>/eco removeroleitem</code> <span class="desc">Disable a role item</span></div>
+                    <div class="cmd"><code>/eco roleitemsconfig</code> <span class="desc">View role item config</span></div>
+                    <div class="cmd"><code>/eco removeroleitemsall</code> <span class="desc">Clear all role items</span></div>
+                    <div class="cmd"><code>/lv setchannel</code> <span class="desc">Set level-up channel</span></div>
+                    <div class="cmd"><code>/lv rstchannel</code> <span class="desc">Reset level-up channel</span></div>
+                    <div class="cmd"><code>/lv setxp</code> <span class="desc">Set a user's XP</span></div>
+                    <div class="cmd"><code>/lv role</code> <span class="desc">Add level reward role</span></div>
+                    <div class="cmd"><code>/lv rmrole</code> <span class="desc">Remove level reward role</span></div>
+                    <div class="cmd"><code>/lv bl</code> <span class="desc">Block channel from XP</span></div>
+                    <div class="cmd"><code>/lv toggle</code> <span class="desc">Enable/disable leveling</span></div>
+                    <div class="cmd"><code>/am status</code> <span class="desc">View AutoMod config</span></div>
+                    <div class="cmd"><code>/am toggle</code> <span class="desc">Enable/disable AutoMod</span></div>
+                    <div class="cmd"><code>/am spam</code> <span class="desc">Toggle anti-spam</span></div>
+                    <div class="cmd"><code>/am invite</code> <span class="desc">Toggle anti-invite</span></div>
+                    <div class="cmd"><code>/am links</code> <span class="desc">Toggle anti-links</span></div>
+                    <div class="cmd"><code>/am caps</code> <span class="desc">Toggle caps filter</span></div>
+                    <div class="cmd"><code>/am mentions</code> <span class="desc">Set mention limit</span></div>
+                    <div class="cmd"><code>/am addword</code> <span class="desc">Add bad word</span></div>
+                    <div class="cmd"><code>/am delword</code> <span class="desc">Remove bad word</span></div>
+                    <div class="cmd"><code>/am log</code> <span class="desc">Set AutoMod log channel</span></div>
+                    <div class="cmd"><code>/am ignorech</code> <span class="desc">Globally ignore a channel</span></div>
+                    <div class="cmd"><code>/am ignorerole</code> <span class="desc">Globally ignore a role</span></div>
+                    <div class="cmd"><code>/am wlu</code> <span class="desc">Module whitelist user</span></div>
+                    <div class="cmd"><code>/am wlr</code> <span class="desc">Module whitelist role</span></div>
+                    <div class="cmd"><code>/am wlc</code> <span class="desc">Module whitelist channel</span></div>
+                    <div class="cmd"><code>/am wlcat</code> <span class="desc">Module whitelist category</span></div>
+                    <div class="cmd"><code>/am wllist</code> <span class="desc">List module whitelists</span></div>
+                    <div class="cmd"><code>/am wlclear</code> <span class="desc">Clear module whitelist</span></div>
+                    <div class="cmd"><code>/jtc setup</code> <span class="desc">Set up JTC system</span></div>
+                    <div class="cmd"><code>/jtc name</code> <span class="desc">Set JTC name template</span></div>
+                    <div class="cmd"><code>/jtc limit</code> <span class="desc">Set JTC default limit</span></div>
+                    <div class="cmd"><code>/jtc panel</code> <span class="desc">Refresh JTC control panel</span></div>
+                    <div class="cmd"><code>/invites reset</code> <span class="desc">Reset a member's invites</span></div>
+                    <div class="cmd"><code>/invites resetall</code> <span class="desc">Reset all invite data</span></div>
+                    <div class="cmd"><code>/messages reset</code> <span class="desc">Reset message stats</span></div>
+                    <div class="cmd"><code>/rules delete</code> <span class="desc">Delete a rules panel</span></div>
+                    <div class="cmd"><code>/music vc</code> <span class="desc">Set designated music VC</span></div>
+                    <div class="cmd"><code>/music removevc</code> <span class="desc">Remove music VC</span></div>
+                    <div class="cmd"><code>/music vcinfo</code> <span class="desc">View music VC config</span></div>
+                    <div class="cmd"><code>/music status</code> <span class="desc">Toggle VC status updates</span></div>
+                    <div class="cmd"><code>/music panel</code> <span class="desc">Send music control panel</span></div>
+                    <div class="cmd"><code>/music removepanel</code> <span class="desc">Remove music panel</span></div>
+                    <div class="cmd"><code>/music 247</code> <span class="desc">Enable/disable 24/7 mode</span></div>
+                    <div class="cmd"><code>/music 247status</code> <span class="desc">Check 24/7 status</span></div>
+                    <div class="cmd"><code>/rp set</code> <span class="desc">Set report channel</span></div>
+                    <div class="cmd"><code>/rp setsug</code> <span class="desc">Set suggestion channel</span></div>
+                    <div class="cmd"><code>/rp setbug</code> <span class="desc">Set bug report channel</span></div>
+                    <div class="cmd"><code>/autotranslate enable</code> <span class="desc">Enable auto-translate</span></div>
+                    <div class="cmd"><code>/autotranslate disable</code> <span class="desc">Disable auto-translate</span></div>
+                    <div class="cmd"><code>/autotranslate setlanguage</code> <span class="desc">Set default language</span></div>
+                    <div class="cmd"><code>/autotranslate ignorechannel</code> <span class="desc">Ignore channel</span></div>
+                    <div class="cmd"><code>/autotranslate unignorechannel</code> <span class="desc">Unignore channel</span></div>
+                    <div class="cmd"><code>/autotranslate ignorerole</code> <span class="desc">Ignore role</span></div>
+                    <div class="cmd"><code>/autotranslate unignorerole</code> <span class="desc">Unignore role</span></div>
+                    <div class="cmd"><code>/autotranslate ignoreuser</code> <span class="desc">Ignore user</span></div>
+                    <div class="cmd"><code>/autotranslate unignoreuser</code> <span class="desc">Unignore user</span></div>
+                    <div class="cmd"><code>/ai autoresponder set</code> <span class="desc">Set AI autoresponder channel</span></div>
+                    <div class="cmd"><code>/ai autoresponder enable</code> <span class="desc">Enable AI autoresponder</span></div>
+                    <div class="cmd"><code>/ai autoresponder disable</code> <span class="desc">Disable AI autoresponder</span></div>
+                    <div class="cmd"><code>/ai autoresponder status</code> <span class="desc">Check AI autoresponder</span></div>
+                </div>
+            </details>
+
+            <!-- TIER 3: MANAGE SERVER -->
+            <details class="perm-tier">
+                <summary>
+                    ⚙️ Manage Server
+                    <span class="badge-perm">Manage Guild</span>
+                </summary>
+                <div class="content">
+                    <div class="cmd"><code>/mod clearwarns</code> <span class="desc">Clear a member's warnings</span></div>
+                    <div class="cmd"><code>/mod jaillist</code> <span class="desc">List jailed members</span></div>
+                    <div class="cmd"><code>/gwy start</code> <span class="desc">Start a giveaway</span></div>
+                    <div class="cmd"><code>/gwy end</code> <span class="desc">End a giveaway</span></div>
+                    <div class="cmd"><code>/gwy reroll</code> <span class="desc">Reroll giveaway winners</span></div>
+                    <div class="cmd"><code>/gwy list</code> <span class="desc">List active giveaways</span></div>
+                    <div class="cmd"><code>/gwy edit</code> <span class="desc">Edit a giveaway</span></div>
+                    <div class="cmd"><code>/gwy info</code> <span class="desc">View giveaway details</span></div>
+                    <div class="cmd"><code>/wel set</code> <span class="desc">Set welcome channel</span></div>
+                    <div class="cmd"><code>/wel setgoodbye</code> <span class="desc">Set goodbye channel</span></div>
+                    <div class="cmd"><code>/wel config</code> <span class="desc">Configure welcome message</span></div>
+                    <div class="cmd"><code>/wel goodbyeconfig</code> <span class="desc">Configure goodbye message</span></div>
+                    <div class="cmd"><code>/wel setmsg</code> <span class="desc">Set welcome message</span></div>
+                    <div class="cmd"><code>/wel setgoodbyemsg</code> <span class="desc">Set goodbye message</span></div>
+                    <div class="cmd"><code>/wel setdm</code> <span class="desc">Set welcome DM</span></div>
+                    <div class="cmd"><code>/wel toggleembed</code> <span class="desc">Toggle embed mode</span></div>
+                    <div class="cmd"><code>/wel preview</code> <span class="desc">Preview welcome/goodbye</span></div>
+                    <div class="cmd"><code>/youtube add</code> <span class="desc">Track a YouTube channel</span></div>
+                    <div class="cmd"><code>/youtube remove</code> <span class="desc">Stop tracking a channel</span></div>
+                    <div class="cmd"><code>/youtube list</code> <span class="desc">List tracked channels</span></div>
+                    <div class="cmd"><code>/youtube addfilter</code> <span class="desc">Add keyword filter</span></div>
+                    <div class="cmd"><code>/youtube removefilter</code> <span class="desc">Remove keyword filter</span></div>
+                    <div class="cmd"><code>/youtube clearfilters</code> <span class="desc">Clear all filters</span></div>
+                    <div class="cmd"><code>/youtube filters</code> <span class="desc">View active filters</span></div>
+                    <div class="cmd"><code>/youtube setmessage</code> <span class="desc">Set custom notification message</span></div>
+                    <div class="cmd"><code>/youtube setchannel</code> <span class="desc">Change notification channel</span></div>
+                    <div class="cmd"><code>/lv status</code> <span class="desc">Check leveling system status</span></div>
+                    <div class="cmd"><code>/prefix set</code> <span class="desc">Set the bot's prefix</span></div>
+                    <div class="cmd"><code>/prefix add</code> <span class="desc">Add an additional prefix</span></div>
+                    <div class="cmd"><code>/prefix remove</code> <span class="desc">Remove a prefix</span></div>
+                    <div class="cmd"><code>/prefix reset</code> <span class="desc">Reset prefixes to default</span></div>
+                    <div class="cmd"><code>/prefix list</code> <span class="desc">List all server prefixes</span></div>
+                    <div class="cmd"><code>/antinuke status</code> <span class="desc">View anti-nuke status</span></div>
+                    <div class="cmd"><code>/antinuke eventlist</code> <span class="desc">List event configs</span></div>
+                    <div class="cmd"><code>/antinuke whitelistinfo</code> <span class="desc">View user whitelist status</span></div>
+                    <div class="cmd"><code>/antinuke whitelistroleinfo</code> <span class="desc">View role whitelist status</span></div>
+                    <div class="cmd"><code>/antinuke whitelistroles</code> <span class="desc">List whitelisted roles</span></div>
+                    <div class="cmd"><code>/antinuke violations</code> <span class="desc">View user violations</span></div>
+                    <div class="cmd"><code>/rp suglist</code> <span class="desc">List pending suggestions</span></div>
+                    <div class="cmd"><code>/application list</code> <span class="desc">List all applications</span></div>
+                    <div class="cmd"><code>/application open</code> <span class="desc">Open an application</span></div>
+                    <div class="cmd"><code>/application close</code> <span class="desc">Close an application</span></div>
+                    <div class="cmd"><code>/application setlogchannel</code> <span class="desc">Set app log channel</span></div>
+                    <div class="cmd"><code>/application setrole</code> <span class="desc">Set grant role</span></div>
+                    <div class="cmd"><code>/application setcooldown</code> <span class="desc">Set application cooldown</span></div>
+                    <div class="cmd"><code>/application resetcooldown</code> <span class="desc">Reset a user's cooldown</span></div>
+                    <div class="cmd"><code>/application checkstatus</code> <span class="desc">Check user's status</span></div>
+                    <div class="cmd"><code>/application post</code> <span class="desc">Post an apply button</span></div>
+                    <div class="cmd"><code>/application postmulti</code> <span class="desc">Post multi-application panel</span></div>
+                    <div class="cmd"><code>/application manager</code> <span class="desc">Set manager roles</span></div>
+                    <div class="cmd"><code>/application preview</code> <span class="desc">Preview application</span></div>
+                    <div class="cmd"><code>/rules create</code> <span class="desc">Create rules panel</span></div>
+                    <div class="cmd"><code>/rules additem</code> <span class="desc">Add rule item</span></div>
+                    <div class="cmd"><code>/rules edititem</code> <span class="desc">Edit rule item</span></div>
+                    <div class="cmd"><code>/rules removeitem</code> <span class="desc">Remove rule item</span></div>
+                    <div class="cmd"><code>/rules preview</code> <span class="desc">Preview rules panel</span></div>
+                    <div class="cmd"><code>/rules list</code> <span class="desc">List rules panels</span></div>
+                    <div class="cmd"><code>/rules post</code> <span class="desc">Post rules panel</span></div>
+                    <div class="cmd"><code>/forumlock list</code> <span class="desc">List forum lock settings</span></div>
+                    <div class="cmd"><code>/autotranslate status</code> <span class="desc">View auto-translate config</span></div>
+                    <div class="cmd"><code>/invites setlogchannel</code> <span class="desc">Set invite log channel</span></div>
+                </div>
+            </details>
+
+            <!-- TIER 4: MANAGE CHANNELS -->
+            <details class="perm-tier">
+                <summary>
+                    📺 Manage Channels
+                    <span class="badge-perm">Manage Channels</span>
+                </summary>
+                <div class="content">
+                    <div class="cmd"><code>/mod lock</code> <span class="desc">Lock a channel</span></div>
+                    <div class="cmd"><code>/mod unlock</code> <span class="desc">Unlock a channel</span></div>
+                    <div class="cmd"><code>/mod slowmode</code> <span class="desc">Set channel slowmode</span></div>
+                    <div class="cmd"><code>/tkt manage listcats</code> <span class="desc">List ticket categories</span></div>
+                    <div class="cmd"><code>/tkt manage clean</code> <span class="desc">Clean stale ticket records</span></div>
+                    <div class="cmd"><code>/tkt manage count</code> <span class="desc">Show open ticket count</span></div>
+                    <div class="cmd"><code>/tkt manage list</code> <span class="desc">List open tickets</span></div>
+                    <div class="cmd"><code>/tkt manage reviews</code> <span class="desc">View ticket reviews</span></div>
+                    <div class="cmd"><code>/tkt adduser</code> <span class="desc">Add user to ticket</span></div>
+                    <div class="cmd"><code>/tkt removeuser</code> <span class="desc">Remove user from ticket</span></div>
+                    <div class="cmd"><code>/tkt open</code> <span class="desc">Manually open a ticket</span></div>
+                    <div class="cmd"><code>/tkt close</code> <span class="desc">Close a ticket</span></div>
+                    <div class="cmd"><code>/tkt closereq</code> <span class="desc">Request ticket closure</span></div>
+                    <div class="cmd"><code>/tkt autoclose</code> <span class="desc">Set auto-close timer</span></div>
+                    <div class="cmd"><code>/tkt rmautoclose</code> <span class="desc">Remove auto-close timer</span></div>
+                    <div class="cmd"><code>/tkt transcript</code> <span class="desc">Generate ticket transcript</span></div>
+                    <div class="cmd"><code>/tkt staff info</code> <span class="desc">View staff config</span></div>
+                    <div class="cmd"><code>/admin channeldelay</code> <span class="desc">Set slowmode via admin</span></div>
+                    <div class="cmd"><code>/jtc info</code> <span class="desc">View JTC configuration</span></div>
+                    <div class="cmd"><code>/ai autoresponder set</code> <span class="desc">Set AI channel</span></div>
+                </div>
+            </details>
+
+            <!-- TIER 5: KICK / BAN -->
+            <details class="perm-tier">
+                <summary>
+                    🔨 Kick / Ban Members
+                    <span class="badge-perm">Kick &amp; Ban</span>
+                </summary>
+                <div class="content">
+                    <div class="cmd"><code>/mod kick</code> <span class="desc">Kick a member</span></div>
+                    <div class="cmd"><code>/mod ban</code> <span class="desc">Ban a member</span></div>
+                    <div class="cmd"><code>/mod unban</code> <span class="desc">Unban a user by ID</span></div>
+                </div>
+            </details>
+
+            <!-- TIER 6: MODERATE MEMBERS (TIMEOUT) -->
+            <details class="perm-tier">
+                <summary>
+                    ⏱️ Moderate Members
+                    <span class="badge-perm">Timeout</span>
+                </summary>
+                <div class="content">
+                    <div class="cmd"><code>/mod mute</code> <span class="desc">Timeout a member</span></div>
+                    <div class="cmd"><code>/mod unmute</code> <span class="desc">Remove timeout</span></div>
+                </div>
+            </details>
+
+            <!-- TIER 7: MANAGE MESSAGES -->
+            <details class="perm-tier">
+                <summary>
+                    📝 Manage Messages
+                    <span class="badge-perm">Manage Messages</span>
+                </summary>
+                <div class="content">
+                    <div class="cmd"><code>/mod warn</code> <span class="desc">Warn a member</span></div>
+                    <div class="cmd"><code>/mod warnings</code> <span class="desc">View warnings</span></div>
+                    <div class="cmd"><code>/mod purge</code> <span class="desc">Bulk-delete messages</span></div>
+                    <div class="cmd"><code>/embed send</code> <span class="desc">Send embed via modal</span></div>
+                    <div class="cmd"><code>/embed quick</code> <span class="desc">Send quick embed</span></div>
+                    <div class="cmd"><code>/embed edit</code> <span class="desc">Edit an existing embed</span></div>
+                    <div class="cmd"><code>/embed addfield</code> <span class="desc">Add field to embed</span></div>
+                    <div class="cmd"><code>/embed clearfields</code> <span class="desc">Clear all embed fields</span></div>
+                    <div class="cmd"><code>/embed setauthor</code> <span class="desc">Set embed author</span></div>
+                    <div class="cmd"><code>/embed json</code> <span class="desc">Send embed from JSON</span></div>
+                    <div class="cmd"><code>/embed preview</code> <span class="desc">Preview an embed</span></div>
+                    <div class="cmd"><code>/verify status</code> <span class="desc">Check verification status</span></div>
+                    <div class="cmd"><code>/verify user</code> <span class="desc">Manually verify a user</span></div>
+                    <div class="cmd"><code>/verify unverify</code> <span class="desc">Unverify a user</span></div>
+                    <div class="cmd"><code>/rp list</code> <span class="desc">View pending reports</span></div>
+                </div>
+            </details>
+
+            <!-- TIER 8: MANAGE ROLES -->
+            <details class="perm-tier">
+                <summary>
+                    🎭 Manage Roles
+                    <span class="badge-perm">Manage Roles</span>
+                </summary>
+                <div class="content">
+                    <div class="cmd"><code>/mod role</code> <span class="desc">Add/remove a role</span></div>
+                    <div class="cmd"><code>/wel autorole</code> <span class="desc">Add/remove auto-role</span></div>
+                    <div class="cmd"><code>/wel listautoroles</code> <span class="desc">List auto-roles</span></div>
+                    <div class="cmd"><code>/rr add</code> <span class="desc">Add reaction role</span></div>
+                    <div class="cmd"><code>/rr remove</code> <span class="desc">Remove reaction role</span></div>
+                    <div class="cmd"><code>/rr list</code> <span class="desc">List reaction roles</span></div>
+                    <div class="cmd"><code>/rr clear</code> <span class="desc">Clear reaction roles from a message</span></div>
+                    <div class="cmd"><code>/rr panel</code> <span class="desc">Create reaction role panel</span></div>
+                </div>
+            </details>
+
+            <!-- TIER 9: MANAGE NICKNAMES -->
+            <details class="perm-tier">
+                <summary>
+                    ✏️ Manage Nicknames
+                    <span class="badge-perm">Manage Nicknames</span>
+                </summary>
+                <div class="content">
+                    <div class="cmd"><code>/mod nick</code> <span class="desc">Change a member's nickname</span></div>
+                    <div class="cmd"><code>/admin botnick</code> <span class="desc">Change the bot's nickname</span></div>
+                </div>
+            </details>
+
+            <!-- TIER 10: @EVERYONE -->
+            <details class="perm-tier">
+                <summary>
+                    🌍 @everyone
+                    <span class="badge-perm">No special permissions</span>
+                </summary>
+                <div class="content">
+                    <div class="cmd"><code>/eco bal</code> <span class="desc">Check balance</span></div>
+                    <div class="cmd"><code>/eco daily</code> <span class="desc">Claim daily reward</span></div>
+                    <div class="cmd"><code>/eco work</code> <span class="desc">Work your job</span></div>
+                    <div class="cmd"><code>/eco job</code> <span class="desc">View or choose a job</span></div>
+                    <div class="cmd"><code>/eco resign</code> <span class="desc">Resign from your job</span></div>
+                    <div class="cmd"><code>/eco pay</code> <span class="desc">Pay another user</span></div>
+                    <div class="cmd"><code>/eco dep</code> <span class="desc">Deposit to bank</span></div>
+                    <div class="cmd"><code>/eco with</code> <span class="desc">Withdraw from bank</span></div>
+                    <div class="cmd"><code>/eco rob</code> <span class="desc">Rob another user</span></div>
+                    <div class="cmd"><code>/eco gamble</code> <span class="desc">Gamble your coins</span></div>
+                    <div class="cmd"><code>/eco slots</code> <span class="desc">Play slots</span></div>
+                    <div class="cmd"><code>/eco shop</code> <span class="desc">View the shop</span></div>
+                    <div class="cmd"><code>/eco buy</code> <span class="desc">Buy an item</span></div>
+                    <div class="cmd"><code>/eco inv</code> <span class="desc">View your inventory</span></div>
+                    <div class="cmd"><code>/eco use</code> <span class="desc">Use an item</span></div>
+                    <div class="cmd"><code>/eco rich</code> <span class="desc">View richest members</span></div>
+                    <div class="cmd"><code>/lv rank</code> <span class="desc">View your rank</span></div>
+                    <div class="cmd"><code>/lv lb</code> <span class="desc">View leaderboard</span></div>
+                    <div class="cmd"><code>/lv roles</code> <span class="desc">List level reward roles</span></div>
+                    <div class="cmd"><code>/fun 8ball</code> <span class="desc">Magic 8-ball</span></div>
+                    <div class="cmd"><code>/fun coinflip</code> <span class="desc">Flip a coin</span></div>
+                    <div class="cmd"><code>/fun dice</code> <span class="desc">Roll dice</span></div>
+                    <div class="cmd"><code>/fun rps</code> <span class="desc">Rock Paper Scissors</span></div>
+                    <div class="cmd"><code>/fun choose</code> <span class="desc">Choose an option</span></div>
+                    <div class="cmd"><code>/fun reverse</code> <span class="desc">Reverse text</span></div>
+                    <div class="cmd"><code>/fun mock</code> <span class="desc">Mock text</span></div>
+                    <div class="cmd"><code>/fun emojify</code> <span class="desc">Convert text to emojis</span></div>
+                    <div class="cmd"><code>/fun rate</code> <span class="desc">Rate something</span></div>
+                    <div class="cmd"><code>/fun fact</code> <span class="desc">Random fact</span></div>
+                    <div class="cmd"><code>/fun roast</code> <span class="desc">Roast a user</span></div>
+                    <div class="cmd"><code>/fun compliment</code> <span class="desc">Send a compliment</span></div>
+                    <div class="cmd"><code>/fun ship</code> <span class="desc">Ship two users</span></div>
+                    <div class="cmd"><code>/fun trivia</code> <span class="desc">Play trivia</span></div>
+                    <div class="cmd"><code>/utility help</code> <span class="desc">Open the help menu</span></div>
+                    <div class="cmd"><code>/utility ping</code> <span class="desc">Check bot latency</span></div>
+                    <div class="cmd"><code>/utility userinfo</code> <span class="desc">View user info</span></div>
+                    <div class="cmd"><code>/utility serverinfo</code> <span class="desc">View server info</span></div>
+                    <div class="cmd"><code>/utility avatar</code> <span class="desc">View avatar</span></div>
+                    <div class="cmd"><code>/utility banner</code> <span class="desc">View banner</span></div>
+                    <div class="cmd"><code>/utility roleinfo</code> <span class="desc">View role info</span></div>
+                    <div class="cmd"><code>/utility channelinfo</code> <span class="desc">View channel info</span></div>
+                    <div class="cmd"><code>/utility invite</code> <span class="desc">Get bot invite link</span></div>
+                    <div class="cmd"><code>/utility poll</code> <span class="desc">Create a poll</span></div>
+                    <div class="cmd"><code>/utility remind</code> <span class="desc">Set a reminder</span></div>
+                    <div class="cmd"><code>/utility afk</code> <span class="desc">Set AFK status</span></div>
+                    <div class="cmd"><code>/utility timestamp</code> <span class="desc">Generate timestamp</span></div>
+                    <div class="cmd"><code>/utility emojis</code> <span class="desc">List server emojis</span></div>
+                    <div class="cmd"><code>/utility membercount</code> <span class="desc">View member count</span></div>
+                    <div class="cmd"><code>/music play</code> <span class="desc">Play a song</span></div>
+                    <div class="cmd"><code>/music pause</code> <span class="desc">Pause playback</span></div>
+                    <div class="cmd"><code>/music resume</code> <span class="desc">Resume playback</span></div>
+                    <div class="cmd"><code>/music skip</code> <span class="desc">Skip current song</span></div>
+                    <div class="cmd"><code>/music stop</code> <span class="desc">Stop and clear queue</span></div>
+                    <div class="cmd"><code>/music queue</code> <span class="desc">View queue</span></div>
+                    <div class="cmd"><code>/music nowplaying</code> <span class="desc">Show current song</span></div>
+                    <div class="cmd"><code>/music disconnect</code> <span class="desc">Leave voice channel</span></div>
+                    <div class="cmd"><code>/music shuffle</code> <span class="desc">Shuffle queue</span></div>
+                    <div class="cmd"><code>/music unshuffle</code> <span class="desc">Restore queue order</span></div>
+                    <div class="cmd"><code>/music loop</code> <span class="desc">Set loop mode</span></div>
+                    <div class="cmd"><code>/music remove</code> <span class="desc">Remove a song from queue</span></div>
+                    <div class="cmd"><code>/music clear</code> <span class="desc">Clear queue</span></div>
+                    <div class="cmd"><code>/music volume</code> <span class="desc">Adjust volume</span></div>
+                    <div class="cmd"><code>/music lyrics</code> <span class="desc">Fetch lyrics</span></div>
+                    <div class="cmd"><code>/music livelyrics</code> <span class="desc">Live synced lyrics</span></div>
+                    <div class="cmd"><code>/translate text</code> <span class="desc">Translate text</span></div>
+                    <div class="cmd"><code>/translate detect</code> <span class="desc">Detect language</span></div>
+                    <div class="cmd"><code>/translate list</code> <span class="desc">List supported languages</span></div>
+                    <div class="cmd"><code>/transliterate text</code> <span class="desc">Transliterate text</span></div>
+                    <div class="cmd"><code>/transliterate scripts</code> <span class="desc">List transliteration scripts</span></div>
+                    <div class="cmd"><code>/ai ask</code> <span class="desc">Ask the AI a question</span></div>
+                    <div class="cmd"><code>/ai reset</code> <span class="desc">Reset AI memory</span></div>
+                    <div class="cmd"><code>/ai limits</code> <span class="desc">Check your AI usage</span></div>
+                    <div class="cmd"><code>/ai status</code> <span class="desc">Check AI provider status</span></div>
+                    <div class="cmd"><code>/application apply</code> <span class="desc">Apply for an application</span></div>
+                    <div class="cmd"><code>/rp report</code> <span class="desc">Report a member</span></div>
+                    <div class="cmd"><code>/rp suggest</code> <span class="desc">Submit a suggestion</span></div>
+                    <div class="cmd"><code>/rp bug</code> <span class="desc">Report a bug</span></div>
+                    <div class="cmd"><code>/invites check</code> <span class="desc">Check your invites</span></div>
+                    <div class="cmd"><code>/invites leaderboard</code> <span class="desc">View invite leaderboard</span></div>
+                    <div class="cmd"><code>/invites info</code> <span class="desc">Look up invite code</span></div>
+                    <div class="cmd"><code>/invites members</code> <span class="desc">List invited members</span></div>
+                    <div class="cmd"><code>/messages stats</code> <span class="desc">View message stats</span></div>
+                    <div class="cmd"><code>/messages leaderboard</code> <span class="desc">Message leaderboard</span></div>
+                    <div class="cmd"><code>/messages serverstats</code> <span class="desc">Server message stats</span></div>
+                    <div class="cmd"><code>/counting mystats</code> <span class="desc">Your counting stats</span></div>
+                    <div class="cmd"><code>/tkt history</code> <span class="desc">View your ticket history</span></div>
+                    <div class="cmd"><code>/jtc lock</code> <span class="desc">Lock your JTC channel</span></div>
+                    <div class="cmd"><code>/jtc unlock</code> <span class="desc">Unlock your JTC channel</span></div>
+                    <div class="cmd"><code>/jtc hide</code> <span class="desc">Hide your JTC channel</span></div>
+                    <div class="cmd"><code>/jtc unhide</code> <span class="desc">Unhide your JTC channel</span></div>
+                    <div class="cmd"><code>/jtc allow_role</code> <span class="desc">Allow role into JTC</span></div>
+                    <div class="cmd"><code>/jtc allow_user</code> <span class="desc">Allow user into JTC</span></div>
+                    <div class="cmd"><code>/jtc kick_user</code> <span class="desc">Kick user from JTC</span></div>
+                    <div class="cmd"><code>/jtc transfer</code> <span class="desc">Transfer JTC ownership</span></div>
+                    <div class="cmd"><code>/jtc region</code> <span class="desc">Change JTC region</span></div>
+                    <div class="cmd"><code>/jtc limit</code> <span class="desc">Set JTC user limit</span></div>
+                    <div class="cmd"><code>/jtc bitrate</code> <span class="desc">Set JTC bitrate</span></div>
+                    <div class="cmd"><code>/jtc rename</code> <span class="desc">Rename your JTC channel</span></div>
+                </div>
+            </details>
+
+            <p style="text-align:center;margin-top:24px;color:#60607a;font-size:0.9rem;">
+                <code style="background:rgba(255,255,255,0.06);padding:2px 12px;border-radius:6px;">/</code> = Slash command &nbsp;·&nbsp;
+                Prefix commands also exist for most modules (default: <code style="background:rgba(255,255,255,0.06);padding:2px 12px;border-radius:6px;">//</code>)
+            </p>
+        </div>
+    </section>
+
+    <!-- ─── CTA ─── -->
+    <section class="cta-section" id="cta">
+        <div class="container">
+            <h2>Ready to upgrade your server?</h2>
+            <p>Add SparkyBot to your Discord server in under 30 seconds. Free forever, no setup headaches.</p>
+            <a href="#" class="btn btn-primary" style="padding:16px 48px;font-size:1.1rem;">
+                🚀 Add SparkyBot Now
+            </a>
+        </div>
+    </section>
+
+    <!-- ─── FOOTER ─── -->
+    <footer>
+        <div class="container">
+            <div class="links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Support Server</a>
+                <a href="#">GitHub</a>
+            </div>
+            <p>&copy; 2025 SparkyBot. Built with ❤️ for Discord communities.</p>
+        </div>
+    </footer>
+
+    <!-- ─── COMING SOON OVERLAY ─── -->
+    <div id="comingSoon">
+        <div class="cs-content">
+            <span class="cs-icon">🚧</span>
+            <h2>Dashboard <span class="gradient-text">Coming Soon</span></h2>
+            <p class="sub">We're building a powerful web dashboard to manage your server without commands. Stay tuned!</p>
+
+            <div class="progress-wrap">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="progress-label">
+                <span>Progress</span>
+                <span id="progressText">0%</span>
+            </div>
+
+            <button onclick="goBack()" class="btn btn-secondary cs-btn">← Go Back</button>
+        </div>
+    </div>
+
+    <!-- ─── JAVASCRIPT ─── -->
+    <script>
+        // ── Dashboard button handlers ──
+        function showDashboard(e) {
+            if (e) e.preventDefault();
+            const overlay = document.getElementById('comingSoon');
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+
+            // Reset and animate progress bar
+            const bar = document.getElementById('progressBar');
+            const text = document.getElementById('progressText');
+            bar.style.width = '0%';
+            text.textContent = '0%';
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                // Increase with variable speed to feel organic
+                const increment = Math.random() * 12 + 4;
+                progress = Math.min(progress + increment, 100);
+                bar.style.width = progress + '%';
+                text.textContent = Math.floor(progress) + '%';
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    text.textContent = '🎉 Almost there!';
+                }
+            }, 300);
+        }
+
+        function goBack() {
+            document.getElementById('comingSoon').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Attach to both dashboard buttons
+        document.getElementById('dashboardHeroBtn').addEventListener('click', showDashboard);
+        document.getElementById('dashboardNavBtn').addEventListener('click', showDashboard);
+
+        // Close overlay with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                goBack();
+            }
+        });
+    </script>
+
+</body>
+</html>
