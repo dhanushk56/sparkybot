@@ -538,7 +538,7 @@
                 font-size: 1.8rem;
             }
             .features-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
             }
             .why-grid {
                 grid-template-columns: 1fr 1fr;
@@ -548,6 +548,9 @@
             }
         }
         @media (max-width: 480px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
             .why-grid {
                 grid-template-columns: 1fr;
             }
@@ -630,6 +633,7 @@
                 and keep your server clean and fast.
             </p>
             <div class="features-grid">
+                <!-- Existing cards -->
                 <div class="feature-card">
                     <span class="feature-icon">⚔️</span>
                     <h3>Advanced Moderation</h3>
@@ -643,37 +647,98 @@
                 <div class="feature-card">
                     <span class="feature-icon">💰</span>
                     <h3>Economy &amp; Leveling</h3>
-                    <p>Keep members engaged with a currency, shop, daily rewards, XP, and leveling system.</p>
+                    <p>Keep members engaged with a currency, shop, daily rewards, XP, and leveling system with role rewards.</p>
                 </div>
                 <div class="feature-card">
                     <span class="feature-icon">🎉</span>
                     <h3>Giveaways</h3>
-                    <p>Create and manage giveaways with role requirements, multiple winners, and rerolls.</p>
+                    <p>Create and manage giveaways with role requirements, multiple winners, rerolls, and full management.</p>
                 </div>
                 <div class="feature-card">
                     <span class="feature-icon">📄</span>
                     <h3>Applications</h3>
-                    <p>Accept staff applications with custom questions, review flows, and automatic role assignment.</p>
+                    <p>Accept staff applications with custom questions, review flows, manager roles, and automatic role assignment.</p>
                 </div>
                 <div class="feature-card">
                     <span class="feature-icon">🔊</span>
                     <h3>Join-to-Create Voice</h3>
-                    <p>Let members create their own private voice channels with automatic cleanup when empty.</p>
+                    <p>Let members create their own private voice channels with automatic cleanup, naming, and full control.</p>
                 </div>
                 <div class="feature-card">
                     <span class="feature-icon">🎭</span>
                     <h3>Reaction Roles</h3>
-                    <p>Assign roles via reactions with multiple modes and full customization.</p>
+                    <p>Assign roles via reactions with multiple modes, exclusive groups, and full customization.</p>
                 </div>
                 <div class="feature-card">
                     <span class="feature-icon">📝</span>
                     <h3>Logging</h3>
-                    <p>Comprehensive audit logs for messages, members, channels, roles, and moderation actions.</p>
+                    <p>Comprehensive audit logs for messages, members, channels, roles, and moderation actions — 20+ events.</p>
                 </div>
                 <div class="feature-card">
                     <span class="feature-icon">🛡️</span>
                     <h3>Anti-Nuke Protection</h3>
-                    <p>Automatically detect and stop malicious mass-deletes, bans, and role changes.</p>
+                    <p>Automatically detect and stop malicious mass-deletes, bans, role changes, and channel creations — 22+ events.</p>
+                </div>
+                <!-- New cards for additional features -->
+                <div class="feature-card">
+                    <span class="feature-icon">🎵</span>
+                    <h3>Music System</h3>
+                    <p>Full-featured music with YouTube, SoundCloud, and Spotify support — queue, shuffle, loop, 24/7 mode, and live lyrics.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🌐</span>
+                    <h3>Translation</h3>
+                    <p>Translate messages, detect languages, and auto-translate channels with 100+ languages using Google Translate.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">▶️</span>
+                    <h3>YouTube Notifications</h3>
+                    <p>Track YouTube channels and get notified on new uploads with keyword filters and custom messages.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔒</span>
+                    <h3>Forum Auto-Lock</h3>
+                    <p>Automatically lock forum posts after a set duration with logging, admin configuration, and per-channel settings.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📨</span>
+                    <h3>Invite Tracking</h3>
+                    <p>Track who invited whom, detect fake accounts, re-joins, and view invite leaderboards and message statistics.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔐</span>
+                    <h3>Verification</h3>
+                    <p>Image captcha verification with private channels, attempts, timeouts, and kick on failure.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🚨</span>
+                    <h3>Reports &amp; Suggestions</h3>
+                    <p>Member reports, suggestions, and bug reports with staff review panels, approval, and dismissal.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🛡️</span>
+                    <h3>AutoMod</h3>
+                    <p>Automatic moderation with spam, invite, link, caps, bad words, and mention limits — per-module whitelists.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔢</span>
+                    <h3>Counting</h3>
+                    <p>Counting channel with saves, streaks, leaderboards, cooldowns, milestones, and checkpoints.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔧</span>
+                    <h3>Custom Prefix</h3>
+                    <p>Set custom server prefixes, add/remove multiple prefixes, and reset to default.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🖼️</span>
+                    <h3>Embed Builder &amp; Rules</h3>
+                    <p>Rich embed builder with modal, JSON import, and rules dropdown panels for server rules.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">👋</span>
+                    <h3>Welcome &amp; Goodbye</h3>
+                    <p>Customizable welcome and goodbye messages with embeds, DM greetings, and auto-roles.</p>
                 </div>
                 <div class="feature-card coming-soon">
                     <span class="feature-icon">🌐</span>
@@ -798,6 +863,7 @@
                     <div class="cmd"><code>/lv rmrole</code> <span class="desc">Remove level reward role</span></div>
                     <div class="cmd"><code>/lv bl</code> <span class="desc">Block channel from XP</span></div>
                     <div class="cmd"><code>/lv toggle</code> <span class="desc">Enable/disable leveling</span></div>
+                    <div class="cmd"><code>/lv text</code> <span class="desc">Set custom level-up message text</span></div>
                     <div class="cmd"><code>/am status</code> <span class="desc">View AutoMod config</span></div>
                     <div class="cmd"><code>/am toggle</code> <span class="desc">Enable/disable AutoMod</span></div>
                     <div class="cmd"><code>/am spam</code> <span class="desc">Toggle anti-spam</span></div>
@@ -844,10 +910,7 @@
                     <div class="cmd"><code>/autotranslate unignorerole</code> <span class="desc">Unignore role</span></div>
                     <div class="cmd"><code>/autotranslate ignoreuser</code> <span class="desc">Ignore user</span></div>
                     <div class="cmd"><code>/autotranslate unignoreuser</code> <span class="desc">Unignore user</span></div>
-                    <div class="cmd"><code>/ai autoresponder set</code> <span class="desc">Set AI autoresponder channel</span></div>
-                    <div class="cmd"><code>/ai autoresponder enable</code> <span class="desc">Enable AI autoresponder</span></div>
-                    <div class="cmd"><code>/ai autoresponder disable</code> <span class="desc">Disable AI autoresponder</span></div>
-                    <div class="cmd"><code>/ai autoresponder status</code> <span class="desc">Check AI autoresponder</span></div>
+                    <div class="cmd"><code>/counting setsavecooldown</code> <span class="desc">Set cooldown for counting saves</span></div>
                 </div>
             </details>
 
@@ -948,7 +1011,6 @@
                     <div class="cmd"><code>/tkt staff info</code> <span class="desc">View staff config</span></div>
                     <div class="cmd"><code>/admin channeldelay</code> <span class="desc">Set slowmode via admin</span></div>
                     <div class="cmd"><code>/jtc info</code> <span class="desc">View JTC configuration</span></div>
-                    <div class="cmd"><code>/ai autoresponder set</code> <span class="desc">Set AI channel</span></div>
                 </div>
             </details>
 
@@ -1108,10 +1170,6 @@
                     <div class="cmd"><code>/translate list</code> <span class="desc">List supported languages</span></div>
                     <div class="cmd"><code>/transliterate text</code> <span class="desc">Transliterate text</span></div>
                     <div class="cmd"><code>/transliterate scripts</code> <span class="desc">List transliteration scripts</span></div>
-                    <div class="cmd"><code>/ai ask</code> <span class="desc">Ask the AI a question</span></div>
-                    <div class="cmd"><code>/ai reset</code> <span class="desc">Reset AI memory</span></div>
-                    <div class="cmd"><code>/ai limits</code> <span class="desc">Check your AI usage</span></div>
-                    <div class="cmd"><code>/ai status</code> <span class="desc">Check AI provider status</span></div>
                     <div class="cmd"><code>/application apply</code> <span class="desc">Apply for an application</span></div>
                     <div class="cmd"><code>/rp report</code> <span class="desc">Report a member</span></div>
                     <div class="cmd"><code>/rp suggest</code> <span class="desc">Submit a suggestion</span></div>
