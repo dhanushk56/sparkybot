@@ -778,19 +778,15 @@
                 const isMainPage = window.location.pathname === '/';
 
                 if (isMainPage) {
-                    // Already on main page: scroll and update URL hash for bookmarking
                     scrollToSection(targetId);
                     if (history.pushState) {
                         history.pushState(null, '', href);
                     }
                 } else {
-                    // Navigate to main page, scroll, but DO NOT add hash to URL
                     history.pushState(null, '', '/');
                     router();
-                    // Wait for the main page to render, then scroll
                     setTimeout(() => {
                         scrollToSection(targetId);
-                        // Explicitly leave the URL as '/', no hash
                     }, 150);
                 }
                 return;
@@ -813,17 +809,28 @@
             router();
         });
 
-        // ── Logo ──
+        // ── Logo: go home and scroll to top ──
         document.getElementById('logoLink').addEventListener('click', function(e) {
             e.preventDefault();
-            history.pushState(null, '', '/');
-            router();
+            // If already on home, just scroll; else navigate and scroll
+            if (window.location.pathname === '/') {
+                // Already on home, scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                // Remove any hash from URL without reload
+                if (window.location.hash) {
+                    history.pushState(null, '', '/');
+                }
+            } else {
+                history.pushState(null, '', '/');
+                router();
+                // Scroll to top after router renders main page
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         });
 
         // ── Init ──
         document.addEventListener('DOMContentLoaded', function() {
             router();
-            // If there's a hash on load (e.g., user bookmarked /#features), scroll to it
             if (window.location.hash) {
                 const id = window.location.hash.substring(1);
                 setTimeout(() => scrollToSection(id), 200);
@@ -848,7 +855,7 @@
             revealObserver.observe(el);
         });
 
-        console.log('✨ SparkyBot — in‑page nav from Terms/Privacy now lands on / without hash.');
+        console.log('✨ SparkyBot — logo now scrolls to top of home page.');
     </script>
 
 </body>
