@@ -89,6 +89,7 @@
             background: rgba(13, 13, 26, 0.85);
             backdrop-filter: blur(16px);
             z-index: 100;
+            display: flex;
         }
         header .container {
             display: flex;
@@ -96,6 +97,7 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 16px;
+            width: 100%;
         }
         .logo {
             font-size: 1.5rem;
@@ -398,7 +400,7 @@
             padding-right: 24px;
         }
 
-        /* ─── POLICY PAGES (inline) ─── */
+        /* ─── POLICY PAGES ─── */
         .policy-content {
             max-width: 800px;
             margin: 0 auto;
@@ -520,46 +522,28 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* ─── COMING SOON OVERLAY ─── */
-        #comingSoon {
+        /* ─── PAGE WRAPPER ─── */
+        .page {
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(13, 13, 26, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 9999;
+        }
+        .page.active {
+            display: block;
+        }
+
+        /* ─── DASHBOARD HERO ─── */
+        .dashboard-hero {
+            min-height: 80vh;
+            display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            padding: 20px;
-            animation: fadeInOverlay 0.6s ease;
+            text-align: center;
+            padding: 40px 20px;
         }
-        #comingSoon.show {
-            display: flex;
-        }
-        @keyframes fadeInOverlay {
-            0% {
-                opacity: 0;
-                backdrop-filter: blur(0px);
-            }
-            100% {
-                opacity: 1;
-                backdrop-filter: blur(20px);
-            }
-        }
-        @keyframes shimmer {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+        .dashboard-hero .cs-icon {
+            font-size: 5rem;
+            display: block;
+            margin-bottom: 16px;
+            animation: float 4s ease-in-out infinite;
         }
         @keyframes float {
             0%,
@@ -570,52 +554,22 @@
                 transform: translateY(-15px);
             }
         }
-        .cs-icon {
-            font-size: 5rem;
-            display: block;
-            margin-bottom: 16px;
-            animation: float 4s ease-in-out infinite;
-        }
-        .cs-title {
+        .dashboard-hero .cs-title {
             font-size: 3rem;
             font-weight: 800;
             margin-bottom: 12px;
             color: #e8e0d8;
         }
-        .cs-sub {
+        .dashboard-hero .cs-sub {
             color: #a09890;
             font-size: 1.15rem;
             margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .cs-progress-wrap {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            overflow: hidden;
-        }
-        .cs-progress-bar {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #d4af37, #e8c84a, #d4af37);
-            background-size: 200% 200%;
-            border-radius: 20px;
-            transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-            animation: shimmer 2s ease infinite;
-        }
-        .cs-progress-labels {
-            display: flex;
-            justify-content: space-between;
+        .dashboard-hero .btn {
             margin-top: 10px;
-            font-size: 0.85rem;
-            color: #606070;
-        }
-        .cs-progress-labels span:last-child {
-            color: #d4af37;
-            font-weight: 500;
-        }
-        .cs-back-btn {
-            margin-top: 48px;
         }
     </style>
 </head>
@@ -624,15 +578,15 @@
     <!-- ─── HEADER ─── -->
     <header>
         <div class="container">
-            <a href="/" class="logo" data-nav="/">
+            <a href="/" class="logo" id="logoLink">
                 🤖 <span>SparkyBot</span>
             </a>
             <nav class="nav-links" id="navLinks">
-                <a href="/features" data-nav="/features">Features</a>
-                <a href="/how-it-works" data-nav="/how-it-works">How It Works</a>
-                <a href="/faq" data-nav="/faq">FAQ</a>
-                <a href="/terms" data-nav="/terms">Terms</a>
-                <a href="/privacy" data-nav="/privacy">Privacy</a>
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#faq">FAQ</a>
+                <a href="/terms">Terms</a>
+                <a href="/privacy">Privacy</a>
             </nav>
             <div class="nav-actions">
                 <a href="https://discord.com/oauth2/authorize?client_id=1528780547411804382&scope=bot+applications.commands&permissions=1099800112246" target="_blank" class="btn btn-primary">Add to Server</a>
@@ -641,11 +595,12 @@
         </div>
     </header>
 
-    <!-- ─── PAGE SECTIONS ─── -->
-    <div id="page-sections">
-        <!-- HOME (all content) -->
-        <div id="section-home" class="page-section" data-section="home">
-            <section class="hero">
+    <!-- ─── MAIN CONTENT ─── -->
+    <main>
+
+        <!-- ===== PAGE: MAIN ===== -->
+        <div id="page-main" class="page active">
+            <section class="hero" id="home">
                 <div class="container">
                     <div class="badge">🚀 All-in-One Discord Bot</div>
                     <h1>
@@ -682,7 +637,7 @@
                 </div>
             </section>
 
-            <section class="section" id="section-features">
+            <section class="section" id="features">
                 <div class="container">
                     <h2 class="section-title">Everything your server needs</h2>
                     <p class="section-sub">
@@ -706,7 +661,7 @@
                 </div>
             </section>
 
-            <section class="section section-alt" id="section-how-it-works">
+            <section class="section section-alt" id="how-it-works">
                 <div class="container">
                     <h2 class="section-title">Simple Setup, Powerful Results</h2>
                     <p class="section-sub">Get SparkyBot running in your server in just a few steps — no coding required.</p>
@@ -719,7 +674,7 @@
                 </div>
             </section>
 
-            <section class="section" id="section-faq">
+            <section class="section" id="faq">
                 <div class="container">
                     <h2 class="section-title">Frequently Asked Questions</h2>
                     <p class="section-sub">Quick answers to the most common questions about SparkyBot.</p>
@@ -735,8 +690,8 @@
             </section>
         </div>
 
-        <!-- TERMS (separate page) -->
-        <div id="section-terms" class="page-section" data-section="terms" style="display:none;">
+        <!-- ===== PAGE: TERMS ===== -->
+        <div id="page-terms" class="page">
             <section class="section section-alt" style="padding-top:40px;">
                 <div class="container">
                     <h2 class="section-title">Terms of Service</h2>
@@ -758,8 +713,8 @@
             </section>
         </div>
 
-        <!-- PRIVACY (separate page) -->
-        <div id="section-privacy" class="page-section" data-section="privacy" style="display:none;">
+        <!-- ===== PAGE: PRIVACY ===== -->
+        <div id="page-privacy" class="page">
             <section class="section" style="padding-top:40px;">
                 <div class="container">
                     <h2 class="section-title">Privacy Policy</h2>
@@ -782,16 +737,26 @@
             </section>
         </div>
 
-        <!-- FEATURES standalone (optional, but we keep them as separate sections for clarity) -->
-        <!-- We'll handle routing to show/hide these as needed -->
-    </div>
+        <!-- ===== PAGE: DASHBOARD ===== -->
+        <div id="page-dashboard" class="page">
+            <section class="dashboard-hero">
+                <div class="container">
+                    <span class="cs-icon">🚧</span>
+                    <h2 class="cs-title">Dashboard <span class="highlight">Coming Soon</span></h2>
+                    <p class="cs-sub">We're building a powerful web dashboard to manage your server without commands. Stay tuned!</p>
+                    <a href="/" class="btn btn-secondary">← Go Back</a>
+                </div>
+            </section>
+        </div>
+
+    </main>
 
     <!-- ─── FOOTER ─── -->
-    <footer id="main-footer">
+    <footer>
         <div class="container">
             <div class="links">
-                <a href="/terms" data-nav="/terms">Terms of Service</a>
-                <a href="/privacy" data-nav="/privacy">Privacy Policy</a>
+                <a href="/terms">Terms of Service</a>
+                <a href="/privacy">Privacy Policy</a>
                 <a href="https://discord.gg/sEJ6FwHGJw" target="_blank">Support Server</a>
                 <a href="https://github.com/dhanushk56/sparky-bot-documentation.git" target="_blank">GitHub</a>
             </div>
@@ -799,336 +764,158 @@
         </div>
     </footer>
 
-    <!-- ─── COMING SOON OVERLAY ─── -->
-    <div id="comingSoon">
-        <div style="text-align: center; max-width: 600px; width: 100%; padding: 40px 24px;">
-            <span class="cs-icon">🚧</span>
-            <h2 class="cs-title">Dashboard <span class="highlight">Coming Soon</span></h2>
-            <p class="cs-sub">We're building a powerful web dashboard to manage your server without commands. Stay tuned!</p>
-            <div class="cs-progress-wrap">
-                <div class="cs-progress-bar" id="progressBar"></div>
-            </div>
-            <div class="cs-progress-labels">
-                <span>Progress</span>
-                <span id="progressText">0%</span>
-            </div>
-            <button onclick="closeDashboard()" class="btn btn-secondary cs-back-btn">← Go Back</button>
-        </div>
-    </div>
-
     <script>
-        // ─── ROUTING ───────────────────────────────────────────────────────────
+        // ─── SPA ROUTER ──────────────────────────────────────────────────────
 
-        // Map routes to section IDs (use 'home' for the main container that holds all homepage sections)
-        const routeMap = {
-            '/': 'home',
-            '/home': 'home',
-            '/features': 'features', // we treat features as part of home, but we'll handle separately
-            '/how-it-works': 'how-it-works',
-            '/faq': 'faq',
-            '/terms': 'terms',
-            '/privacy': 'privacy',
-            '/dashboard': 'dashboard'
-        };
+        function router() {
+            const path = window.location.pathname;
+            const mainPage = document.getElementById('page-main');
+            const termsPage = document.getElementById('page-terms');
+            const privacyPage = document.getElementById('page-privacy');
+            const dashboardPage = document.getElementById('page-dashboard');
+            const footer = document.querySelector('footer');
+            const header = document.querySelector('header');
 
-        // Section IDs that are separate containers
-        const sectionIds = {
-            home: 'section-home',
-            terms: 'section-terms',
-            privacy: 'section-privacy'
-        };
+            // Hide all pages
+            mainPage.classList.remove('active');
+            termsPage.classList.remove('active');
+            privacyPage.classList.remove('active');
+            dashboardPage.classList.remove('active');
 
-        // For features, how-it-works, faq – they are inside the home container, so we scroll to them.
-        // We'll handle them separately: when route is /features, we show home and scroll to #section-features
-        // Similarly for /how-it-works and /faq.
+            // Show footer & header by default
+            footer.style.display = 'block';
+            header.style.display = 'flex';
 
-        let isScrolling = false;
-        let scrollTimeout = null;
-        let currentPath = '/';
-
-        // ── Navigate to a route ──
-        function navigate(path, options = {}) {
-            const { replace = false, scroll = true } = options;
-
-            if (!path.startsWith('/')) path = '/' + path;
-            // Remove trailing slash except for root
-            if (path.length > 1 && path.endsWith('/')) path = path.slice(0, -1);
-
-            // Find matching route
-            let targetRoute = path;
-            if (!routeMap[targetRoute]) {
-                // Try fallback
-                const alt = targetRoute.endsWith('/') ? targetRoute.slice(0, -1) : targetRoute + '/';
-                if (routeMap[alt]) targetRoute = alt;
-                else targetRoute = '/';
-            }
-
-            // Update URL
-            const fullPath = targetRoute;
-            if (replace) {
-                history.replaceState({ route: targetRoute }, '', fullPath);
+            // Route handling
+            if (path === '/terms') {
+                termsPage.classList.add('active');
+                document.title = 'SparkyBot — Terms of Service';
+                // Update nav active state
+                updateActiveNav('/terms');
+            } else if (path === '/privacy') {
+                privacyPage.classList.add('active');
+                document.title = 'SparkyBot — Privacy Policy';
+                updateActiveNav('/privacy');
+            } else if (path === '/dashboard') {
+                dashboardPage.classList.add('active');
+                document.title = 'SparkyBot — Dashboard';
+                footer.style.display = 'none'; // Hide footer for cleaner dashboard view
+                updateActiveNav('/dashboard');
             } else {
-                history.pushState({ route: targetRoute }, '', fullPath);
-            }
-            currentPath = targetRoute;
+                // Main page (home)
+                mainPage.classList.add('active');
+                document.title = 'SparkyBot — Power up your Discord';
+                updateActiveNav('/');
 
-            // Update active nav
-            updateActiveNav(targetRoute);
-
-            // Show/hide sections based on route
-            const routeType = routeMap[targetRoute];
-
-            // Handle dashboard separately (overlay)
-            if (targetRoute === '/dashboard') {
-                // Show overlay, hide all content
-                document.querySelectorAll('.page-section').forEach(el => el.style.display = 'none');
-                document.getElementById('main-footer').style.display = 'none';
-                showDashboardOverlay();
-                return;
-            } else {
-                // Ensure overlay is hidden and footer visible
-                closeDashboardOverlay();
-                document.getElementById('main-footer').style.display = 'block';
-            }
-
-            // For home, show home container, hide terms/privacy
-            if (routeType === 'home') {
-                document.getElementById('section-home').style.display = 'block';
-                document.getElementById('section-terms').style.display = 'none';
-                document.getElementById('section-privacy').style.display = 'none';
-                // Scroll to top or to specific section if needed
-                if (scroll) {
-                    // If path is exactly '/' or '/home', scroll to top
-                    if (targetRoute === '/' || targetRoute === '/home') {
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    } else {
-                        // For /features, /how-it-works, /faq, scroll to respective section inside home
-                        const sectionMap = {
-                            '/features': 'section-features',
-                            '/how-it-works': 'section-how-it-works',
-                            '/faq': 'section-faq'
-                        };
-                        const targetId = sectionMap[targetRoute];
-                        if (targetId) {
-                            const el = document.getElementById(targetId);
-                            if (el) {
-                                const headerOffset = 80;
-                                const elPos = el.getBoundingClientRect().top + window.pageYOffset;
-                                const offsetPos = elPos - headerOffset;
-                                window.scrollTo({ top: offsetPos, behavior: 'smooth' });
-                            }
-                        } else {
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                // Handle hash scrolling (e.g., /#features)
+                if (window.location.hash) {
+                    setTimeout(() => {
+                        const id = window.location.hash.substring(1);
+                        const el = document.getElementById(id);
+                        if (el) {
+                            const headerOffset = 80;
+                            const elPos = el.getBoundingClientRect().top + window.pageYOffset;
+                            const offsetPos = elPos - headerOffset;
+                            window.scrollTo({ top: offsetPos, behavior: 'smooth' });
                         }
-                    }
+                    }, 100);
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
-            } else if (routeType === 'terms') {
-                document.getElementById('section-home').style.display = 'none';
-                document.getElementById('section-terms').style.display = 'block';
-                document.getElementById('section-privacy').style.display = 'none';
-                if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else if (routeType === 'privacy') {
-                document.getElementById('section-home').style.display = 'none';
-                document.getElementById('section-terms').style.display = 'none';
-                document.getElementById('section-privacy').style.display = 'block';
-                if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                // fallback to home
-                document.getElementById('section-home').style.display = 'block';
-                document.getElementById('section-terms').style.display = 'none';
-                document.getElementById('section-privacy').style.display = 'none';
-                if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
 
         // ── Update active nav link ──
         function updateActiveNav(currentRoute) {
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                const linkRoute = link.getAttribute('data-nav');
-                link.classList.toggle('active', linkRoute === currentRoute);
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                // For hash links (#features), we consider them active when on main page
+                if (href.startsWith('#')) {
+                    link.classList.toggle('active', currentRoute === '/');
+                    return;
+                }
+                // For path links (/terms, /privacy, /dashboard)
+                link.classList.toggle('active', href === currentRoute);
             });
         }
 
-        // ── Handle route from current URL ──
-        function handleRoute() {
-            const path = window.location.pathname || '/';
-            navigate(path, { replace: true, scroll: true });
-        }
+        // ── Intercept internal navigation ──
+        document.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (!link) return;
+            const href = link.getAttribute('href');
+            if (!href) return;
 
-        // ── Dashboard overlay ──
-        let progressInterval = null;
-
-        function showDashboardOverlay() {
-            const overlay = document.getElementById('comingSoon');
-            overlay.classList.add('show');
-            document.body.style.overflow = 'hidden';
-            // Start progress animation
-            const bar = document.getElementById('progressBar');
-            const text = document.getElementById('progressText');
-            bar.style.width = '0%';
-            text.textContent = '0%';
-            if (progressInterval) clearInterval(progressInterval);
-            let progress = 0;
-            progressInterval = setInterval(() => {
-                const increment = Math.random() * 12 + 4;
-                progress = Math.min(progress + increment, 100);
-                bar.style.width = progress + '%';
-                text.textContent = Math.floor(progress) + '%';
-                if (progress >= 100) {
-                    clearInterval(progressInterval);
-                    progressInterval = null;
-                    text.textContent = '🎉 Almost there!';
-                }
-            }, 350);
-        }
-
-        function closeDashboardOverlay() {
-            const overlay = document.getElementById('comingSoon');
-            overlay.classList.remove('show');
-            document.body.style.overflow = 'auto';
-            if (progressInterval) {
-                clearInterval(progressInterval);
-                progressInterval = null;
-            }
-        }
-
-        function closeDashboard() {
-            // Navigate to home and close overlay
-            closeDashboardOverlay();
-            navigate('/');
-        }
-
-        // ── DOM READY ─────────────────────────────────────────────────────────
-
-        document.addEventListener('DOMContentLoaded', function() {
-
-            // ── Handle initial route ──
-            handleRoute();
-
-            // ── Nav link clicks ──
-            document.querySelectorAll('[data-nav]').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    if (this.getAttribute('target') === '_blank') return;
-                    e.preventDefault();
-                    const route = this.getAttribute('data-nav');
-                    navigate(route);
-                });
-            });
-
-            // ── Footer links (already have data-nav) ──
-            // ── Also handle any other internal links ──
-            document.querySelectorAll('a[href^="/"]').forEach(link => {
-                if (link.hasAttribute('data-nav')) return;
-                if (link.getAttribute('target') === '_blank') return;
-                if (link.href && (link.href.startsWith('http://') || link.href.startsWith('https://'))) {
-                    try {
-                        const url = new URL(link.href);
-                        if (url.origin !== window.location.origin) return;
-                    } catch (_) { return; }
-                }
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const href = this.getAttribute('href');
-                    if (href && href.startsWith('/')) {
-                        navigate(href);
-                    }
-                });
-            });
-
-            // ── Dashboard button (already has target="_blank", so it opens new tab) ──
-            // We also need to handle if the page loads with /dashboard path (in new tab)
-            // This is already handled by handleRoute on load.
-
-            // ── Popstate ──
-            window.addEventListener('popstate', function() {
-                handleRoute();
-            });
-
-            // ── Keyboard escape for overlay ──
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    if (document.getElementById('comingSoon').classList.contains('show')) {
-                        closeDashboard();
+            // Handle hash links (e.g., #features) - let browser handle natively, but we want smooth scroll
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                const targetId = href.substring(1);
+                const targetEl = document.getElementById(targetId);
+                if (targetEl) {
+                    const headerOffset = 80;
+                    const elPos = targetEl.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPos = elPos - headerOffset;
+                    window.scrollTo({ top: offsetPos, behavior: 'smooth' });
+                    // Update URL hash without triggering a full page reload
+                    if (history.pushState) {
+                        history.pushState(null, '', href);
                     }
                 }
-            });
-
-            // ── Scroll-spy for home sections (only when on home route) ──
-            let scrollSpyTimeout = null;
-            window.addEventListener('scroll', function() {
-                if (scrollSpyTimeout) return;
-                scrollSpyTimeout = setTimeout(() => {
-                    // Only update if we are on home route
-                    const path = window.location.pathname || '/';
-                    if (routeMap[path] === 'home') {
-                        updateRouteFromScroll();
-                    }
-                    scrollSpyTimeout = null;
-                }, 100);
-            });
-
-            function updateRouteFromScroll() {
-                if (isScrolling) return;
-                const sections = ['section-features', 'section-how-it-works', 'section-faq'];
-                const headerOffset = 100;
-                let currentSection = null;
-                for (const id of sections) {
-                    const el = document.getElementById(id);
-                    if (!el) continue;
-                    const rect = el.getBoundingClientRect();
-                    if (rect.top <= headerOffset) {
-                        currentSection = id;
-                    }
-                }
-                // Map section id to route
-                const sectionToRouteMap = {
-                    'section-features': '/features',
-                    'section-how-it-works': '/how-it-works',
-                    'section-faq': '/faq'
-                };
-                if (currentSection && sectionToRouteMap[currentSection]) {
-                    const newRoute = sectionToRouteMap[currentSection];
-                    if (window.location.pathname !== newRoute) {
-                        history.replaceState({ route: newRoute }, '', newRoute);
-                        updateActiveNav(newRoute);
-                        currentPath = newRoute;
-                    }
-                } else {
-                    // If none of those sections are in view, we are at top, route should be '/'
-                    if (window.location.pathname !== '/' && window.location.pathname !== '/home') {
-                        // only if we are not on terms/privacy
-                        if (!['/terms', '/privacy'].includes(window.location.pathname)) {
-                            history.replaceState({ route: '/' }, '', '/');
-                            updateActiveNav('/');
-                            currentPath = '/';
-                        }
-                    }
-                }
+                return;
             }
 
-            // ── Scroll reveal animation (same as before) ──
-            const revealElements = document.querySelectorAll('.feature-card, .step-item, .section-title, .section-sub');
-            const revealObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
+            // Handle internal paths (e.g., /terms, /privacy, /dashboard)
+            if (href.startsWith('/') && !href.startsWith('//')) {
+                const targetUrl = new URL(href, window.location.origin);
+                // Only handle same-origin links
+                if (targetUrl.origin === window.location.origin) {
+                    // Check if the link is meant to open in a new tab
+                    if (link.target === '_blank') {
+                        // Let the browser handle it naturally
+                        return;
                     }
-                });
-            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-            revealElements.forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = 'all 0.8s cubic-bezier(0.22, 1, 0.36, 1)';
-                revealObserver.observe(el);
-            });
-
-            console.log('✨ SparkyBot with separate pages & clean routing');
+                    e.preventDefault();
+                    history.pushState(null, '', targetUrl.pathname);
+                    router();
+                }
+            }
         });
 
-        // ── Expose closeDashboard globally ──
-        window.closeDashboard = closeDashboard;
+        // ── Handle browser back/forward ──
+        window.addEventListener('popstate', function() {
+            router();
+        });
+
+        // ── Handle logo click ──
+        document.getElementById('logoLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            history.pushState(null, '', '/');
+            router();
+        });
+
+        // ── Initial load ──
+        document.addEventListener('DOMContentLoaded', router);
+
+        // ── SCROLL REVEAL (for main page only) ──
+        const revealElements = document.querySelectorAll('#page-main .feature-card, #page-main .step-item, #page-main .section-title, #page-main .section-sub');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        revealElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s cubic-bezier(0.22, 1, 0.36, 1)';
+            revealObserver.observe(el);
+        });
+
+        console.log('✨ SparkyBot with separate /terms, /privacy, /dashboard & hashless scrolling');
     </script>
 
 </body>
