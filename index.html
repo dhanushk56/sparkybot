@@ -60,33 +60,33 @@
             color: #0d0d1a;
         }
         .btn-secondary {
-            background: rgba(255,255,255,0.06);
+            background: rgba(255, 255, 255, 0.06);
             color: #e8e0d8;
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(4px);
         }
         .btn-secondary:hover {
-            background: rgba(255,255,255,0.12);
+            background: rgba(255, 255, 255, 0.12);
             transform: translateY(-2px);
         }
         .btn-outline {
             background: transparent;
             color: #e8e0d8;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .btn-outline:hover {
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(212,175,55,0.4);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(212, 175, 55, 0.4);
             transform: translateY(-2px);
         }
 
         /* ─── HEADER ─── */
         header {
             padding: 16px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             position: sticky;
             top: 0;
-            background: rgba(13,13,26,0.85);
+            background: rgba(13, 13, 26, 0.85);
             backdrop-filter: blur(16px);
             z-index: 100;
         }
@@ -142,6 +142,12 @@
         .nav-links a:hover::after {
             width: 100%;
         }
+        .nav-links a.active {
+            color: #e8e0d8;
+        }
+        .nav-links a.active::after {
+            width: 100%;
+        }
         .nav-actions {
             display: flex;
             align-items: center;
@@ -165,23 +171,27 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(ellipse at center, rgba(212,175,55,0.03), transparent 70%);
+            background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.03), transparent 70%);
             animation: rotateGlow 30s linear infinite;
             pointer-events: none;
         }
         @keyframes rotateGlow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
         .hero .badge {
             display: inline-block;
-            background: rgba(212,175,55,0.12);
+            background: rgba(212, 175, 55, 0.12);
             color: #d4af37;
             font-weight: 600;
             font-size: 0.75rem;
             padding: 4px 14px;
             border-radius: 20px;
-            border: 1px solid rgba(212,175,55,0.2);
+            border: 1px solid rgba(212, 175, 55, 0.2);
             margin-bottom: 24px;
             position: relative;
         }
@@ -221,7 +231,7 @@
             gap: 40px 60px;
             flex-wrap: wrap;
             padding: 40px 0;
-            border-top: 1px solid rgba(255,255,255,0.04);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
             margin-top: 20px;
         }
         .stat-item {
@@ -248,7 +258,7 @@
             padding: 80px 0;
         }
         .section-alt {
-            background: rgba(255,255,255,0.015);
+            background: rgba(255, 255, 255, 0.015);
         }
         .section-title {
             text-align: center;
@@ -272,18 +282,18 @@
             gap: 24px;
         }
         .feature-card {
-            background: rgba(255,255,255,0.025);
-            border: 1px solid rgba(255,255,255,0.04);
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: 16px;
             padding: 28px 24px;
             transition: all 0.4s ease;
             cursor: default;
         }
         .feature-card:hover {
-            background: rgba(255,255,255,0.04);
+            background: rgba(255, 255, 255, 0.04);
             transform: translateY(-6px);
-            border-color: rgba(212,175,55,0.15);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border-color: rgba(212, 175, 55, 0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
         .feature-icon {
             font-size: 2rem;
@@ -311,14 +321,14 @@
         .step-item {
             text-align: center;
             padding: 24px 20px;
-            background: rgba(255,255,255,0.02);
+            background: rgba(255, 255, 255, 0.02);
             border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.04);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             transition: all 0.3s ease;
         }
         .step-item:hover {
             transform: translateY(-4px);
-            border-color: rgba(212,175,55,0.15);
+            border-color: rgba(212, 175, 55, 0.15);
         }
         .step-number {
             display: inline-block;
@@ -342,6 +352,14 @@
             color: #808098;
             font-size: 0.95rem;
         }
+        .step-item code {
+            background: rgba(212, 175, 55, 0.1);
+            color: #d4af37;
+            padding: 1px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
 
         /* ─── FAQ ─── */
         .faq-list {
@@ -349,7 +367,7 @@
             margin: 0 auto;
         }
         .faq-item {
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             padding: 20px 0;
         }
         .faq-item summary {
@@ -380,10 +398,32 @@
             padding-right: 24px;
         }
 
+        /* ─── POLICY PAGES (inline) ─── */
+        .policy-content {
+            max-width: 800px;
+            margin: 0 auto;
+            color: #a09890;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+        .policy-content p {
+            margin-bottom: 12px;
+        }
+        .policy-content ol {
+            padding-left: 20px;
+            margin: 16px 0;
+        }
+        .policy-content li {
+            margin-bottom: 6px;
+        }
+        .policy-content strong {
+            color: #d4af37;
+        }
+
         /* ─── FOOTER ─── */
         footer {
             padding: 40px 0 30px;
-            border-top: 1px solid rgba(255,255,255,0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
             text-align: center;
             color: #606070;
             font-size: 0.9rem;
@@ -417,307 +457,43 @@
             }
         }
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
-            .stats-bar { gap: 20px 30px; }
-            .stat-number { font-size: 1.8rem; }
-            .features-grid { grid-template-columns: 1fr; }
-            .steps-grid { grid-template-columns: 1fr; }
-            .section { padding: 60px 0; }
-            .section-title { font-size: 2rem; }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .stats-bar {
+                gap: 20px 30px;
+            }
+            .stat-number {
+                font-size: 1.8rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+            .section {
+                padding: 60px 0;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
         }
         @media (max-width: 480px) {
-            .hero h1 { font-size: 1.8rem; }
-            .btn { padding: 10px 20px; font-size: 0.85rem; }
-            .nav-links { gap: 12px; font-size: 0.8rem; }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.85rem;
+            }
+            .nav-links {
+                gap: 12px;
+                font-size: 0.8rem;
+            }
         }
-    </style>
-</head>
-<body>
 
-    <!-- ─── HEADER ─── -->
-    <header>
-        <div class="container">
-            <a href="#" class="logo" onclick="scrollToTop(event)">
-                🤖 <span>SparkyBot</span>
-            </a>
-            <nav class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#how-it-works">How It Works</a>
-                <a href="#faq">FAQ</a>
-                <a href="#terms">Terms</a>
-                <a href="#privacy">Privacy</a>
-            </nav>
-            <div class="nav-actions">
-                <a href="https://discord.com/oauth2/authorize?client_id=1528780547411804382&scope=bot+applications.commands&permissions=1099800112246" target="_blank" class="btn btn-primary">Add to Server</a>
-                <a href="#" class="btn btn-outline" onclick="openDashboard(event)">🌐 Dashboard</a>
-            </div>
-        </div>
-    </header>
-
-    <!-- ─── HERO ─── -->
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="badge">🚀 All-in-One Discord Bot</div>
-            <h1>
-                Power up your Discord<br />
-                with <span class="highlight">SparkyBot</span>
-            </h1>
-            <p>
-                Moderation, tickets, economy, giveaways, logging, and more —
-                all in one free, reliable bot. Built for communities that demand the best.
-            </p>
-            <div class="hero-buttons">
-                <a href="https://discord.com/oauth2/authorize?client_id=1528780547411804382&scope=bot+applications.commands&permissions=1099800112246" target="_blank" class="btn btn-primary pulse-glow">✨ Add to Discord</a>
-                <a href="https://github.com/dhanushk56/sparky-bot-documentation.git" target="_blank" class="btn btn-secondary">📖 Documentation</a>
-                <a href="https://discord.gg/sEJ6FwHGJw" target="_blank" class="btn btn-outline">💬 Support Server</a>
-            </div>
-            <div class="stats-bar">
-                <div class="stat-item">
-                    <span class="stat-number">99+</span>
-                    <span class="stat-label">Servers</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">10.0K+</span>
-                    <span class="stat-label">Users</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">18+</span>
-                    <span class="stat-label">Modules</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">100%</span>
-                    <span class="stat-label">Free</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ─── FEATURES ─── -->
-    <section class="section" id="features">
-        <div class="container">
-            <h2 class="section-title">Everything your server needs</h2>
-            <p class="section-sub">
-                One bot, countless tools. Replace a dozen bots with SparkyBot
-                and keep your server clean and fast.
-            </p>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <span class="feature-icon">⚔️</span>
-                    <h3>Advanced Moderation</h3>
-                    <p>Kick, ban, mute, warn, jail, purge, and lockdown — all with detailed logging and customizable permissions.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🎟️</span>
-                    <h3>Ticket System</h3>
-                    <p>A complete support ticket system with transcripts, categories, claim/close, and staff roles.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">💰</span>
-                    <h3>Economy &amp; Leveling</h3>
-                    <p>Keep members engaged with a currency, shop, daily rewards, XP, and leveling system with role rewards.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🎉</span>
-                    <h3>Giveaways</h3>
-                    <p>Create and manage giveaways with role requirements, multiple winners, rerolls, and full management.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">📄</span>
-                    <h3>Applications</h3>
-                    <p>Accept staff applications with custom questions, review flows, manager roles, and automatic role assignment.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🔊</span>
-                    <h3>Join-to-Create Voice</h3>
-                    <p>Let members create their own private voice channels with automatic cleanup, naming, and full control.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🎭</span>
-                    <h3>Reaction Roles</h3>
-                    <p>Assign roles via reactions with multiple modes, exclusive groups, and full customization.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">📝</span>
-                    <h3>Logging</h3>
-                    <p>Comprehensive audit logs for messages, members, channels, roles, and moderation actions — 20+ events.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🛡️</span>
-                    <h3>Anti-Nuke Protection</h3>
-                    <p>Automatically detect and stop malicious mass-deletes, bans, role changes, and channel creations — 22+ events.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🎵</span>
-                    <h3>Music System</h3>
-                    <p>Full-featured music with YouTube, SoundCloud, and Spotify support — queue, shuffle, loop, 24/7 mode, and live lyrics.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🌐</span>
-                    <h3>Translation</h3>
-                    <p>Translate messages, detect languages, and auto-translate channels with 100+ languages using Google Translate.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">▶️</span>
-                    <h3>YouTube Notifications</h3>
-                    <p>Track YouTube channels and get notified on new uploads with keyword filters and custom messages.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ─── HOW IT WORKS ─── -->
-    <section class="section section-alt" id="how-it-works">
-        <div class="container">
-            <h2 class="section-title">Simple Setup, Powerful Results</h2>
-            <p class="section-sub">
-                Get SparkyBot running in your server in just a few steps — no coding required.
-            </p>
-            <div class="steps-grid">
-                <div class="step-item">
-                    <div class="step-number">1</div>
-                    <h4>Invite the Bot</h4>
-                    <p>Click the "Add to Server" button and authorize SparkyBot with the necessary permissions.</p>
-                </div>
-                <div class="step-item">
-                    <div class="step-number">2</div>
-                    <h4>Configure Modules</h4>
-                    <p>Use slash commands like <code>/setup</code> or <code>/admin config</code> to enable features.</p>
-                </div>
-                <div class="step-item">
-                    <div class="step-number">3</div>
-                    <h4>Manage &amp; Monitor</h4>
-                    <p>All settings can be tweaked on the fly — no restarts required. Changes apply instantly.</p>
-                </div>
-                <div class="step-item">
-                    <div class="step-number">4</div>
-                    <h4>Scale with Ease</h4>
-                    <p>SparkyBot handles servers of any size with optimized performance and automatic sharding.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ─── FAQ ─── -->
-    <section class="section" id="faq">
-        <div class="container">
-            <h2 class="section-title">Frequently Asked Questions</h2>
-            <p class="section-sub">Quick answers to the most common questions about SparkyBot.</p>
-            <div class="faq-list">
-                <details class="faq-item">
-                    <summary>Is SparkyBot really free?</summary>
-                    <p>Yes! SparkyBot is 100% free forever. No paywalls, no premium tiers, no nitro‑gating. All features are available to every server.</p>
-                </details>
-                <details class="faq-item">
-                    <summary>What permissions does SparkyBot need?</summary>
-                    <p>SparkyBot requires standard moderation permissions: Kick Members, Ban Members, Manage Channels, Manage Roles, Send Messages, Embed Links, Attach Files, Connect &amp; Speak (for music), and Moderate Members. You can customize permissions during invite.</p>
-                </details>
-                <details class="faq-item">
-                    <summary>How do I change the bot's prefix?</summary>
-                    <p>Use the <code>/prefix set</code> slash command or the <code>$prefix set</code> command. Server admins can set a custom prefix anytime.</p>
-                </details>
-                <details class="faq-item">
-                    <summary>Can I self‑host SparkyBot?</summary>
-                    <p>Absolutely! SparkyBot is open‑source and fully documented. Check the GitHub repository for installation instructions.</p>
-                </details>
-                <details class="faq-item">
-                    <summary>How do I report a bug or suggest a feature?</summary>
-                    <p>Join our support server and use the <code>/rp bug</code> or <code>/rp suggest</code> commands. You can also open an issue on GitHub.</p>
-                </details>
-                <details class="faq-item">
-                    <summary>Is my data safe?</summary>
-                    <p>Yes. SparkyBot only stores minimal configuration data (server settings, economy balances, etc.) and never shares it with third parties. You can reset any module's data at any time.</p>
-                </details>
-            </div>
-        </div>
-    </section>
-
-    <!-- ─── TERMS OF SERVICE ─── -->
-    <section class="section section-alt" id="terms">
-        <div class="container">
-            <h2 class="section-title">Terms of Service</h2>
-            <div style="max-width: 800px; margin: 0 auto; color: #a09890; font-size: 0.95rem; line-height: 1.8;">
-                <p><strong>Last updated:</strong> July 2026</p>
-                <p>By using SparkyBot (the "Bot"), you agree to the following terms:</p>
-                <ol style="padding-left: 20px; margin: 16px 0;">
-                    <li><strong>Acceptance of Terms:</strong> By inviting the Bot to your server, you accept these Terms of Service.</li>
-                    <li><strong>Use of the Bot:</strong> You agree to use the Bot in compliance with Discord's Terms of Service and Community Guidelines.</li>
-                    <li><strong>Data Collection:</strong> The Bot collects minimal data (server IDs, user IDs, configuration settings) to provide its services. No personal data is shared with third parties.</li>
-                    <li><strong>Prohibited Uses:</strong> You may not use the Bot for any illegal, abusive, or harmful purposes, including harassment, spam, or distribution of malicious content.</li>
-                    <li><strong>Availability:</strong> While we strive to keep the Bot online, we do not guarantee 100% uptime. We reserve the right to modify, suspend, or discontinue the Bot at any time.</li>
-                    <li><strong>Changes to Terms:</strong> We may update these Terms at any time. Continued use of the Bot constitutes acceptance of the updated Terms.</li>
-                    <li><strong>Contact:</strong> For questions about these Terms, please join our support server.</li>
-                </ol>
-                <p>By using SparkyBot, you acknowledge that you have read and understood these Terms of Service.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ─── PRIVACY POLICY ─── -->
-    <section class="section" id="privacy">
-        <div class="container">
-            <h2 class="section-title">Privacy Policy</h2>
-            <div style="max-width: 800px; margin: 0 auto; color: #a09890; font-size: 0.95rem; line-height: 1.8;">
-                <p><strong>Last updated:</strong> July 2026</p>
-                <p>SparkyBot ("we", "our", "us") respects your privacy. This Privacy Policy explains how we collect, use, and protect your data.</p>
-                <ol style="padding-left: 20px; margin: 16px 0;">
-                    <li><strong>Data We Collect:</strong> We collect server IDs, user IDs, message content (for logging and auto-moderation), configuration settings, and economy/leveling data.</li>
-                    <li><strong>How We Use Data:</strong> Data is used solely to provide the Bot's functionality, including moderation, logging, economy, and user preferences.</li>
-                    <li><strong>Data Storage:</strong> Data is stored securely in JSON files or databases. No data is shared with third parties except as required by law.</li>
-                    <li><strong>Your Rights:</strong> You may request deletion of your data at any time by contacting us through our support server.</li>
-                    <li><strong>Data Retention:</strong> We retain data for as long as the Bot is in your server. You can remove data by using the <code>/admin reset</code> command or by kicking the Bot.</li>
-                    <li><strong>Children's Privacy:</strong> The Bot is not intended for children under 13. We do not knowingly collect data from children.</li>
-                    <li><strong>Changes to Policy:</strong> We may update this Privacy Policy from time to time. Continued use of the Bot constitutes acceptance of the updated Policy.</li>
-                    <li><strong>Contact:</strong> For privacy concerns, please join our support server.</li>
-                </ol>
-                <p>By using SparkyBot, you consent to the collection and use of your data as described in this Privacy Policy.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ─── FOOTER ─── -->
-    <footer>
-        <div class="container">
-            <div class="links">
-                <a href="#terms">Terms of Service</a>
-                <a href="#privacy">Privacy Policy</a>
-                <a href="https://discord.gg/sEJ6FwHGJw" target="_blank">Support Server</a>
-                <a href="https://github.com/dhanushk56/sparky-bot-documentation.git" target="_blank">GitHub</a>
-            </div>
-            <p>&copy; 2026 SparkyBot. Built with ❤️ for Discord communities.</p>
-        </div>
-    </footer>
-
-    <!-- ─── COMING SOON OVERLAY ─── -->
-    <div id="comingSoon" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(13,13,26,0.95); backdrop-filter: blur(20px); z-index: 9999; align-items: center; justify-content: center; flex-direction: column; padding: 20px; animation: fadeInOverlay 0.6s ease;">
-        <div style="text-align: center; max-width: 600px; width: 100%; padding: 40px 24px;">
-            <span style="font-size: 5rem; display: block; margin-bottom: 16px; animation: float 4s ease-in-out infinite;">🚧</span>
-            <h2 style="font-size: 3rem; font-weight: 800; margin-bottom: 12px; color: #e8e0d8;">Dashboard <span class="highlight">Coming Soon</span></h2>
-            <p style="color: #a09890; font-size: 1.15rem; margin-bottom: 40px;">We're building a powerful web dashboard to manage your server without commands. Stay tuned!</p>
-            <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 20px; overflow: hidden;">
-                <div id="progressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #d4af37, #e8c84a, #d4af37); background-size: 200% 200%; border-radius: 20px; transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1); animation: shimmer 2s ease infinite;"></div>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.85rem; color: #606070;">
-                <span>Progress</span>
-                <span id="progressText" style="color: #d4af37; font-weight: 500;">0%</span>
-            </div>
-            <button onclick="closeDashboard()" class="btn btn-secondary" style="margin-top: 48px;">← Go Back</button>
-        </div>
-    </div>
-
-    <style>
-        @keyframes fadeInOverlay {
-            0% { opacity: 0; backdrop-filter: blur(0px); }
-            100% { opacity: 1; backdrop-filter: blur(20px); }
-        }
-        @keyframes shimmer {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-        }
+        /* ─── UTILITIES ─── */
         .highlight {
             background: linear-gradient(135deg, #d4af37, #e8c84a);
             -webkit-background-clip: text;
@@ -727,102 +503,632 @@
             animation: pulseGlow 3s ease-in-out infinite;
         }
         @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 20px rgba(212,175,55,0.15); }
-            50% { box-shadow: 0 0 40px rgba(212,175,55,0.3); }
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+            }
         }
         code {
-            background: rgba(212,175,55,0.1);
+            background: rgba(212, 175, 55, 0.1);
             color: #d4af37;
             padding: 1px 8px;
             border-radius: 4px;
             font-size: 0.85rem;
             font-family: 'JetBrains Mono', monospace;
         }
+
+        /* ─── COMING SOON OVERLAY ─── */
+        #comingSoon {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 13, 26, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+            animation: fadeInOverlay 0.6s ease;
+        }
+        #comingSoon.show {
+            display: flex;
+        }
+        @keyframes fadeInOverlay {
+            0% {
+                opacity: 0;
+                backdrop-filter: blur(0px);
+            }
+            100% {
+                opacity: 1;
+                backdrop-filter: blur(20px);
+            }
+        }
+        @keyframes shimmer {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+        .cs-icon {
+            font-size: 5rem;
+            display: block;
+            margin-bottom: 16px;
+            animation: float 4s ease-in-out infinite;
+        }
+        .cs-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #e8e0d8;
+        }
+        .cs-sub {
+            color: #a09890;
+            font-size: 1.15rem;
+            margin-bottom: 40px;
+        }
+        .cs-progress-wrap {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .cs-progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #d4af37, #e8c84a, #d4af37);
+            background-size: 200% 200%;
+            border-radius: 20px;
+            transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            animation: shimmer 2s ease infinite;
+        }
+        .cs-progress-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #606070;
+        }
+        .cs-progress-labels span:last-child {
+            color: #d4af37;
+            font-weight: 500;
+        }
+        .cs-back-btn {
+            margin-top: 48px;
+        }
     </style>
+</head>
+<body>
+
+    <!-- ─── HEADER ─── -->
+    <header>
+        <div class="container">
+            <a href="/" class="logo" data-nav="/">
+                🤖 <span>SparkyBot</span>
+            </a>
+            <nav class="nav-links" id="navLinks">
+                <a href="/features" data-nav="/features">Features</a>
+                <a href="/how-it-works" data-nav="/how-it-works">How It Works</a>
+                <a href="/faq" data-nav="/faq">FAQ</a>
+                <a href="/terms" data-nav="/terms">Terms</a>
+                <a href="/privacy" data-nav="/privacy">Privacy</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="https://discord.com/oauth2/authorize?client_id=1528780547411804382&scope=bot+applications.commands&permissions=1099800112246" target="_blank" class="btn btn-primary">Add to Server</a>
+                <a href="/dashboard" target="_blank" class="btn btn-outline">🌐 Dashboard</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ─── PAGE SECTIONS ─── -->
+    <div id="page-sections">
+        <!-- HOME (all content) -->
+        <div id="section-home" class="page-section" data-section="home">
+            <section class="hero">
+                <div class="container">
+                    <div class="badge">🚀 All-in-One Discord Bot</div>
+                    <h1>
+                        Power up your Discord<br />
+                        with <span class="highlight">SparkyBot</span>
+                    </h1>
+                    <p>
+                        Moderation, tickets, economy, giveaways, logging, and more —
+                        all in one free, reliable bot. Built for communities that demand the best.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="https://discord.com/oauth2/authorize?client_id=1528780547411804382&scope=bot+applications.commands&permissions=1099800112246" target="_blank" class="btn btn-primary pulse-glow">✨ Add to Discord</a>
+                        <a href="https://github.com/dhanushk56/sparky-bot-documentation.git" target="_blank" class="btn btn-secondary">📖 Documentation</a>
+                        <a href="https://discord.gg/sEJ6FwHGJw" target="_blank" class="btn btn-outline">💬 Support Server</a>
+                    </div>
+                    <div class="stats-bar">
+                        <div class="stat-item">
+                            <span class="stat-number">99+</span>
+                            <span class="stat-label">Servers</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">10.0K+</span>
+                            <span class="stat-label">Users</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">18+</span>
+                            <span class="stat-label">Modules</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Free</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="section-features">
+                <div class="container">
+                    <h2 class="section-title">Everything your server needs</h2>
+                    <p class="section-sub">
+                        One bot, countless tools. Replace a dozen bots with SparkyBot
+                        and keep your server clean and fast.
+                    </p>
+                    <div class="features-grid">
+                        <div class="feature-card"><span class="feature-icon">⚔️</span><h3>Advanced Moderation</h3><p>Kick, ban, mute, warn, jail, purge, and lockdown — all with detailed logging and customizable permissions.</p></div>
+                        <div class="feature-card"><span class="feature-icon">🎟️</span><h3>Ticket System</h3><p>A complete support ticket system with transcripts, categories, claim/close, and staff roles.</p></div>
+                        <div class="feature-card"><span class="feature-icon">💰</span><h3>Economy &amp; Leveling</h3><p>Keep members engaged with a currency, shop, daily rewards, XP, and leveling system with role rewards.</p></div>
+                        <div class="feature-card"><span class="feature-icon">🎉</span><h3>Giveaways</h3><p>Create and manage giveaways with role requirements, multiple winners, rerolls, and full management.</p></div>
+                        <div class="feature-card"><span class="feature-icon">📄</span><h3>Applications</h3><p>Accept staff applications with custom questions, review flows, manager roles, and automatic role assignment.</p></div>
+                        <div class="feature-card"><span class="feature-icon">🔊</span><h3>Join-to-Create Voice</h3><p>Let members create their own private voice channels with automatic cleanup, naming, and full control.</p></div>
+                        <div class="feature-card"><span class="feature-icon">🎭</span><h3>Reaction Roles</h3><p>Assign roles via reactions with multiple modes, exclusive groups, and full customization.</p></div>
+                        <div class="feature-card"><span class="feature-icon">📝</span><h3>Logging</h3><p>Comprehensive audit logs for messages, members, channels, roles, and moderation actions — 20+ events.</p></div>
+                        <div class="feature-card"><span class="feature-icon">🛡️</span><h3>Anti-Nuke Protection</h3><p>Automatically detect and stop malicious mass-deletes, bans, role changes, and channel creations — 22+ events.</p></div>
+                        <div class="feature-card"><span class="feature-icon">🎵</span><h3>Music System</h3><p>Full-featured music with YouTube, SoundCloud, and Spotify support — queue, shuffle, loop, 24/7 mode, and live lyrics.</p></div>
+                        <div class="feature-card"><span class="feature-icon">🌐</span><h3>Translation</h3><p>Translate messages, detect languages, and auto-translate channels with 100+ languages using Google Translate.</p></div>
+                        <div class="feature-card"><span class="feature-icon">▶️</span><h3>YouTube Notifications</h3><p>Track YouTube channels and get notified on new uploads with keyword filters and custom messages.</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section section-alt" id="section-how-it-works">
+                <div class="container">
+                    <h2 class="section-title">Simple Setup, Powerful Results</h2>
+                    <p class="section-sub">Get SparkyBot running in your server in just a few steps — no coding required.</p>
+                    <div class="steps-grid">
+                        <div class="step-item"><div class="step-number">1</div><h4>Invite the Bot</h4><p>Click the "Add to Server" button and authorize SparkyBot with the necessary permissions.</p></div>
+                        <div class="step-item"><div class="step-number">2</div><h4>Configure Modules</h4><p>Use slash commands like <code>/setup</code> or <code>/admin config</code> to enable features.</p></div>
+                        <div class="step-item"><div class="step-number">3</div><h4>Manage &amp; Monitor</h4><p>All settings can be tweaked on the fly — no restarts required. Changes apply instantly.</p></div>
+                        <div class="step-item"><div class="step-number">4</div><h4>Scale with Ease</h4><p>SparkyBot handles servers of any size with optimized performance and automatic sharding.</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="section-faq">
+                <div class="container">
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="section-sub">Quick answers to the most common questions about SparkyBot.</p>
+                    <div class="faq-list">
+                        <details class="faq-item"><summary>Is SparkyBot really free?</summary><p>Yes! SparkyBot is 100% free forever. No paywalls, no premium tiers, no nitro‑gating. All features are available to every server.</p></details>
+                        <details class="faq-item"><summary>What permissions does SparkyBot need?</summary><p>SparkyBot requires standard moderation permissions: Kick Members, Ban Members, Manage Channels, Manage Roles, Send Messages, Embed Links, Attach Files, Connect &amp; Speak (for music), and Moderate Members. You can customize permissions during invite.</p></details>
+                        <details class="faq-item"><summary>How do I change the bot's prefix?</summary><p>Use the <code>/prefix set</code> slash command or the <code>$prefix set</code> command. Server admins can set a custom prefix anytime.</p></details>
+                        <details class="faq-item"><summary>Can I self‑host SparkyBot?</summary><p>Absolutely! SparkyBot is open‑source and fully documented. Check the GitHub repository for installation instructions.</p></details>
+                        <details class="faq-item"><summary>How do I report a bug or suggest a feature?</summary><p>Join our support server and use the <code>/rp bug</code> or <code>/rp suggest</code> commands. You can also open an issue on GitHub.</p></details>
+                        <details class="faq-item"><summary>Is my data safe?</summary><p>Yes. SparkyBot only stores minimal configuration data (server settings, economy balances, etc.) and never shares it with third parties. You can reset any module's data at any time.</p></details>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- TERMS (separate page) -->
+        <div id="section-terms" class="page-section" data-section="terms" style="display:none;">
+            <section class="section section-alt" style="padding-top:40px;">
+                <div class="container">
+                    <h2 class="section-title">Terms of Service</h2>
+                    <div class="policy-content">
+                        <p><strong>Last updated:</strong> July 2026</p>
+                        <p>By using SparkyBot (the "Bot"), you agree to the following terms:</p>
+                        <ol>
+                            <li><strong>Acceptance of Terms:</strong> By inviting the Bot to your server, you accept these Terms of Service.</li>
+                            <li><strong>Use of the Bot:</strong> You agree to use the Bot in compliance with Discord's Terms of Service and Community Guidelines.</li>
+                            <li><strong>Data Collection:</strong> The Bot collects minimal data (server IDs, user IDs, configuration settings) to provide its services. No personal data is shared with third parties.</li>
+                            <li><strong>Prohibited Uses:</strong> You may not use the Bot for any illegal, abusive, or harmful purposes, including harassment, spam, or distribution of malicious content.</li>
+                            <li><strong>Availability:</strong> While we strive to keep the Bot online, we do not guarantee 100% uptime. We reserve the right to modify, suspend, or discontinue the Bot at any time.</li>
+                            <li><strong>Changes to Terms:</strong> We may update these Terms at any time. Continued use of the Bot constitutes acceptance of the updated Terms.</li>
+                            <li><strong>Contact:</strong> For questions about these Terms, please join our support server.</li>
+                        </ol>
+                        <p>By using SparkyBot, you acknowledge that you have read and understood these Terms of Service.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PRIVACY (separate page) -->
+        <div id="section-privacy" class="page-section" data-section="privacy" style="display:none;">
+            <section class="section" style="padding-top:40px;">
+                <div class="container">
+                    <h2 class="section-title">Privacy Policy</h2>
+                    <div class="policy-content">
+                        <p><strong>Last updated:</strong> July 2026</p>
+                        <p>SparkyBot ("we", "our", "us") respects your privacy. This Privacy Policy explains how we collect, use, and protect your data.</p>
+                        <ol>
+                            <li><strong>Data We Collect:</strong> We collect server IDs, user IDs, message content (for logging and auto-moderation), configuration settings, and economy/leveling data.</li>
+                            <li><strong>How We Use Data:</strong> Data is used solely to provide the Bot's functionality, including moderation, logging, economy, and user preferences.</li>
+                            <li><strong>Data Storage:</strong> Data is stored securely in JSON files or databases. No data is shared with third parties except as required by law.</li>
+                            <li><strong>Your Rights:</strong> You may request deletion of your data at any time by contacting us through our support server.</li>
+                            <li><strong>Data Retention:</strong> We retain data for as long as the Bot is in your server. You can remove data by using the <code>/admin reset</code> command or by kicking the Bot.</li>
+                            <li><strong>Children's Privacy:</strong> The Bot is not intended for children under 13. We do not knowingly collect data from children.</li>
+                            <li><strong>Changes to Policy:</strong> We may update this Privacy Policy from time to time. Continued use of the Bot constitutes acceptance of the updated Policy.</li>
+                            <li><strong>Contact:</strong> For privacy concerns, please join our support server.</li>
+                        </ol>
+                        <p>By using SparkyBot, you consent to the collection and use of your data as described in this Privacy Policy.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- FEATURES standalone (optional, but we keep them as separate sections for clarity) -->
+        <!-- We'll handle routing to show/hide these as needed -->
+    </div>
+
+    <!-- ─── FOOTER ─── -->
+    <footer id="main-footer">
+        <div class="container">
+            <div class="links">
+                <a href="/terms" data-nav="/terms">Terms of Service</a>
+                <a href="/privacy" data-nav="/privacy">Privacy Policy</a>
+                <a href="https://discord.gg/sEJ6FwHGJw" target="_blank">Support Server</a>
+                <a href="https://github.com/dhanushk56/sparky-bot-documentation.git" target="_blank">GitHub</a>
+            </div>
+            <p>&copy; 2026 SparkyBot. Built with ❤️ for Discord communities.</p>
+        </div>
+    </footer>
+
+    <!-- ─── COMING SOON OVERLAY ─── -->
+    <div id="comingSoon">
+        <div style="text-align: center; max-width: 600px; width: 100%; padding: 40px 24px;">
+            <span class="cs-icon">🚧</span>
+            <h2 class="cs-title">Dashboard <span class="highlight">Coming Soon</span></h2>
+            <p class="cs-sub">We're building a powerful web dashboard to manage your server without commands. Stay tuned!</p>
+            <div class="cs-progress-wrap">
+                <div class="cs-progress-bar" id="progressBar"></div>
+            </div>
+            <div class="cs-progress-labels">
+                <span>Progress</span>
+                <span id="progressText">0%</span>
+            </div>
+            <button onclick="closeDashboard()" class="btn btn-secondary cs-back-btn">← Go Back</button>
+        </div>
+    </div>
 
     <script>
-        // ── SMOOTH SCROLL FOR NAV LINKS ──
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                // Skip if it's a real external link or the dashboard button
-                if (this.hasAttribute('target') || this.id === 'dashboardHeroBtn' || this.id === 'dashboardNavBtn') return;
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                const target = document.querySelector(targetId);
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    // Update URL without # (optional: use pushState to keep it clean)
-                    if (history.pushState) {
-                        history.pushState(null, null, ' ');
+        // ─── ROUTING ───────────────────────────────────────────────────────────
+
+        // Map routes to section IDs (use 'home' for the main container that holds all homepage sections)
+        const routeMap = {
+            '/': 'home',
+            '/home': 'home',
+            '/features': 'features', // we treat features as part of home, but we'll handle separately
+            '/how-it-works': 'how-it-works',
+            '/faq': 'faq',
+            '/terms': 'terms',
+            '/privacy': 'privacy',
+            '/dashboard': 'dashboard'
+        };
+
+        // Section IDs that are separate containers
+        const sectionIds = {
+            home: 'section-home',
+            terms: 'section-terms',
+            privacy: 'section-privacy'
+        };
+
+        // For features, how-it-works, faq – they are inside the home container, so we scroll to them.
+        // We'll handle them separately: when route is /features, we show home and scroll to #section-features
+        // Similarly for /how-it-works and /faq.
+
+        let isScrolling = false;
+        let scrollTimeout = null;
+        let currentPath = '/';
+
+        // ── Navigate to a route ──
+        function navigate(path, options = {}) {
+            const { replace = false, scroll = true } = options;
+
+            if (!path.startsWith('/')) path = '/' + path;
+            // Remove trailing slash except for root
+            if (path.length > 1 && path.endsWith('/')) path = path.slice(0, -1);
+
+            // Find matching route
+            let targetRoute = path;
+            if (!routeMap[targetRoute]) {
+                // Try fallback
+                const alt = targetRoute.endsWith('/') ? targetRoute.slice(0, -1) : targetRoute + '/';
+                if (routeMap[alt]) targetRoute = alt;
+                else targetRoute = '/';
+            }
+
+            // Update URL
+            const fullPath = targetRoute;
+            if (replace) {
+                history.replaceState({ route: targetRoute }, '', fullPath);
+            } else {
+                history.pushState({ route: targetRoute }, '', fullPath);
+            }
+            currentPath = targetRoute;
+
+            // Update active nav
+            updateActiveNav(targetRoute);
+
+            // Show/hide sections based on route
+            const routeType = routeMap[targetRoute];
+
+            // Handle dashboard separately (overlay)
+            if (targetRoute === '/dashboard') {
+                // Show overlay, hide all content
+                document.querySelectorAll('.page-section').forEach(el => el.style.display = 'none');
+                document.getElementById('main-footer').style.display = 'none';
+                showDashboardOverlay();
+                return;
+            } else {
+                // Ensure overlay is hidden and footer visible
+                closeDashboardOverlay();
+                document.getElementById('main-footer').style.display = 'block';
+            }
+
+            // For home, show home container, hide terms/privacy
+            if (routeType === 'home') {
+                document.getElementById('section-home').style.display = 'block';
+                document.getElementById('section-terms').style.display = 'none';
+                document.getElementById('section-privacy').style.display = 'none';
+                // Scroll to top or to specific section if needed
+                if (scroll) {
+                    // If path is exactly '/' or '/home', scroll to top
+                    if (targetRoute === '/' || targetRoute === '/home') {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                        // For /features, /how-it-works, /faq, scroll to respective section inside home
+                        const sectionMap = {
+                            '/features': 'section-features',
+                            '/how-it-works': 'section-how-it-works',
+                            '/faq': 'section-faq'
+                        };
+                        const targetId = sectionMap[targetRoute];
+                        if (targetId) {
+                            const el = document.getElementById(targetId);
+                            if (el) {
+                                const headerOffset = 80;
+                                const elPos = el.getBoundingClientRect().top + window.pageYOffset;
+                                const offsetPos = elPos - headerOffset;
+                                window.scrollTo({ top: offsetPos, behavior: 'smooth' });
+                            }
+                        } else {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
                     }
                 }
-            });
-        });
-
-        // ── LOGO CLICK ──
-        function scrollToTop(e) {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            if (history.pushState) {
-                history.pushState(null, null, ' ');
+            } else if (routeType === 'terms') {
+                document.getElementById('section-home').style.display = 'none';
+                document.getElementById('section-terms').style.display = 'block';
+                document.getElementById('section-privacy').style.display = 'none';
+                if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (routeType === 'privacy') {
+                document.getElementById('section-home').style.display = 'none';
+                document.getElementById('section-terms').style.display = 'none';
+                document.getElementById('section-privacy').style.display = 'block';
+                if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                // fallback to home
+                document.getElementById('section-home').style.display = 'block';
+                document.getElementById('section-terms').style.display = 'none';
+                document.getElementById('section-privacy').style.display = 'none';
+                if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
 
-        // ── DASHBOARD OVERLAY ──
-        function openDashboard(e) {
-            e.preventDefault();
-            const overlay = document.getElementById('comingSoon');
-            overlay.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+        // ── Update active nav link ──
+        function updateActiveNav(currentRoute) {
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                const linkRoute = link.getAttribute('data-nav');
+                link.classList.toggle('active', linkRoute === currentRoute);
+            });
+        }
 
+        // ── Handle route from current URL ──
+        function handleRoute() {
+            const path = window.location.pathname || '/';
+            navigate(path, { replace: true, scroll: true });
+        }
+
+        // ── Dashboard overlay ──
+        let progressInterval = null;
+
+        function showDashboardOverlay() {
+            const overlay = document.getElementById('comingSoon');
+            overlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+            // Start progress animation
             const bar = document.getElementById('progressBar');
             const text = document.getElementById('progressText');
             bar.style.width = '0%';
             text.textContent = '0%';
-
+            if (progressInterval) clearInterval(progressInterval);
             let progress = 0;
-            const interval = setInterval(() => {
+            progressInterval = setInterval(() => {
                 const increment = Math.random() * 12 + 4;
                 progress = Math.min(progress + increment, 100);
                 bar.style.width = progress + '%';
                 text.textContent = Math.floor(progress) + '%';
                 if (progress >= 100) {
-                    clearInterval(interval);
+                    clearInterval(progressInterval);
+                    progressInterval = null;
                     text.textContent = '🎉 Almost there!';
                 }
             }, 350);
         }
 
-        function closeDashboard() {
-            document.getElementById('comingSoon').style.display = 'none';
+        function closeDashboardOverlay() {
+            const overlay = document.getElementById('comingSoon');
+            overlay.classList.remove('show');
             document.body.style.overflow = 'auto';
+            if (progressInterval) {
+                clearInterval(progressInterval);
+                progressInterval = null;
+            }
         }
 
-        // Close overlay with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeDashboard();
-        });
+        function closeDashboard() {
+            // Navigate to home and close overlay
+            closeDashboardOverlay();
+            navigate('/');
+        }
 
-        // ── SCROLL REVEAL ──
-        const revealElements = document.querySelectorAll('.feature-card, .step-item, .section-title, .section-sub');
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+        // ── DOM READY ─────────────────────────────────────────────────────────
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // ── Handle initial route ──
+            handleRoute();
+
+            // ── Nav link clicks ──
+            document.querySelectorAll('[data-nav]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.getAttribute('target') === '_blank') return;
+                    e.preventDefault();
+                    const route = this.getAttribute('data-nav');
+                    navigate(route);
+                });
+            });
+
+            // ── Footer links (already have data-nav) ──
+            // ── Also handle any other internal links ──
+            document.querySelectorAll('a[href^="/"]').forEach(link => {
+                if (link.hasAttribute('data-nav')) return;
+                if (link.getAttribute('target') === '_blank') return;
+                if (link.href && (link.href.startsWith('http://') || link.href.startsWith('https://'))) {
+                    try {
+                        const url = new URL(link.href);
+                        if (url.origin !== window.location.origin) return;
+                    } catch (_) { return; }
+                }
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    if (href && href.startsWith('/')) {
+                        navigate(href);
+                    }
+                });
+            });
+
+            // ── Dashboard button (already has target="_blank", so it opens new tab) ──
+            // We also need to handle if the page loads with /dashboard path (in new tab)
+            // This is already handled by handleRoute on load.
+
+            // ── Popstate ──
+            window.addEventListener('popstate', function() {
+                handleRoute();
+            });
+
+            // ── Keyboard escape for overlay ──
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (document.getElementById('comingSoon').classList.contains('show')) {
+                        closeDashboard();
+                    }
                 }
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-        revealElements.forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.8s cubic-bezier(0.22, 1, 0.36, 1)';
-            revealObserver.observe(el);
+            // ── Scroll-spy for home sections (only when on home route) ──
+            let scrollSpyTimeout = null;
+            window.addEventListener('scroll', function() {
+                if (scrollSpyTimeout) return;
+                scrollSpyTimeout = setTimeout(() => {
+                    // Only update if we are on home route
+                    const path = window.location.pathname || '/';
+                    if (routeMap[path] === 'home') {
+                        updateRouteFromScroll();
+                    }
+                    scrollSpyTimeout = null;
+                }, 100);
+            });
+
+            function updateRouteFromScroll() {
+                if (isScrolling) return;
+                const sections = ['section-features', 'section-how-it-works', 'section-faq'];
+                const headerOffset = 100;
+                let currentSection = null;
+                for (const id of sections) {
+                    const el = document.getElementById(id);
+                    if (!el) continue;
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top <= headerOffset) {
+                        currentSection = id;
+                    }
+                }
+                // Map section id to route
+                const sectionToRouteMap = {
+                    'section-features': '/features',
+                    'section-how-it-works': '/how-it-works',
+                    'section-faq': '/faq'
+                };
+                if (currentSection && sectionToRouteMap[currentSection]) {
+                    const newRoute = sectionToRouteMap[currentSection];
+                    if (window.location.pathname !== newRoute) {
+                        history.replaceState({ route: newRoute }, '', newRoute);
+                        updateActiveNav(newRoute);
+                        currentPath = newRoute;
+                    }
+                } else {
+                    // If none of those sections are in view, we are at top, route should be '/'
+                    if (window.location.pathname !== '/' && window.location.pathname !== '/home') {
+                        // only if we are not on terms/privacy
+                        if (!['/terms', '/privacy'].includes(window.location.pathname)) {
+                            history.replaceState({ route: '/' }, '', '/');
+                            updateActiveNav('/');
+                            currentPath = '/';
+                        }
+                    }
+                }
+            }
+
+            // ── Scroll reveal animation (same as before) ──
+            const revealElements = document.querySelectorAll('.feature-card, .step-item, .section-title, .section-sub');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+            revealElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.8s cubic-bezier(0.22, 1, 0.36, 1)';
+                revealObserver.observe(el);
+            });
+
+            console.log('✨ SparkyBot with separate pages & clean routing');
         });
 
-        console.log('✨ SparkyBot Website Loaded!');
+        // ── Expose closeDashboard globally ──
+        window.closeDashboard = closeDashboard;
     </script>
 
 </body>
