@@ -144,10 +144,11 @@
         .nav-links a:hover::after {
             width: 100%;
         }
-        .nav-links a.active {
+        /* Active state only for path-based pages (terms, privacy, dashboard) */
+        .nav-links a.active-page {
             color: #e8e0d8;
         }
-        .nav-links a.active::after {
+        .nav-links a.active-page::after {
             width: 100%;
         }
         .nav-actions {
@@ -790,7 +791,6 @@
             if (path === '/terms') {
                 termsPage.classList.add('active');
                 document.title = 'SparkyBot — Terms of Service';
-                // Update nav active state
                 updateActiveNav('/terms');
             } else if (path === '/privacy') {
                 privacyPage.classList.add('active');
@@ -799,7 +799,7 @@
             } else if (path === '/dashboard') {
                 dashboardPage.classList.add('active');
                 document.title = 'SparkyBot — Dashboard';
-                footer.style.display = 'none'; // Hide footer for cleaner dashboard view
+                footer.style.display = 'none';
                 updateActiveNav('/dashboard');
             } else {
                 // Main page (home)
@@ -830,13 +830,17 @@
             const navLinks = document.querySelectorAll('.nav-links a');
             navLinks.forEach(link => {
                 const href = link.getAttribute('href');
-                // For hash links (#features), we consider them active when on main page
+                // For hash links (#features, #how-it-works, #faq) — never set active
                 if (href.startsWith('#')) {
-                    link.classList.toggle('active', currentRoute === '/');
+                    link.classList.remove('active-page');
                     return;
                 }
-                // For path links (/terms, /privacy, /dashboard)
-                link.classList.toggle('active', href === currentRoute);
+                // For path-based links (/terms, /privacy, /dashboard)
+                if (href === currentRoute) {
+                    link.classList.add('active-page');
+                } else {
+                    link.classList.remove('active-page');
+                }
             });
         }
 
@@ -847,7 +851,7 @@
             const href = link.getAttribute('href');
             if (!href) return;
 
-            // Handle hash links (e.g., #features) - let browser handle natively, but we want smooth scroll
+            // Handle hash links (e.g., #features) - smooth scroll
             if (href.startsWith('#')) {
                 e.preventDefault();
                 const targetId = href.substring(1);
@@ -868,11 +872,8 @@
             // Handle internal paths (e.g., /terms, /privacy, /dashboard)
             if (href.startsWith('/') && !href.startsWith('//')) {
                 const targetUrl = new URL(href, window.location.origin);
-                // Only handle same-origin links
                 if (targetUrl.origin === window.location.origin) {
-                    // Check if the link is meant to open in a new tab
                     if (link.target === '_blank') {
-                        // Let the browser handle it naturally
                         return;
                     }
                     e.preventDefault();
@@ -915,7 +916,7 @@
             revealObserver.observe(el);
         });
 
-        console.log('✨ SparkyBot with separate /terms, /privacy, /dashboard & hashless scrolling');
+        console.log('✨ SparkyBot — fixed underline animation (only on hover for hash links)');
     </script>
 
 </body>
