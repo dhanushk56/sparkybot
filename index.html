@@ -144,7 +144,6 @@
         .nav-links a:hover::after {
             width: 100%;
         }
-        /* Active state only for path-based pages (terms, privacy, dashboard) */
         .nav-links a.active-page {
             color: #e8e0d8;
         }
@@ -179,12 +178,8 @@
             pointer-events: none;
         }
         @keyframes rotateGlow {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         .hero .badge {
             display: inline-block;
@@ -460,40 +455,18 @@
             }
         }
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            .stats-bar {
-                gap: 20px 30px;
-            }
-            .stat-number {
-                font-size: 1.8rem;
-            }
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            .steps-grid {
-                grid-template-columns: 1fr;
-            }
-            .section {
-                padding: 60px 0;
-            }
-            .section-title {
-                font-size: 2rem;
-            }
+            .hero h1 { font-size: 2.2rem; }
+            .stats-bar { gap: 20px 30px; }
+            .stat-number { font-size: 1.8rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .steps-grid { grid-template-columns: 1fr; }
+            .section { padding: 60px 0; }
+            .section-title { font-size: 2rem; }
         }
         @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            .btn {
-                padding: 10px 20px;
-                font-size: 0.85rem;
-            }
-            .nav-links {
-                gap: 12px;
-                font-size: 0.8rem;
-            }
+            .hero h1 { font-size: 1.8rem; }
+            .btn { padding: 10px 20px; font-size: 0.85rem; }
+            .nav-links { gap: 12px; font-size: 0.8rem; }
         }
 
         /* ─── UTILITIES ─── */
@@ -506,13 +479,8 @@
             animation: pulseGlow 3s ease-in-out infinite;
         }
         @keyframes pulseGlow {
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
-            }
+            0%, 100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.15); }
+            50% { box-shadow: 0 0 40px rgba(212, 175, 55, 0.3); }
         }
         code {
             background: rgba(212, 175, 55, 0.1);
@@ -524,12 +492,8 @@
         }
 
         /* ─── PAGE WRAPPER ─── */
-        .page {
-            display: none;
-        }
-        .page.active {
-            display: block;
-        }
+        .page { display: none; }
+        .page.active { display: block; }
 
         /* ─── DASHBOARD HERO ─── */
         .dashboard-hero {
@@ -547,13 +511,8 @@
             animation: float 4s ease-in-out infinite;
         }
         @keyframes float {
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-15px);
-            }
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
         }
         .dashboard-hero .cs-title {
             font-size: 3rem;
@@ -569,9 +528,7 @@
             margin-left: auto;
             margin-right: auto;
         }
-        .dashboard-hero .btn {
-            margin-top: 10px;
-        }
+        .dashboard-hero .btn { margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -618,22 +575,10 @@
                         <a href="https://discord.gg/sEJ6FwHGJw" target="_blank" class="btn btn-outline">💬 Support Server</a>
                     </div>
                     <div class="stats-bar">
-                        <div class="stat-item">
-                            <span class="stat-number">99+</span>
-                            <span class="stat-label">Servers</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">10.0K+</span>
-                            <span class="stat-label">Users</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">18+</span>
-                            <span class="stat-label">Modules</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">100%</span>
-                            <span class="stat-label">Free</span>
-                        </div>
+                        <div class="stat-item"><span class="stat-number">99+</span><span class="stat-label">Servers</span></div>
+                        <div class="stat-item"><span class="stat-number">10.0K+</span><span class="stat-label">Users</span></div>
+                        <div class="stat-item"><span class="stat-number">18+</span><span class="stat-label">Modules</span></div>
+                        <div class="stat-item"><span class="stat-number">100%</span><span class="stat-label">Free</span></div>
                     </div>
                 </div>
             </section>
@@ -641,10 +586,7 @@
             <section class="section" id="features">
                 <div class="container">
                     <h2 class="section-title">Everything your server needs</h2>
-                    <p class="section-sub">
-                        One bot, countless tools. Replace a dozen bots with SparkyBot
-                        and keep your server clean and fast.
-                    </p>
+                    <p class="section-sub">One bot, countless tools. Replace a dozen bots with SparkyBot and keep your server clean and fast.</p>
                     <div class="features-grid">
                         <div class="feature-card"><span class="feature-icon">⚔️</span><h3>Advanced Moderation</h3><p>Kick, ban, mute, warn, jail, purge, and lockdown — all with detailed logging and customizable permissions.</p></div>
                         <div class="feature-card"><span class="feature-icon">🎟️</span><h3>Ticket System</h3><p>A complete support ticket system with transcripts, categories, claim/close, and staff roles.</p></div>
@@ -776,16 +718,13 @@
             const dashboardPage = document.getElementById('page-dashboard');
             const footer = document.querySelector('footer');
 
-            // Hide all pages
             mainPage.classList.remove('active');
             termsPage.classList.remove('active');
             privacyPage.classList.remove('active');
             dashboardPage.classList.remove('active');
 
-            // Show footer by default
             footer.style.display = 'block';
 
-            // Route handling
             if (path === '/terms') {
                 termsPage.classList.add('active');
                 document.title = 'SparkyBot — Terms of Service';
@@ -800,83 +739,68 @@
                 footer.style.display = 'none';
                 updateActiveNav('/dashboard');
             } else {
-                // Main page (home)
                 mainPage.classList.add('active');
                 document.title = 'SparkyBot — Power up your Discord';
                 updateActiveNav('/');
             }
         }
 
-        // ── Update active nav link ──
         function updateActiveNav(currentRoute) {
-            const navLinks = document.querySelectorAll('.nav-links a');
-            navLinks.forEach(link => {
+            document.querySelectorAll('.nav-links a').forEach(link => {
                 const href = link.getAttribute('href');
-                // Hash links (in-page navigation) never get active class
                 if (href.startsWith('#')) {
                     link.classList.remove('active-page');
                     return;
                 }
-                // Path-based links
-                if (href === currentRoute) {
-                    link.classList.add('active-page');
-                } else {
-                    link.classList.remove('active-page');
-                }
+                link.classList.toggle('active-page', href === currentRoute);
             });
         }
 
-        // ── Helper: scroll to a section by id ──
         function scrollToSection(sectionId) {
             const el = document.getElementById(sectionId);
             if (!el) return;
             const headerOffset = 80;
             const elPos = el.getBoundingClientRect().top + window.pageYOffset;
-            const offsetPos = elPos - headerOffset;
-            window.scrollTo({ top: offsetPos, behavior: 'smooth' });
+            window.scrollTo({ top: elPos - headerOffset, behavior: 'smooth' });
         }
 
-        // ── Intercept internal navigation ──
+        // ── Intercept all link clicks ──
         document.addEventListener('click', function(e) {
             const link = e.target.closest('a');
             if (!link) return;
             const href = link.getAttribute('href');
             if (!href) return;
 
-            // ── Hash links (in‑page navigation) ──
+            // ── In-page hash links (Features, How It Works, FAQ) ──
             if (href.startsWith('#')) {
                 e.preventDefault();
                 const targetId = href.substring(1);
-                // If we are on the main page, just scroll and update URL hash
-                if (window.location.pathname === '/') {
+                const isMainPage = window.location.pathname === '/';
+
+                if (isMainPage) {
+                    // Already on main page: scroll and update URL hash for bookmarking
                     scrollToSection(targetId);
                     if (history.pushState) {
                         history.pushState(null, '', href);
                     }
-                    return;
+                } else {
+                    // Navigate to main page, scroll, but DO NOT add hash to URL
+                    history.pushState(null, '', '/');
+                    router();
+                    // Wait for the main page to render, then scroll
+                    setTimeout(() => {
+                        scrollToSection(targetId);
+                        // Explicitly leave the URL as '/', no hash
+                    }, 150);
                 }
-                // Otherwise, navigate to home first, then scroll
-                history.pushState(null, '', '/');
-                router(); // switch to main page
-                // After router, scroll (delay to let DOM settle)
-                setTimeout(() => {
-                    scrollToSection(targetId);
-                    // Update URL hash after scroll
-                    if (history.pushState) {
-                        history.pushState(null, '', href);
-                    }
-                }, 150);
                 return;
             }
 
-            // ── Path-based links (internal) ──
+            // ── Path-based internal links ──
             if (href.startsWith('/') && !href.startsWith('//')) {
                 const targetUrl = new URL(href, window.location.origin);
                 if (targetUrl.origin === window.location.origin) {
-                    // Let new tab links open normally
-                    if (link.target === '_blank') {
-                        return;
-                    }
+                    if (link.target === '_blank') return;
                     e.preventDefault();
                     history.pushState(null, '', targetUrl.pathname);
                     router();
@@ -884,29 +808,29 @@
             }
         });
 
-        // ── Handle browser back/forward ──
+        // ── Browser navigation ──
         window.addEventListener('popstate', function() {
             router();
         });
 
-        // ── Handle logo click ──
+        // ── Logo ──
         document.getElementById('logoLink').addEventListener('click', function(e) {
             e.preventDefault();
             history.pushState(null, '', '/');
             router();
         });
 
-        // ── Initial load ──
+        // ── Init ──
         document.addEventListener('DOMContentLoaded', function() {
             router();
-            // If there's a hash on load (e.g., /#features), scroll to it
+            // If there's a hash on load (e.g., user bookmarked /#features), scroll to it
             if (window.location.hash) {
                 const id = window.location.hash.substring(1);
                 setTimeout(() => scrollToSection(id), 200);
             }
         });
 
-        // ── SCROLL REVEAL (for main page only) ──
+        // ── Scroll reveal ──
         const revealElements = document.querySelectorAll('#page-main .feature-card, #page-main .step-item, #page-main .section-title, #page-main .section-sub');
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -924,7 +848,7 @@
             revealObserver.observe(el);
         });
 
-        console.log('✨ SparkyBot — in‑page nav stays on /, separate pages have clean paths');
+        console.log('✨ SparkyBot — in‑page nav from Terms/Privacy now lands on / without hash.');
     </script>
 
 </body>
