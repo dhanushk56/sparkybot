@@ -775,7 +775,6 @@
             const privacyPage = document.getElementById('page-privacy');
             const dashboardPage = document.getElementById('page-dashboard');
             const footer = document.querySelector('footer');
-            const header = document.querySelector('header');
 
             // Hide all pages
             mainPage.classList.remove('active');
@@ -783,9 +782,8 @@
             privacyPage.classList.remove('active');
             dashboardPage.classList.remove('active');
 
-            // Show footer & header by default
+            // Show footer by default
             footer.style.display = 'block';
-            header.style.display = 'flex';
 
             // Route handling
             if (path === '/terms') {
@@ -806,22 +804,6 @@
                 mainPage.classList.add('active');
                 document.title = 'SparkyBot — Power up your Discord';
                 updateActiveNav('/');
-
-                // Handle hash scrolling (e.g., /#features)
-                if (window.location.hash) {
-                    setTimeout(() => {
-                        const id = window.location.hash.substring(1);
-                        const el = document.getElementById(id);
-                        if (el) {
-                            const headerOffset = 80;
-                            const elPos = el.getBoundingClientRect().top + window.pageYOffset;
-                            const offsetPos = elPos - headerOffset;
-                            window.scrollTo({ top: offsetPos, behavior: 'smooth' });
-                        }
-                    }, 100);
-                } else {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
             }
         }
 
@@ -830,18 +812,28 @@
             const navLinks = document.querySelectorAll('.nav-links a');
             navLinks.forEach(link => {
                 const href = link.getAttribute('href');
-                // For hash links (#features, #how-it-works, #faq) — never set active
+                // Hash links (in-page navigation) never get active class
                 if (href.startsWith('#')) {
                     link.classList.remove('active-page');
                     return;
                 }
-                // For path-based links (/terms, /privacy, /dashboard)
+                // Path-based links
                 if (href === currentRoute) {
                     link.classList.add('active-page');
                 } else {
                     link.classList.remove('active-page');
                 }
             });
+        }
+
+        // ── Helper: scroll to a section by id ──
+        function scrollToSection(sectionId) {
+            const el = document.getElementById(sectionId);
+            if (!el) return;
+            const headerOffset = 80;
+            const elPos = el.getBoundingClientRect().top + window.pageYOffset;
+            const offsetPos = elPos - headerOffset;
+            window.scrollTo({ top: offsetPos, behavior: 'smooth' });
         }
 
         // ── Intercept internal navigation ──
@@ -851,28 +843,37 @@
             const href = link.getAttribute('href');
             if (!href) return;
 
-            // Handle hash links (e.g., #features) - smooth scroll
+            // ── Hash links (in‑page navigation) ──
             if (href.startsWith('#')) {
                 e.preventDefault();
                 const targetId = href.substring(1);
-                const targetEl = document.getElementById(targetId);
-                if (targetEl) {
-                    const headerOffset = 80;
-                    const elPos = targetEl.getBoundingClientRect().top + window.pageYOffset;
-                    const offsetPos = elPos - headerOffset;
-                    window.scrollTo({ top: offsetPos, behavior: 'smooth' });
-                    // Update URL hash without triggering a full page reload
+                // If we are on the main page, just scroll and update URL hash
+                if (window.location.pathname === '/') {
+                    scrollToSection(targetId);
                     if (history.pushState) {
                         history.pushState(null, '', href);
                     }
+                    return;
                 }
+                // Otherwise, navigate to home first, then scroll
+                history.pushState(null, '', '/');
+                router(); // switch to main page
+                // After router, scroll (delay to let DOM settle)
+                setTimeout(() => {
+                    scrollToSection(targetId);
+                    // Update URL hash after scroll
+                    if (history.pushState) {
+                        history.pushState(null, '', href);
+                    }
+                }, 150);
                 return;
             }
 
-            // Handle internal paths (e.g., /terms, /privacy, /dashboard)
+            // ── Path-based links (internal) ──
             if (href.startsWith('/') && !href.startsWith('//')) {
                 const targetUrl = new URL(href, window.location.origin);
                 if (targetUrl.origin === window.location.origin) {
+                    // Let new tab links open normally
                     if (link.target === '_blank') {
                         return;
                     }
@@ -896,7 +897,14 @@
         });
 
         // ── Initial load ──
-        document.addEventListener('DOMContentLoaded', router);
+        document.addEventListener('DOMContentLoaded', function() {
+            router();
+            // If there's a hash on load (e.g., /#features), scroll to it
+            if (window.location.hash) {
+                const id = window.location.hash.substring(1);
+                setTimeout(() => scrollToSection(id), 200);
+            }
+        });
 
         // ── SCROLL REVEAL (for main page only) ──
         const revealElements = document.querySelectorAll('#page-main .feature-card, #page-main .step-item, #page-main .section-title, #page-main .section-sub');
@@ -916,7 +924,7 @@
             revealObserver.observe(el);
         });
 
-        console.log('✨ SparkyBot — fixed underline animation (only on hover for hash links)');
+        console.log('✨ SparkyBot — in‑page nav stays on /, separate pages have clean paths');
     </script>
 
 </body>
