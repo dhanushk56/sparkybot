@@ -98,7 +98,7 @@
             flex-wrap: wrap;
             gap: 16px;
             width: 100%;
-            position: relative; /* for mobile dropdown positioning */
+            position: relative;
         }
         .logo {
             font-size: 1.5rem;
@@ -170,7 +170,7 @@
             padding: 8px;
             flex-direction: column;
             gap: 5px;
-            order: 3; /* placed after nav-links and before nav-actions on desktop if visible, but hidden */
+            order: 3;
         }
         .menu-toggle span {
             display: block;
@@ -333,6 +333,80 @@
             font-size: 0.95rem;
         }
 
+        /* ─── COMMAND TABLE ─── */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 0 auto;
+            max-width: 1100px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .command-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            min-width: 600px;
+        }
+        .command-table th {
+            text-align: left;
+            padding: 14px 18px;
+            background: rgba(212, 175, 55, 0.08);
+            color: #d4af37;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.15);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .command-table td {
+            padding: 10px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: #c8c0b8;
+            vertical-align: middle;
+        }
+        .command-table tr:last-child td {
+            border-bottom: none;
+        }
+        .command-table code {
+            background: rgba(212, 175, 55, 0.08);
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.78rem;
+            color: #e8c84a;
+            font-family: 'JetBrains Mono', monospace;
+            white-space: nowrap;
+        }
+        .command-table .badge-perm {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.12);
+            color: #d4af37;
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .command-table .badge-none {
+            background: rgba(100, 200, 100, 0.10);
+            color: #7acf7a;
+        }
+        .command-table .badge-mod {
+            background: rgba(100, 150, 255, 0.10);
+            color: #7aafff;
+        }
+        .cmd-group td {
+            padding: 8px 18px;
+            color: #d4af37;
+            font-weight: 600;
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid rgba(212,175,55,0.08);
+        }
+        .cmd-group .module-icon {
+            margin-right: 8px;
+        }
+
         /* ─── STEPS / HOW IT WORKS ─── */
         .steps-grid {
             display: grid;
@@ -466,6 +540,7 @@
         }
 
         /* ─── RESPONSIVE ─── */
+
         @media (max-width: 900px) {
             .nav-links {
                 gap: 16px;
@@ -481,13 +556,12 @@
 
         /* ─── MOBILE NAV (max-width: 768px) ─── */
         @media (max-width: 768px) {
-            /* Show hamburger, hide nav links by default */
             .menu-toggle {
                 display: flex;
-                order: 3; /* place before nav-actions */
+                order: 3;
             }
             .nav-links {
-                display: none; /* hidden until toggled */
+                display: none;
                 position: absolute;
                 top: 100%;
                 left: 0;
@@ -499,7 +573,7 @@
                 gap: 16px;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.04);
                 z-index: 200;
-                flex: none; /* override flex:1 */
+                flex: none;
                 width: 100%;
                 box-shadow: 0 20px 40px rgba(0,0,0,0.6);
             }
@@ -514,7 +588,7 @@
                 text-align: center;
             }
             .nav-links a::after {
-                display: none; /* remove underline animation on mobile */
+                display: none;
             }
             .nav-actions {
                 width: auto;
@@ -526,7 +600,6 @@
                 font-size: 0.75rem;
                 padding: 6px 12px;
             }
-            /* Adjust container to not wrap too much */
             header .container {
                 flex-wrap: nowrap;
                 gap: 8px;
@@ -559,6 +632,18 @@
             .section-title {
                 font-size: 2rem;
             }
+            .command-table {
+                font-size: 0.75rem;
+                min-width: 450px;
+            }
+            .command-table th,
+            .command-table td {
+                padding: 8px 12px;
+            }
+            .command-table code {
+                font-size: 0.65rem;
+                padding: 1px 6px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -572,6 +657,18 @@
             .nav-actions .btn {
                 padding: 4px 10px;
                 font-size: 0.7rem;
+            }
+            .command-table {
+                font-size: 0.65rem;
+                min-width: 350px;
+            }
+            .command-table th,
+            .command-table td {
+                padding: 6px 8px;
+            }
+            .command-table code {
+                font-size: 0.6rem;
+                padding: 1px 4px;
             }
         }
 
@@ -645,12 +742,12 @@
             <a href="/" class="logo" id="logoLink">
                 🤖 <span>SparkyBot</span>
             </a>
-            <!-- Hamburger button (visible on mobile) -->
             <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
                 <span></span><span></span><span></span>
             </button>
             <nav class="nav-links" id="navLinks">
                 <a href="#features">Features</a>
+                <a href="#commands">Commands</a>
                 <a href="#how-it-works">How It Works</a>
                 <a href="#faq">FAQ</a>
                 <a href="/terms">Terms</a>
@@ -714,7 +811,201 @@
                 </div>
             </section>
 
-            <section class="section section-alt" id="how-it-works">
+            <!-- ═══════ FULL COMMAND LIST ═══════ -->
+            <section class="section section-alt" id="commands">
+                <div class="container">
+                    <h2 class="section-title">📋 Full Command List</h2>
+                    <p class="section-sub">
+                        All commands grouped by module. Default prefix: <code>//</code>. Slash commands are also available.
+                    </p>
+                    <div class="table-wrap">
+                        <table class="command-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:18%;">Module</th>
+                                    <th style="width:52%;">Commands (prefix / slash)</th>
+                                    <th style="width:30%;">Required Permission</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <!-- ── Moderation ── -->
+                                <tr class="cmd-group"><td colspan="3">⚔️ Moderation</td></tr>
+                                <tr><td>Moderation</td><td><code>//kick</code> / <code>/mod kick</code></td><td><span class="badge-perm">Kick Members</span></td></tr>
+                                <tr><td>Moderation</td><td><code>//ban</code> / <code>/mod ban</code></td><td><span class="badge-perm">Ban Members</span></td></tr>
+                                <tr><td>Moderation</td><td><code>//mute</code> / <code>/mod mute</code></td><td><span class="badge-perm">Moderate Members</span></td></tr>
+                                <tr><td>Moderation</td><td><code>//warn</code> / <code>/mod warn</code></td><td><span class="badge-perm">Manage Messages</span></td></tr>
+                                <tr><td>Moderation</td><td><code>//purge</code> / <code>/mod purge</code></td><td><span class="badge-perm">Manage Messages</span></td></tr>
+                                <tr><td>Moderation</td><td><code>//jail</code> / <code>/mod jail</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>Moderation</td><td><code>//lock</code> / <code>/mod lock</code></td><td><span class="badge-perm">Manage Channels</span></td></tr>
+
+                                <!-- ── Tickets ── -->
+                                <tr class="cmd-group"><td colspan="3">🎟️ Tickets</td></tr>
+                                <tr><td>Tickets</td><td><code>//tkt</code> / <code>/tkt manage setup</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>Tickets</td><td><code>//tktstaff</code> / <code>/tkt staff global</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>Tickets</td><td><code>//tktlog</code> / <code>/tkt manage log</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>Tickets</td><td><code>//tktcat</code> / <code>/tkt manage cat</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+
+                                <!-- ── Leveling ── -->
+                                <tr class="cmd-group"><td colspan="3">⭐ Leveling</td></tr>
+                                <tr><td>Leveling</td><td><code>//lv</code> / <code>/lv rank</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Leveling</td><td><code>//lvlb</code> / <code>/lv lb</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Leveling</td><td><code>//lvtoggle</code> / <code>/lv toggle</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>Leveling</td><td><code>//lvset</code> / <code>/lv setchannel</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>Leveling</td><td><code>//lvrole</code> / <code>/lv role</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+
+                                <!-- ── Economy ── -->
+                                <tr class="cmd-group"><td colspan="3">💰 Economy</td></tr>
+                                <tr><td>Economy</td><td><code>//eco</code> / <code>/eco bal</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Economy</td><td><code>//daily</code> / <code>/eco daily</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Economy</td><td><code>//work</code> / <code>/eco work</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Economy</td><td><code>//shop</code> / <code>/eco shop</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Economy</td><td><code>//pay</code> / <code>/eco pay</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+
+                                <!-- ── Giveaways ── -->
+                                <tr class="cmd-group"><td colspan="3">🎉 Giveaways</td></tr>
+                                <tr><td>Giveaways</td><td><code>//gwy start</code> / <code>/gwy start</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
+                                <tr><td>Giveaways</td><td><code>//gend</code> / <code>/gwy end</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
+                                <tr><td>Giveaways</td><td><code>//greroll</code> / <code>/gwy reroll</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
+
+                                <!-- ── Applications ── -->
+                                <tr class="cmd-group"><td colspan="3">📄 Applications</td></tr>
+                                <tr><td>Applications</td><td><code>//application create</code> / <code>/application create</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
+                                <tr><td>Applications</td><td><code>//application apply</code> / <code>/application apply</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Applications</td><td><code>//application post</code> / <code>/application post</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
+
+                                <!-- ── JTC ── -->
+                                <tr class="cmd-group"><td colspan="3">🔊 Join‑to‑Create Voice</td></tr>
+                                <tr><td>JTC</td><td><code>//jtc</code> / <code>/jtc setup</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>JTC</td><td><code>//jtcname</code> / <code>/jtc name</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>JTC</td><td><code>//jtcinfo</code> / <code>/jtc info</code></td><td><span class="badge-perm">Manage Channels</span></td></tr>
+
+                                <!-- ── Reaction Roles ── -->
+                                <tr class="cmd-group"><td colspan="3">🎭 Reaction Roles</td></tr>
+                                <tr><td>Reaction Roles</td><td><code>//rradd</code> / <code>/rr add</code></td><td><span class="badge-perm">Manage Roles</span></td></tr>
+                                <tr><td>Reaction Roles</td><td><code>//rrremove</code> / <code>/rr remove</code></td><td><span class="badge-perm">Manage Roles</span></td></tr>
+                                <tr><td>Reaction Roles</td><td><code>//rrlist</code> / <code>/rr list</code></td><td><span class="badge-perm">Manage Roles</span></td></tr>
+
+                                <!-- ── Logging ── -->
+                                <tr class="cmd-group"><td colspan="3">📝 Logging</td></tr>
+                                <tr><td>Logging</td><td><code>//setlogchannel</code> / <code>/logging setchannel</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>Logging</td><td><code>//logtoggle</code> / <code>/logging toggle</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>Logging</td><td><code>//logconfig</code> / <code>/logging config</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+
+                                <!-- ── Anti-Nuke ── -->
+                                <tr class="cmd-group"><td colspan="3">🛡️ Anti-Nuke</td></tr>
+                                <tr><td>Anti-Nuke</td><td><code>//antinuke enable</code> / <code>/antinuke enable</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>Anti-Nuke</td><td><code>//antinuke whitelist</code> / <code>/antinuke whitelist</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>Anti-Nuke</td><td><code>//antinuke status</code> / <code>/antinuke status</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
+
+                                <!-- ── Music ── -->
+                                <tr class="cmd-group"><td colspan="3">🎵 Music (Slash Only)</td></tr>
+                                <tr><td>Music</td><td><code>/music play</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Music</td><td><code>/music pause</code> / <code>/music resume</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Music</td><td><code>/music skip</code> / <code>/music stop</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Music</td><td><code>/music queue</code> / <code>/music nowplaying</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+
+                                <!-- ── Translation ── -->
+                                <tr class="cmd-group"><td colspan="3">🌐 Translation</td></tr>
+                                <tr><td>Translation</td><td><code>//translate</code> / <code>/translate text</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Translation</td><td><code>//detect</code> / <code>/translate detect</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Translation</td><td><code>//autotranslate</code> / <code>/autotranslate enable</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+
+                                <!-- ── YouTube ── -->
+                                <tr class="cmd-group"><td colspan="3">▶️ YouTube Notifications</td></tr>
+                                <tr><td>YouTube</td><td><code>//youtube add</code> / <code>/youtube add</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
+                                <tr><td>YouTube</td><td><code>//youtube list</code> / <code>/youtube list</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
+                                <tr><td>YouTube</td><td><code>//youtube addfilter</code> / <code>/youtube addfilter</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
+
+                                <!-- ── Invite Tracking ── -->
+                                <tr class="cmd-group"><td colspan="3">📨 Invite Tracking</td></tr>
+                                <tr><td>Invite Tracking</td><td><code>//invites</code> / <code>/invites check</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Invite Tracking</td><td><code>//invitestats</code> / <code>/invites leaderboard</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Invite Tracking</td><td><code>//messagestats</code> / <code>/messages stats</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+
+                                <!-- ── Verification ── -->
+                                <tr class="cmd-group"><td colspan="3">🔐 Verification</td></tr>
+                                <tr><td>Verification</td><td><code>//verify</code> / <code>/verify setup</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>Verification</td><td><code>//verifypanel</code> / <code>/verify panel</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>Verification</td><td><code>//verifystatus</code> / <code>/verify status</code></td><td><span class="badge-perm">Manage Messages</span></td></tr>
+
+                                <!-- ── Welcome ── -->
+                                <tr class="cmd-group"><td colspan="3">👋 Welcome &amp; Auto‑role</td></tr>
+                                <tr><td>Welcome</td><td><code>//welset</code> / <code>/wel set</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
+                                <tr><td>Welcome</td><td><code>//goodbyeset</code> / <code>/wel setgoodbye</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
+                                <tr><td>Welcome</td><td><code>//autorole</code> / <code>/wel autorole</code></td><td><span class="badge-perm">Manage Roles</span></td></tr>
+
+                                <!-- ── Forum Lock ── -->
+                                <tr class="cmd-group"><td colspan="3">🔒 Forum Lock</td></tr>
+                                <tr><td>Forum Lock</td><td><code>//forumlock set</code> / <code>/forumlock set</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>Forum Lock</td><td><code>//forumlock list</code> / <code>/forumlock list</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
+
+                                <!-- ── AutoMod ── -->
+                                <tr class="cmd-group"><td colspan="3">🛡️ AutoMod</td></tr>
+                                <tr><td>AutoMod</td><td><code>//am toggle</code> / <code>/am toggle</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>AutoMod</td><td><code>//am spam</code> / <code>/am spam</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>AutoMod</td><td><code>//am links</code> / <code>/am links</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>AutoMod</td><td><code>//am addword</code> / <code>/am addword</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+
+                                <!-- ── Admin ── -->
+                                <tr class="cmd-group"><td colspan="3">⚙️ Admin</td></tr>
+                                <tr><td>Admin</td><td><code>//serverconfig</code> / <code>/admin config</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>Admin</td><td><code>//adminreset</code> / <code>/admin reset</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+                                <tr><td>Admin</td><td><code>//announce</code> / <code>/admin announce</code></td><td><span class="badge-perm">Administrator</span></td></tr>
+
+                                <!-- ── Embed & Rules ── -->
+                                <tr class="cmd-group"><td colspan="3">🖼️ Embed &amp; Rules</td></tr>
+                                <tr><td>Embed</td><td><code>//embed send</code> / <code>/embed send</code></td><td><span class="badge-perm">Manage Messages</span></td></tr>
+                                <tr><td>Embed</td><td><code>//embed edit</code> / <code>/embed edit</code></td><td><span class="badge-perm">Manage Messages</span></td></tr>
+                                <tr><td>Rules</td><td><code>//rules create</code> / <code>/rules create</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
+
+                                <!-- ── Prefix ── -->
+                                <tr class="cmd-group"><td colspan="3">🔀 Prefix</td></tr>
+                                <tr><td>Prefix</td><td><code>//prefix set</code> / <code>/prefix set</code></td><td><span class="badge-perm">Manage Server</span></td></tr>
+                                <tr><td>Prefix</td><td><code>//prefix add</code> / <code>/prefix add</code></td><td><span class="badge-perm">Manage Server</span></td></tr>
+                                <tr><td>Prefix</td><td><code>//prefix list</code> / <code>/prefix list</code></td><td><span class="badge-perm">Manage Server</span></td></tr>
+
+                                <!-- ── Help ── -->
+                                <tr class="cmd-group"><td colspan="3">✨ Help</td></tr>
+                                <tr><td>Help</td><td><code>//help</code> / <code>/help</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+
+                                <!-- ── Owner ── -->
+                                <tr class="cmd-group"><td colspan="3">🔐 Owner (Bot Owner Only)</td></tr>
+                                <tr><td>Owner</td><td><code>//reload</code> / <code>/owner reload</code></td><td><span class="badge-perm">Bot Owner</span></td></tr>
+                                <tr><td>Owner</td><td><code>//restart</code> / <code>/owner restart</code></td><td><span class="badge-perm">Bot Owner</span></td></tr>
+                                <tr><td>Owner</td><td><code>//listservers</code> / <code>/owner listservers</code></td><td><span class="badge-perm">Bot Owner</span></td></tr>
+                                <tr><td>Owner</td><td><code>//globalannounce</code> / <code>/owner globalannounce</code></td><td><span class="badge-perm">Bot Owner</span></td></tr>
+
+                                <!-- ── Fun ── -->
+                                <tr class="cmd-group"><td colspan="3">🎲 Fun</td></tr>
+                                <tr><td>Fun</td><td><code>//8ball</code> / <code>/fun 8ball</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Fun</td><td><code>//coinflip</code> / <code>/fun coinflip</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Fun</td><td><code>//roast</code> / <code>/fun roast</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Fun</td><td><code>//trivia</code> / <code>/fun trivia</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+
+                                <!-- ── Reports ── -->
+                                <tr class="cmd-group"><td colspan="3">🚨 Reports &amp; Suggestions</td></tr>
+                                <tr><td>Reports</td><td><code>//rp</code> / <code>/rp report</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Reports</td><td><code>//sug</code> / <code>/rp suggest</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Reports</td><td><code>//bug</code> / <code>/rp bug</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+
+                                <!-- ── Utility ── -->
+                                <tr class="cmd-group"><td colspan="3">🔧 Utility</td></tr>
+                                <tr><td>Utility</td><td><code>//ping</code> / <code>/utility ping</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Utility</td><td><code>//userinfo</code> / <code>/utility userinfo</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Utility</td><td><code>//serverinfo</code> / <code>/utility serverinfo</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+                                <tr><td>Utility</td><td><code>//poll</code> / <code>/utility poll</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="text-align:center; margin-top: 24px; color: #808098; font-size:0.9rem;">
+                        💡 This is a representative list. Run <code>/help</code> or <code>//help</code> in your server for the complete, up‑to‑date command list.
+                    </p>
+                </div>
+            </section>
+
+            <section class="section" id="how-it-works">
                 <div class="container">
                     <h2 class="section-title">Simple Setup, Powerful Results</h2>
                     <p class="section-sub">Get SparkyBot running in your server in just a few steps — no coding required.</p>
@@ -727,14 +1018,14 @@
                 </div>
             </section>
 
-            <section class="section" id="faq">
+            <section class="section section-alt" id="faq">
                 <div class="container">
                     <h2 class="section-title">Frequently Asked Questions</h2>
                     <p class="section-sub">Quick answers to the most common questions about SparkyBot.</p>
                     <div class="faq-list">
                         <details class="faq-item"><summary>Is SparkyBot really free?</summary><p>Yes! SparkyBot is 100% free forever. No paywalls, no premium tiers, no nitro‑gating. All features are available to every server.</p></details>
                         <details class="faq-item"><summary>What permissions does SparkyBot need?</summary><p>SparkyBot requires standard moderation permissions: Kick Members, Ban Members, Manage Channels, Manage Roles, Send Messages, Embed Links, Attach Files, Connect &amp; Speak (for music), and Moderate Members. You can customize permissions during invite.</p></details>
-                        <details class="faq-item"><summary>How do I change the bot's prefix?</summary><p>Use the <code>/prefix set</code> slash command or the <code>$prefix set</code> command. Server admins can set a custom prefix anytime.</p></details>
+                        <details class="faq-item"><summary>How do I change the bot's prefix?</summary><p>Use the <code>/prefix set</code> slash command or the <code>//prefix set</code> command. Server admins can set a custom prefix anytime.</p></details>
                         <details class="faq-item"><summary>Can I self‑host SparkyBot?</summary><p>Absolutely! SparkyBot is open‑source and fully documented. Check the GitHub repository for installation instructions.</p></details>
                         <details class="faq-item"><summary>How do I report a bug or suggest a feature?</summary><p>Join our support server and use the <code>/rp bug</code> or <code>/rp suggest</code> commands. You can also open an issue on GitHub.</p></details>
                         <details class="faq-item"><summary>Is my data safe?</summary><p>Yes. SparkyBot only stores minimal configuration data (server settings, economy balances, etc.) and never shares it with third parties. You can reset any module's data at any time.</p></details>
@@ -828,14 +1119,12 @@
                 navLinks.classList.toggle('open');
             });
 
-            // Close menu when a link is clicked (for better UX)
             navLinks.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', function() {
                     navLinks.classList.remove('open');
                 });
             });
 
-            // Close menu when clicking outside (optional)
             document.addEventListener('click', function(e) {
                 if (!e.target.closest('.container') && navLinks.classList.contains('open')) {
                     navLinks.classList.remove('open');
@@ -906,7 +1195,6 @@
             const href = link.getAttribute('href');
             if (!href) return;
 
-            // ── In-page hash links (Features, How It Works, FAQ) ──
             if (href.startsWith('#')) {
                 e.preventDefault();
                 const targetId = href.substring(1);
@@ -927,7 +1215,6 @@
                 return;
             }
 
-            // ── Path-based internal links ──
             if (href.startsWith('/') && !href.startsWith('//')) {
                 const targetUrl = new URL(href, window.location.origin);
                 if (targetUrl.origin === window.location.origin) {
@@ -939,12 +1226,10 @@
             }
         });
 
-        // ── Browser navigation ──
         window.addEventListener('popstate', function() {
             router();
         });
 
-        // ── Logo: go home and scroll to top ──
         document.getElementById('logoLink').addEventListener('click', function(e) {
             e.preventDefault();
             if (window.location.pathname === '/') {
@@ -959,7 +1244,6 @@
             }
         });
 
-        // ── Init ──
         document.addEventListener('DOMContentLoaded', function() {
             router();
             if (window.location.hash) {
@@ -986,7 +1270,7 @@
             revealObserver.observe(el);
         });
 
-        console.log('✨ SparkyBot — mobile hamburger menu added, desktop unchanged.');
+        console.log('✨ SparkyBot — full command list (excludes AI & cog_restriction)');
     </script>
 
 </body>
