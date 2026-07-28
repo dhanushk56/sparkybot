@@ -3,66 +3,91 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Akyn – Your Ultimate Music Companion</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎵%3C/text%3E%3C/svg%3E" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <title>SparkyBot – Commands</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🤖%3C/text%3E%3C/svg%3E" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #1a1816;
+            background: #0a0a14;
             color: #e8e0d8;
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
         }
-        .tech-grid {
+        a {
+            color: #d4af37;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        a:hover {
+            color: #e8c84a;
+        }
+
+        /* ── Background layers ── */
+        .bg-grid {
             position: fixed;
             inset: 0;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
             background-size: 60px 60px;
             opacity: 0.03;
             pointer-events: none;
             z-index: 0;
         }
-        .bg-depth {
+        .bg-glow {
             position: fixed;
             inset: 0;
-            background: radial-gradient(ellipse at 30% 20%, rgba(99,102,241,0.06), transparent 70%),
-                        radial-gradient(ellipse at 70% 80%, rgba(99,102,241,0.04), transparent 60%);
+            background: radial-gradient(ellipse at 30% 20%, rgba(212, 175, 55, 0.06), transparent 70%),
+                radial-gradient(ellipse at 70% 80%, rgba(212, 175, 55, 0.04), transparent 60%);
             pointer-events: none;
             z-index: 0;
         }
-        .glow-top {
+        .glow-1 {
             position: fixed;
             top: -200px;
             left: -200px;
             width: 800px;
             height: 800px;
-            background: radial-gradient(circle, rgba(255,255,255,0.08), transparent 70%);
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.08), transparent 70%);
             border-radius: 50%;
             filter: blur(200px);
             pointer-events: none;
             z-index: 0;
+            animation: floatGlow 20s ease-in-out infinite alternate;
         }
-        .glow-bottom {
+        .glow-2 {
             position: fixed;
             bottom: -200px;
             right: -200px;
             width: 700px;
             height: 700px;
-            background: radial-gradient(circle, rgba(255,255,255,0.06), transparent 70%);
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.06), transparent 70%);
             border-radius: 50%;
             filter: blur(180px);
             pointer-events: none;
             z-index: 0;
+            animation: floatGlow 25s ease-in-out infinite alternate-reverse;
         }
+        @keyframes floatGlow {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(40px, -30px) scale(1.1);
+            }
+        }
+
+        /* ── Loader ── */
         .loader {
             position: fixed;
             inset: 0;
@@ -70,7 +95,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #1a1816;
+            background: #0a0a14;
             transition: opacity 0.8s ease;
         }
         .loader.hidden {
@@ -78,24 +103,33 @@
             pointer-events: none;
         }
         .loader h1 {
-            font-size: clamp(4rem, 18vw, 12rem);
-            font-weight: 700;
+            font-size: clamp(4rem, 16vw, 10rem);
+            font-weight: 800;
             letter-spacing: -0.02em;
-            color: rgba(255,255,255,0.9);
-            animation: pulse 1.5s ease-in-out infinite;
+            color: rgba(255, 255, 255, 0.9);
+            animation: pulse 1.8s ease-in-out infinite;
         }
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(0.98); }
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(0.97);
+            }
         }
+
+        /* ── Navbar ── */
         .navbar {
             position: sticky;
             top: 0;
             z-index: 100;
             padding: 1rem 2rem;
-            background: rgba(26,24,22,0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            background: rgba(10, 10, 20, 0.7);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -105,8 +139,18 @@
         .logo {
             font-size: 1.8rem;
             font-weight: 800;
-            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             color: #e8e0d8;
+        }
+        .logo span {
+            background: #d4af37;
+            color: #0d0d1a;
+            padding: 0.1rem 0.7rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
         }
         .nav-links {
             display: flex;
@@ -115,10 +159,10 @@
         }
         .nav-links a {
             color: #a09890;
-            text-decoration: none;
             font-size: 0.95rem;
-            transition: color 0.3s;
             position: relative;
+            transition: color 0.3s;
+            cursor: pointer;
         }
         .nav-links a::after {
             content: '';
@@ -127,7 +171,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: #6366f1;
+            background: #d4af37;
             transition: width 0.3s;
         }
         .nav-links a:hover {
@@ -136,36 +180,43 @@
         .nav-links a:hover::after {
             width: 100%;
         }
+        .nav-links a.active {
+            color: #d4af37;
+        }
+        .nav-links a.active::after {
+            width: 100%;
+        }
         .btn {
             display: inline-block;
             padding: 0.6rem 1.5rem;
             border-radius: 8px;
             font-weight: 600;
             font-size: 0.9rem;
-            text-decoration: none;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
             border: none;
             cursor: pointer;
         }
         .btn-primary {
-            background: #6366f1;
-            color: #fff;
-            box-shadow: 0 4px 16px rgba(99,102,241,0.3);
+            background: #d4af37;
+            color: #0d0d1a;
+            box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
         }
         .btn-primary:hover {
-            background: #818cf8;
+            background: #e8c84a;
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(99,102,241,0.4);
+            box-shadow: 0 8px 28px rgba(212, 175, 55, 0.4);
         }
         .btn-secondary {
-            background: rgba(255,255,255,0.06);
+            background: rgba(255, 255, 255, 0.06);
             color: #e8e0d8;
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .btn-secondary:hover {
-            background: rgba(255,255,255,0.12);
+            background: rgba(255, 255, 255, 0.12);
             transform: translateY(-2px);
         }
+
+        /* ── Main container ── */
         .main {
             position: relative;
             z-index: 1;
@@ -173,199 +224,131 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        .hero {
+
+        /* ── Commands header ── */
+        .commands-header {
             text-align: center;
-            padding: 4rem 0 2rem;
+            padding: 2rem 0 1rem;
+            animation: fadeUp 0.8s ease forwards;
         }
-        .hero .badge {
-            display: inline-block;
-            background: rgba(99,102,241,0.12);
-            color: #818cf8;
-            font-weight: 600;
-            font-size: 0.75rem;
-            padding: 0.3rem 1rem;
-            border-radius: 20px;
-            border: 1px solid rgba(99,102,241,0.2);
-            margin-bottom: 1.5rem;
-        }
-        .hero h1 {
-            font-size: clamp(2.8rem, 8vw, 4.8rem);
+        .commands-header h1 {
+            font-size: 2.8rem;
             font-weight: 800;
-            letter-spacing: -1.5px;
-            line-height: 1.08;
-            max-width: 800px;
-            margin: 0 auto 1rem;
-        }
-        .hero h1 .highlight {
-            background: linear-gradient(135deg, #6366f1, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero p {
-            font-size: 1.2rem;
-            color: #a09890;
-            max-width: 600px;
-            margin: 0 auto 2rem;
-        }
-        .hero-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-        }
-        .status-section {
-            max-width: 800px;
-            margin: 2rem auto;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px;
-            padding: 1.5rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            backdrop-filter: blur(4px);
-        }
-        .status-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .status-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            display: inline-block;
-            animation: pulse-dot 2s infinite;
-        }
-        .status-dot.online {
-            background: #4ade80;
-            box-shadow: 0 0 20px rgba(74,222,128,0.3);
-        }
-        .status-dot.offline {
-            background: #f87171;
-            box-shadow: 0 0 20px rgba(248,113,113,0.3);
-        }
-        .status-dot.unknown {
-            background: #fbbf24;
-            box-shadow: 0 0 20px rgba(251,191,36,0.3);
-        }
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.1); }
-        }
-        .status-label {
-            font-weight: 600;
-            font-size: 1rem;
-        }
-        .status-label .online { color: #4ade80; }
-        .status-label .offline { color: #f87171; }
-        .status-label .unknown { color: #fbbf24; }
-        .status-stats {
-            display: flex;
-            gap: 1.5rem;
-        }
-        .status-stat {
-            text-align: center;
-        }
-        .status-stat .number {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #e8e0d8;
-            display: block;
-        }
-        .status-stat .label {
-            font-size: 0.7rem;
-            color: #808098;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 1.5rem;
-            margin: 3rem 0;
-        }
-        .feature-card {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.04);
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: all 0.4s;
-        }
-        .feature-card:hover {
-            background: rgba(255,255,255,0.04);
-            transform: translateY(-6px);
-            border-color: rgba(99,102,241,0.2);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        .feature-icon {
-            font-size: 2rem;
             margin-bottom: 0.5rem;
         }
-        .feature-card h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.4rem;
-            color: #e8e0d8;
-        }
-        .feature-card p {
-            color: #909090;
-            font-size: 0.95rem;
-        }
-        .section-title {
-            text-align: center;
-            font-size: 2.4rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #e8e0d8;
-        }
-        .section-sub {
-            text-align: center;
+        .commands-header p {
             color: #a09890;
-            max-width: 640px;
-            margin: 0 auto 2.5rem;
             font-size: 1.1rem;
+        }
+        .commands-header code {
+            background: rgba(212, 175, 55, 0.1);
+            color: #d4af37;
+            padding: 0.1rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        /* ── Search bar ── */
+        .search-box {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            animation: fadeUp 0.8s ease 0.1s both;
+        }
+        .search-box input {
+            width: 100%;
+            max-width: 500px;
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            color: #e8e0d8;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .search-box input:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+        }
+        .search-box input::placeholder {
+            color: #606070;
+        }
+
+        /* ── Commands table ── */
+        .commands-table-wrap {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            overflow: hidden;
+            animation: fadeUp 0.8s ease 0.2s both;
+            transition: all 0.3s ease;
         }
         .commands-table {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 12px;
-            overflow-x: auto;
-            padding: 1rem 0;
-            margin-bottom: 2rem;
-        }
-        .commands-table table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.9rem;
-            min-width: 500px;
+            font-size: 0.95rem;
         }
         .commands-table th {
             text-align: left;
-            padding: 0.8rem 1.2rem;
-            border-bottom: 2px solid rgba(99,102,241,0.15);
-            color: #818cf8;
+            padding: 1rem 1.5rem;
+            background: rgba(212, 175, 55, 0.06);
+            color: #d4af37;
             font-weight: 600;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.15);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .commands-table td {
-            padding: 0.7rem 1.2rem;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            padding: 0.9rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             color: #c8c0b8;
+            vertical-align: middle;
+            transition: background 0.2s ease;
         }
-        .commands-table code {
-            background: rgba(99,102,241,0.08);
-            color: #a78bfa;
-            padding: 0.1rem 0.6rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-family: monospace;
+        .commands-table tr:last-child td {
+            border-bottom: none;
         }
+        .commands-table tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .commands-table .cmd-name {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #e8c84a;
+            white-space: nowrap;
+        }
+        .commands-table .cmd-desc {
+            color: #a09890;
+            font-size: 0.9rem;
+        }
+        .commands-table .cmd-module {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.08);
+            color: #d4af37;
+            padding: 0.15rem 0.7rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        /* ── No results ── */
+        .no-results {
+            text-align: center;
+            color: #808098;
+            font-size: 1.1rem;
+            padding: 3rem 0;
+            display: none;
+        }
+
+        /* ── Footer ── */
         .footer {
             text-align: center;
             padding: 2rem 0;
-            border-top: 1px solid rgba(255,255,255,0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
             color: #606070;
             font-size: 0.9rem;
             position: relative;
@@ -380,12 +363,24 @@
         }
         .footer .links a {
             color: #808098;
-            text-decoration: none;
             transition: color 0.3s;
         }
         .footer .links a:hover {
             color: #d4af37;
         }
+
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── Responsive ── */
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
@@ -397,197 +392,292 @@
                 flex-wrap: wrap;
                 gap: 1rem;
             }
-            .hero h1 {
+            .commands-header h1 {
                 font-size: 2.2rem;
             }
-            .status-section {
-                flex-direction: column;
-                align-items: flex-start;
+            .commands-table {
+                font-size: 0.85rem;
             }
-            .status-stats {
-                width: 100%;
-                justify-content: space-around;
+            .commands-table th,
+            .commands-table td {
+                padding: 0.7rem 1rem;
             }
-            .features-grid {
-                grid-template-columns: 1fr;
+            .commands-table .cmd-name {
+                font-size: 0.75rem;
+                white-space: normal;
+            }
+            .commands-table .cmd-desc {
+                font-size: 0.8rem;
             }
         }
         @media (max-width: 480px) {
-            .hero h1 {
+            .commands-header h1 {
                 font-size: 1.8rem;
             }
             .btn {
                 padding: 0.5rem 1.2rem;
                 font-size: 0.8rem;
             }
+            .commands-table th,
+            .commands-table td {
+                padding: 0.5rem 0.8rem;
+            }
+            .commands-table .cmd-module {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="tech-grid"></div>
-<div class="bg-depth"></div>
-<div class="glow-top"></div>
-<div class="glow-bottom"></div>
+    <!-- ── Background layers ── -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="glow-1"></div>
+    <div class="glow-2"></div>
 
-<div class="loader" id="loader">
-    <h1>AKYN</h1>
-</div>
-
-<nav class="navbar">
-    <div class="logo">AKYN</div>
-    <div class="nav-links">
-        <a href="#features">Features</a>
-        <a href="#status">Status</a>
-        <a href="#commands">Commands</a>
-        <a href="#" class="btn btn-primary">Invite</a>
+    <!-- ── Loader ── -->
+    <div class="loader" id="loader">
+        <h1>SPARKY</h1>
     </div>
-</nav>
 
-<main class="main">
-    <section class="hero">
-        <div class="badge">🎵 Your Ultimate Music Companion</div>
-        <h1>
-            Stream music from your favorite<br />
-            platforms with <span class="highlight">seamless control</span>
-        </h1>
-        <p>
-            Akyn delivers high‑quality audio, intelligent queue management,
-            and a 3‑bot system for ultimate reliability on Discord.
-        </p>
-        <div class="hero-buttons">
-            <a href="#" class="btn btn-primary">🎧 Invite Akyn</a>
-            <a href="#" class="btn btn-secondary">📖 Docs</a>
-            <a href="#" class="btn btn-secondary">💬 Support</a>
+    <!-- ── Navbar ── -->
+    <nav class="navbar">
+        <div class="logo">🤖 <span>SparkyBot</span></div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="#" class="active">Commands</a>
+            <a href="https://discord.com/oauth2/authorize?client_id=1528780547411804382&scope=bot+applications.commands&permissions=1099800112246" target="_blank" class="btn btn-primary">Invite</a>
+            <a href="https://discord.gg/sEJ6FwHGJw" target="_blank">Support</a>
+            <a href="https://github.com/dhanushk56/sparky-bot-documentation.git" target="_blank">Docs</a>
         </div>
-    </section>
+    </nav>
 
-    <section id="status">
-        <div class="status-section">
-            <div class="status-left">
-                <span class="status-dot unknown" id="statusDot"></span>
-                <span class="status-label" id="statusLabel">Checking status...</span>
-            </div>
-            <div class="status-stats">
-                <div class="status-stat">
-                    <span class="number" id="serverCount">--</span>
-                    <span class="label">Servers</span>
-                </div>
-                <div class="status-stat">
-                    <span class="number" id="userCount">--</span>
-                    <span class="label">Users</span>
-                </div>
-                <div class="status-stat">
-                    <span class="number" id="uptime">--</span>
-                    <span class="label">Uptime</span>
-                </div>
-            </div>
+    <!-- ── Main ── -->
+    <main class="main">
+        <div class="commands-header">
+            <h1>📋 All Commands</h1>
+            <p>Default prefix: <code>//</code> — slash commands also available.</p>
         </div>
-    </section>
 
-    <section id="features">
-        <h2 class="section-title">Everything you need</h2>
-        <p class="section-sub">Akyn combines powerful features with a modern interface – all free and open source.</p>
-        <div class="features-grid">
-            <div class="feature-card">
-                <span class="feature-icon">🎵</span>
-                <h3>High‑Quality Music</h3>
-                <p>Supports YouTube, Spotify, SoundCloud, and more with 24/7 playback.</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-icon">🤖</span>
-                <h3>3‑Bot System</h3>
-                <p>Three specialized bots work together for stability and zero downtime.</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-icon">📊</span>
-                <h3>Smart Queue</h3>
-                <p>Intelligent queuing with loop, shuffle, and skip controls for every listener.</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-icon">📱</span>
-                <h3>Slash Commands</h3>
-                <p>Modern slash command interface that’s intuitive and mobile‑friendly.</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-icon">📝</span>
-                <h3>Live Lyrics</h3>
-                <p>Display real‑time lyrics synchronized with the playing track.</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-icon">🔒</span>
-                <h3>Secure & Reliable</h3>
-                <p>Built with the latest Discord APIs and actively maintained.</p>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search commands by name or description..." />
+        </div>
+
+        <div id="commandsContainer">
+            <div class="commands-table-wrap">
+                <table class="commands-table" id="commandTable">
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Description</th>
+                            <th style="text-align:right;">Module</th>
+                        </tr>
+                    </thead>
+                    <tbody id="commandTableBody">
+                        <!-- rows will be injected by JavaScript -->
+                    </tbody>
+                </table>
             </div>
         </div>
-    </section>
+        <div id="noResults" class="no-results">No commands found.</div>
+    </main>
 
-    <section id="commands">
-        <h2 class="section-title">Quick Commands</h2>
-        <p class="section-sub">Use <code style="background:rgba(99,102,241,0.1);color:#a78bfa;padding:0.1rem 0.5rem;border-radius:4px;">/</code> to see all available slash commands.</p>
-        <div class="commands-table">
-            <table>
-                <thead>
-                    <tr><th>Category</th><th>Commands</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>🎵 Playback</td><td><code>/play</code> <code>/pause</code> <code>/resume</code> <code>/skip</code> <code>/stop</code></td></tr>
-                    <tr><td>📋 Queue</td><td><code>/queue</code> <code>/nowplaying</code> <code>/shuffle</code> <code>/loop</code></td></tr>
-                    <tr><td>🔊 Volume</td><td><code>/volume</code> <code>/volumeset</code></td></tr>
-                    <tr><td>📝 Lyrics</td><td><code>/lyrics</code> <code>/lyrics enable</code></td></tr>
-                    <tr><td>⚙️ Settings</td><td><code>/config</code> <code>/config set</code></td></tr>
-                </tbody>
-            </table>
+    <!-- ── Footer ── -->
+    <footer class="footer">
+        <div class="links">
+            <a href="#">Terms</a>
+            <a href="#">Privacy</a>
+            <a href="https://discord.gg/sEJ6FwHGJw" target="_blank">Support</a>
+            <a href="https://github.com/dhanushk56/sparky-bot-documentation.git" target="_blank">GitHub</a>
         </div>
-    </section>
-</main>
+        <p>&copy; 2026 SparkyBot. Built with ❤️ for Discord communities.</p>
+    </footer>
 
-<footer class="footer">
-    <div class="links">
-        <a href="#">Terms</a>
-        <a href="#">Privacy</a>
-        <a href="#">Support</a>
-        <a href="#">GitHub</a>
-    </div>
-    <p>&copy; 2026 Akyn. Built with ❤️ for Discord communities.</p>
-</footer>
+    <script>
+        (function() {
+            // ── Loader ──
+            const loader = document.getElementById('loader');
+            window.addEventListener('load', function() {
+                loader.classList.add('hidden');
+            });
 
-<script>
-    (function() {
-        const loader = document.getElementById('loader');
-        window.addEventListener('load', function() {
-            loader.classList.add('hidden');
-        });
+            // ── Command data (alphabetical by command name) ──
+            const commands = [
+                { name: '8ball', desc: 'Ask the magic 8-ball a question.', module: 'Fun' },
+                { name: 'adminreset', desc: 'Reset all module configurations for this server.', module: 'Admin' },
+                { name: 'am addword', desc: 'Add a word to the auto-moderation filter.', module: 'AutoMod' },
+                { name: 'am links', desc: 'Configure link detection and blocking.', module: 'AutoMod' },
+                { name: 'am list', desc: 'List all auto-moderation rules.', module: 'AutoMod' },
+                { name: 'am removeword', desc: 'Remove a word from the filter.', module: 'AutoMod' },
+                { name: 'am spam', desc: 'Configure anti-spam protection.', module: 'AutoMod' },
+                { name: 'am toggle', desc: 'Enable or disable auto-moderation.', module: 'AutoMod' },
+                { name: 'announce', desc: 'Send an announcement to a channel.', module: 'Admin' },
+                { name: 'antinuke disable', desc: 'Disable anti-nuke protection.', module: 'Anti-Nuke' },
+                { name: 'antinuke enable', desc: 'Enable anti-nuke protection.', module: 'Anti-Nuke' },
+                { name: 'antinuke status', desc: 'Check the current anti-nuke status.', module: 'Anti-Nuke' },
+                { name: 'antinuke unwhitelist', desc: 'Remove a user from anti-nuke whitelist.', module: 'Anti-Nuke' },
+                { name: 'antinuke whitelist', desc: 'Add a user to anti-nuke whitelist.', module: 'Anti-Nuke' },
+                { name: 'application apply', desc: 'Submit a staff application.', module: 'Applications' },
+                { name: 'application create', desc: 'Create a new application form.', module: 'Applications' },
+                { name: 'application deny', desc: 'Deny a submitted application.', module: 'Applications' },
+                { name: 'application list', desc: 'List all active applications.', module: 'Applications' },
+                { name: 'application post', desc: 'Post an application form to a channel.', module: 'Applications' },
+                { name: 'application review', desc: 'Review a submitted application.', module: 'Applications' },
+                { name: 'autorole', desc: 'Configure auto-role for new members.', module: 'Welcome' },
+                { name: 'avatar', desc: 'Show a user\'s avatar.', module: 'Utility' },
+                { name: 'bal', desc: 'Check your wallet balance.', module: 'Economy' },
+                { name: 'ban', desc: 'Ban a member from the server.', module: 'Moderation' },
+                { name: 'bank', desc: 'View your bank account details.', module: 'Economy' },
+                { name: 'banner', desc: 'Show a user\'s banner.', module: 'Utility' },
+                { name: 'bug', desc: 'Report a bug to the developers.', module: 'Reports' },
+                { name: 'buy', desc: 'Purchase an item from the shop.', module: 'Economy' },
+                { name: 'clearwarn', desc: 'Clear all warnings from a user.', module: 'Moderation' },
+                { name: 'coinflip', desc: 'Flip a coin – heads or tails.', module: 'Fun' },
+                { name: 'compliment', desc: 'Send a random compliment to someone.', module: 'Fun' },
+                { name: 'daily', desc: 'Claim your daily reward.', module: 'Economy' },
+                { name: 'dep', desc: 'Deposit money into your bank.', module: 'Economy' },
+                { name: 'detect', desc: 'Detect the language of a message.', module: 'Translation' },
+                { name: 'eco', desc: 'Show your economy balance.', module: 'Economy' },
+                { name: 'embed edit', desc: 'Edit an existing embed message.', module: 'Embed & Rules' },
+                { name: 'embed send', desc: 'Send a custom embed message.', module: 'Embed & Rules' },
+                { name: 'gend', desc: 'End a giveaway early.', module: 'Giveaways' },
+                { name: 'globalannounce', desc: 'Send an announcement to all servers.', module: 'Owner' },
+                { name: 'goodbyeset', desc: 'Set the goodbye message for leaving members.', module: 'Welcome' },
+                { name: 'gwy', desc: 'Create a new giveaway.', module: 'Giveaways' },
+                { name: 'help', desc: 'Display the help menu.', module: 'Help' },
+                { name: 'hug', desc: 'Hug a member – spread the love.', module: 'Fun' },
+                { name: 'inv', desc: 'View your inventory of items.', module: 'Economy' },
+                { name: 'invitefake', desc: 'Detect fake invite usage.', module: 'Invite Tracking' },
+                { name: 'invites', desc: 'Check your invite count and ranking.', module: 'Invite Tracking' },
+                { name: 'invitestats', desc: 'View detailed invite statistics.', module: 'Invite Tracking' },
+                { name: 'jail', desc: 'Jail a member (restrict their permissions).', module: 'Moderation' },
+                { name: 'job', desc: 'Choose or view your current job.', module: 'Economy' },
+                { name: 'kick', desc: 'Kick a member from the server.', module: 'Moderation' },
+                { name: 'kiss', desc: 'Blow a kiss to someone.', module: 'Fun' },
+                { name: 'listservers', desc: 'List all servers the bot is in.', module: 'Owner' },
+                { name: 'loan', desc: 'Apply for a loan from the bank.', module: 'Economy' },
+                { name: 'lock', desc: 'Lock a channel (disable sending).', module: 'Moderation' },
+                { name: 'logconfig', desc: 'Configure logging settings.', module: 'Logging' },
+                { name: 'logtoggle', desc: 'Enable or disable logging for a module.', module: 'Logging' },
+                { name: 'lv', desc: 'Check your level and XP.', module: 'Leveling' },
+                { name: 'lvlb', desc: 'View the level leaderboard.', module: 'Leveling' },
+                { name: 'lvreset', desc: 'Reset a user\'s level data.', module: 'Leveling' },
+                { name: 'lvrole', desc: 'Set a role reward for a level.', module: 'Leveling' },
+                { name: 'lvset', desc: 'Set the leveling channel.', module: 'Leveling' },
+                { name: 'lvtoggle', desc: 'Enable or disable leveling.', module: 'Leveling' },
+                { name: 'messagestats', desc: 'View message statistics for a user.', module: 'Invite Tracking' },
+                { name: 'mute', desc: 'Mute a member.', module: 'Moderation' },
+                { name: 'pay', desc: 'Pay money to another member.', module: 'Economy' },
+                { name: 'ping', desc: 'Check bot latency and API response time.', module: 'Utility' },
+                { name: 'poll', desc: 'Create a poll with reactions.', module: 'Utility' },
+                { name: 'prefix add', desc: 'Add a custom prefix for the server.', module: 'Prefix' },
+                { name: 'prefix list', desc: 'List all server prefixes.', module: 'Prefix' },
+                { name: 'prefix remove', desc: 'Remove a custom prefix.', module: 'Prefix' },
+                { name: 'prefix set', desc: 'Set the primary prefix for the server.', module: 'Prefix' },
+                { name: 'purge', desc: 'Bulk delete messages in a channel.', module: 'Moderation' },
+                { name: 'reload', desc: 'Reload a cog or module.', module: 'Owner' },
+                { name: 'reminder', desc: 'Set a reminder for yourself.', module: 'Utility' },
+                { name: 'resign', desc: 'Resign from your current job.', module: 'Economy' },
+                { name: 'restart', desc: 'Restart the bot (owner only).', module: 'Owner' },
+                { name: 'rich', desc: 'Show the richest members in this server.', module: 'Economy' },
+                { name: 'richgl', desc: 'Show the richest members globally.', module: 'Economy' },
+                { name: 'rob', desc: 'Attempt to rob another member\'s wallet.', module: 'Economy' },
+                { name: 'roleinfo', desc: 'Get information about a role.', module: 'Utility' },
+                { name: 'rp', desc: 'Submit a report about a member.', module: 'Reports' },
+                { name: 'rradd', desc: 'Add a reaction role to a message.', module: 'Reaction Roles' },
+                { name: 'rrlist', desc: 'List all reaction role configurations.', module: 'Reaction Roles' },
+                { name: 'rrremove', desc: 'Remove a reaction role from a message.', module: 'Reaction Roles' },
+                { name: 'rules create', desc: 'Create a rules panel.', module: 'Embed & Rules' },
+                { name: 'rules delete', desc: 'Delete a rules panel.', module: 'Embed & Rules' },
+                { name: 'rules list', desc: 'List all rules panels.', module: 'Embed & Rules' },
+                { name: 'sell', desc: 'Sell an item from your inventory.', module: 'Economy' },
+                { name: 'serverconfig', desc: 'View server configuration.', module: 'Admin' },
+                { name: 'serverinfo', desc: 'Get detailed server information.', module: 'Utility' },
+                { name: 'setlogchannel', desc: 'Set the channel for logs.', module: 'Logging' },
+                { name: 'ship', desc: 'Ship two members together.', module: 'Fun' },
+                { name: 'shop', desc: 'Browse the item shop.', module: 'Economy' },
+                { name: 'slap', desc: 'Slap someone with a fish.', module: 'Fun' },
+                { name: 'slots', desc: 'Play the slot machine.', module: 'Economy' },
+                { name: 'slowmode', desc: 'Set slowmode for a channel.', module: 'Moderation' },
+                { name: 'sug', desc: 'Submit a suggestion.', module: 'Reports' },
+                { name: 'thistory', desc: 'View your transaction history.', module: 'Economy' },
+                { name: 'tkt', desc: 'Create a support ticket.', module: 'Tickets' },
+                { name: 'tktcat', desc: 'Manage ticket categories.', module: 'Tickets' },
+                { name: 'tktclaim', desc: 'Claim a ticket as staff.', module: 'Tickets' },
+                { name: 'tktclose', desc: 'Close a ticket.', module: 'Tickets' },
+                { name: 'tktlog', desc: 'View ticket logs.', module: 'Tickets' },
+                { name: 'tktrename', desc: 'Rename a ticket channel.', module: 'Tickets' },
+                { name: 'tktstaff', desc: 'Add a staff member to the ticket.', module: 'Tickets' },
+                { name: 'tktunclaim', desc: 'Unclaim a ticket.', module: 'Tickets' },
+                { name: 'translate', desc: 'Translate a message to another language.', module: 'Translation' },
+                { name: 'trivia', desc: 'Answer trivia questions to earn points.', module: 'Fun' },
+                { name: 'unjail', desc: 'Remove a member from jail.', module: 'Moderation' },
+                { name: 'unlock', desc: 'Unlock a previously locked channel.', module: 'Moderation' },
+                { name: 'unmute', desc: 'Unmute a member.', module: 'Moderation' },
+                { name: 'use', desc: 'Use an item from your inventory.', module: 'Economy' },
+                { name: 'userinfo', desc: 'Get detailed user information.', module: 'Utility' },
+                { name: 'verify', desc: 'Verify a member manually.', module: 'Verification' },
+                { name: 'verifypanel', desc: 'Create a verification panel.', module: 'Verification' },
+                { name: 'verifystatus', desc: 'Check verification status of a user.', module: 'Verification' },
+                { name: 'warn', desc: 'Warn a member for breaking rules.', module: 'Moderation' },
+                { name: 'warnings', desc: 'View warnings of a member.', module: 'Moderation' },
+                { name: 'welset', desc: 'Set the welcome channel and message.', module: 'Welcome' },
+                { name: 'with', desc: 'Withdraw money from your bank.', module: 'Economy' },
+                { name: 'work', desc: 'Work your job to earn money.', module: 'Economy' },
+                { name: 'youtube add', desc: 'Add a YouTube channel to track.', module: 'YouTube' },
+                { name: 'youtube addfilter', desc: 'Add a keyword filter for YouTube notifications.', module: 'YouTube' },
+                { name: 'youtube list', desc: 'List all tracked YouTube channels.', module: 'YouTube' },
+                { name: 'youtube remove', desc: 'Remove a tracked YouTube channel.', module: 'YouTube' },
+                { name: 'youtube removefilter', desc: 'Remove a keyword filter.', module: 'YouTube' }
+            ];
 
-        async function fetchStatus() {
-            try {
-                const res = await fetch('/api/status');
-                if (!res.ok) throw new Error('API error');
-                const data = await res.json();
-                const dot = document.getElementById('statusDot');
-                const label = document.getElementById('statusLabel');
-                if (data.status === 'online') {
-                    dot.className = 'status-dot online';
-                    label.innerHTML = '<span class="online">● Online</span>';
-                } else if (data.status === 'offline') {
-                    dot.className = 'status-dot offline';
-                    label.innerHTML = '<span class="offline">● Offline</span>';
-                } else {
-                    dot.className = 'status-dot unknown';
-                    label.innerHTML = '<span class="unknown">● Unknown</span>';
+            // Sort alphabetically by command name
+            commands.sort((a, b) => a.name.localeCompare(b.name));
+
+            const tableBody = document.getElementById('commandTableBody');
+            const searchInput = document.getElementById('searchInput');
+            const noResults = document.getElementById('noResults');
+
+            function render(filter = '') {
+                const lower = filter.toLowerCase().trim();
+                const filtered = commands.filter(cmd =>
+                    cmd.name.toLowerCase().includes(lower) ||
+                    cmd.desc.toLowerCase().includes(lower) ||
+                    cmd.module.toLowerCase().includes(lower)
+                );
+
+                if (filtered.length === 0) {
+                    tableBody.innerHTML = '';
+                    noResults.style.display = 'block';
+                    return;
                 }
-                document.getElementById('serverCount').textContent = data.servers || '--';
-                document.getElementById('userCount').textContent = data.users || '--';
-                document.getElementById('uptime').textContent = data.uptime || '--';
-            } catch (e) {
-                document.getElementById('statusLabel').innerHTML = '<span class="unknown">● Unable to fetch</span>';
-            }
-        }
+                noResults.style.display = 'none';
 
-        fetchStatus();
-        setInterval(fetchStatus, 30000);
-    })();
-</script>
+                let html = '';
+                filtered.forEach(cmd => {
+                    html += `<tr>
+                                <td class="cmd-name"><code>//${cmd.name}</code></td>
+                                <td class="cmd-desc">${cmd.desc}</td>
+                                <td style="text-align:right;"><span class="cmd-module">${cmd.module}</span></td>
+                            </tr>`;
+                });
+                tableBody.innerHTML = html;
+            }
+
+            // Initial render
+            render('');
+
+            // Search listener
+            searchInput.addEventListener('input', function() {
+                render(this.value);
+            });
+
+            // ── Smooth scroll to top when page loads ──
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        })();
+    </script>
 
 </body>
 </html>
