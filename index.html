@@ -2,131 +2,122 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>SparkyBot — Power up your Discord</title>
-    <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🤖%3C/text%3E%3C/svg%3E" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Akyn – Your Ultimate Music Companion</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎵%3C/text%3E%3C/svg%3E" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
     <style>
-        /* ─── RESET & BASE ─── */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        html {
-            scroll-behavior: smooth;
-        }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0d0d1a;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #1a1816;
             color: #e8e0d8;
-            line-height: 1.6;
+            min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
         }
-        a {
-            color: #d4af37;
-            text-decoration: none;
-            transition: color 0.3s ease;
+        .tech-grid {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 0;
         }
-        a:hover {
-            color: #e8c84a;
+        .bg-depth {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 20%, rgba(99,102,241,0.06), transparent 70%),
+                        radial-gradient(ellipse at 70% 80%, rgba(99,102,241,0.04), transparent 60%);
+            pointer-events: none;
+            z-index: 0;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
+        .glow-top {
+            position: fixed;
+            top: -200px;
+            left: -200px;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255,255,255,0.08), transparent 70%);
+            border-radius: 50%;
+            filter: blur(200px);
+            pointer-events: none;
+            z-index: 0;
         }
-
-        /* ─── BUTTONS ─── */
-        .btn {
-            display: inline-block;
-            padding: 12px 28px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            text-align: center;
+        .glow-bottom {
+            position: fixed;
+            bottom: -200px;
+            right: -200px;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(255,255,255,0.06), transparent 70%);
+            border-radius: 50%;
+            filter: blur(180px);
+            pointer-events: none;
+            z-index: 0;
         }
-        .btn-primary {
-            background: #d4af37;
-            color: #0d0d1a;
-            box-shadow: 0 4px 24px rgba(212, 175, 55, 0.3);
+        .loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1a1816;
+            transition: opacity 0.8s ease;
         }
-        .btn-primary:hover {
-            background: #e8c84a;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.4);
-            color: #0d0d1a;
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.06);
-            color: #e8e0d8;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(4px);
+        .loader h1 {
+            font-size: clamp(4rem, 18vw, 12rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: rgba(255,255,255,0.9);
+            animation: pulse 1.5s ease-in-out infinite;
         }
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.12);
-            transform: translateY(-2px);
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.98); }
         }
-        .btn-outline {
-            background: transparent;
-            color: #e8e0d8;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(212, 175, 55, 0.4);
-            transform: translateY(-2px);
-        }
-
-        /* ─── HEADER ─── */
-        header {
-            padding: 16px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        .navbar {
             position: sticky;
             top: 0;
-            background: rgba(13, 13, 26, 0.85);
-            backdrop-filter: blur(16px);
             z-index: 100;
-            display: flex;
-        }
-        header .container {
+            padding: 1rem 2rem;
+            background: rgba(26,24,22,0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 16px;
-            width: 100%;
-            position: relative;
+            gap: 1rem;
         }
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            letter-spacing: -0.02em;
             color: #e8e0d8;
-            cursor: pointer;
-        }
-        .logo span {
-            background: #d4af37;
-            padding: 2px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            color: #0d0d1a;
         }
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 28px;
-            font-size: 0.95rem;
-            flex: 1;
-            justify-content: center;
+            gap: 2rem;
         }
         .nav-links a {
             color: #a09890;
-            transition: color 0.3s ease;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
             position: relative;
         }
         .nav-links a::after {
@@ -136,8 +127,8 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: #d4af37;
-            transition: width 0.3s ease;
+            background: #6366f1;
+            transition: width 0.3s;
         }
         .nav-links a:hover {
             color: #e8e0d8;
@@ -145,77 +136,57 @@
         .nav-links a:hover::after {
             width: 100%;
         }
-        .nav-links a.active-page {
-            color: #e8e0d8;
-        }
-        .nav-links a.active-page::after {
-            width: 100%;
-        }
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .nav-actions .btn {
-            padding: 8px 20px;
-            font-size: 0.85rem;
-        }
-
-        /* ─── HAMBURGER MENU TOGGLE ─── */
-        .menu-toggle {
-            display: none;
-            background: none;
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s;
             border: none;
             cursor: pointer;
-            padding: 8px;
-            flex-direction: column;
-            gap: 5px;
-            order: 3;
         }
-        .menu-toggle span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background: #e8e0d8;
-            border-radius: 3px;
-            transition: 0.3s ease;
+        .btn-primary {
+            background: #6366f1;
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(99,102,241,0.3);
         }
-        .menu-toggle:hover span {
-            background: #d4af37;
+        .btn-primary:hover {
+            background: #818cf8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(99,102,241,0.4);
         }
-
-        /* ─── HERO ─── */
-        .hero {
-            padding: 80px 0 60px;
-            text-align: center;
+        .btn-secondary {
+            background: rgba(255,255,255,0.06);
+            color: #e8e0d8;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateY(-2px);
+        }
+        .main {
             position: relative;
+            z-index: 1;
+            padding: 2rem 2rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.03), transparent 70%);
-            animation: rotateGlow 30s linear infinite;
-            pointer-events: none;
-        }
-        @keyframes rotateGlow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .hero {
+            text-align: center;
+            padding: 4rem 0 2rem;
         }
         .hero .badge {
             display: inline-block;
-            background: rgba(212, 175, 55, 0.12);
-            color: #d4af37;
+            background: rgba(99,102,241,0.12);
+            color: #818cf8;
             font-weight: 600;
             font-size: 0.75rem;
-            padding: 4px 14px;
+            padding: 0.3rem 1rem;
             border-radius: 20px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            margin-bottom: 24px;
-            position: relative;
+            border: 1px solid rgba(99,102,241,0.2);
+            margin-bottom: 1.5rem;
         }
         .hero h1 {
             font-size: clamp(2.8rem, 8vw, 4.8rem);
@@ -223,11 +194,10 @@
             letter-spacing: -1.5px;
             line-height: 1.08;
             max-width: 800px;
-            margin: 0 auto 20px;
-            position: relative;
+            margin: 0 auto 1rem;
         }
         .hero h1 .highlight {
-            background: linear-gradient(135deg, #d4af37, #e8c84a);
+            background: linear-gradient(135deg, #6366f1, #a78bfa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -235,1043 +205,389 @@
             font-size: 1.2rem;
             color: #a09890;
             max-width: 600px;
-            margin: 0 auto 36px;
-            position: relative;
+            margin: 0 auto 2rem;
         }
         .hero-buttons {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 14px;
-            position: relative;
+            gap: 1rem;
         }
-
-        /* ─── STATS BAR ─── */
-        .stats-bar {
+        .status-section {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
             display: flex;
-            justify-content: center;
-            gap: 40px 60px;
+            justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
-            padding: 40px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-            margin-top: 20px;
+            gap: 1rem;
+            backdrop-filter: blur(4px);
         }
-        .stat-item {
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse-dot 2s infinite;
+        }
+        .status-dot.online {
+            background: #4ade80;
+            box-shadow: 0 0 20px rgba(74,222,128,0.3);
+        }
+        .status-dot.offline {
+            background: #f87171;
+            box-shadow: 0 0 20px rgba(248,113,113,0.3);
+        }
+        .status-dot.unknown {
+            background: #fbbf24;
+            box-shadow: 0 0 20px rgba(251,191,36,0.3);
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+        .status-label {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .status-label .online { color: #4ade80; }
+        .status-label .offline { color: #f87171; }
+        .status-label .unknown { color: #fbbf24; }
+        .status-stats {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .status-stat {
             text-align: center;
         }
-        .stat-number {
-            font-size: 2.2rem;
+        .status-stat .number {
+            font-size: 1.4rem;
             font-weight: 700;
             color: #e8e0d8;
-            background: linear-gradient(135deg, #d4af37, #e8c84a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             display: block;
         }
-        .stat-label {
-            font-size: 0.85rem;
+        .status-stat .label {
+            font-size: 0.7rem;
             color: #808098;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
-        /* ─── SECTIONS ─── */
-        .section {
-            padding: 80px 0;
-        }
-        .section-alt {
-            background: rgba(255, 255, 255, 0.015);
-        }
-        .section-title {
-            text-align: center;
-            font-size: 2.4rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: #e8e0d8;
-        }
-        .section-sub {
-            text-align: center;
-            color: #a09890;
-            max-width: 640px;
-            margin: 0 auto 50px;
-            font-size: 1.1rem;
-        }
-
-        /* ─── FEATURES GRID ─── */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
         }
         .feature-card {
-            background: rgba(255, 255, 255, 0.025);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
             border-radius: 16px;
-            padding: 28px 24px;
-            transition: all 0.4s ease;
-            cursor: default;
+            padding: 1.5rem;
+            transition: all 0.4s;
         }
         .feature-card:hover {
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255,255,255,0.04);
             transform: translateY(-6px);
-            border-color: rgba(212, 175, 55, 0.15);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border-color: rgba(99,102,241,0.2);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
         .feature-icon {
             font-size: 2rem;
-            margin-bottom: 12px;
-            display: block;
+            margin-bottom: 0.5rem;
         }
         .feature-card h3 {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 0.4rem;
             color: #e8e0d8;
         }
         .feature-card p {
             color: #909090;
             font-size: 0.95rem;
         }
-
-        /* ─── COMMAND TABLE ─── */
-        .table-wrap {
-            overflow-x: auto;
-            margin: 0 auto;
-            max-width: 1100px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            background: rgba(255, 255, 255, 0.02);
+        .section-title {
+            text-align: center;
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #e8e0d8;
         }
-        .command-table {
+        .section-sub {
+            text-align: center;
+            color: #a09890;
+            max-width: 640px;
+            margin: 0 auto 2.5rem;
+            font-size: 1.1rem;
+        }
+        .commands-table {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            overflow-x: auto;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        .commands-table table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.88rem;
-            min-width: 600px;
+            font-size: 0.9rem;
+            min-width: 500px;
         }
-        .command-table th {
+        .commands-table th {
             text-align: left;
-            padding: 14px 18px;
-            background: rgba(212, 175, 55, 0.08);
-            color: #d4af37;
+            padding: 0.8rem 1.2rem;
+            border-bottom: 2px solid rgba(99,102,241,0.15);
+            color: #818cf8;
             font-weight: 600;
-            border-bottom: 2px solid rgba(212, 175, 55, 0.15);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
-        .command-table td {
-            padding: 10px 18px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        .commands-table td {
+            padding: 0.7rem 1.2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
             color: #c8c0b8;
-            vertical-align: middle;
         }
-        .command-table tr:last-child td {
-            border-bottom: none;
-        }
-        .command-table code {
-            background: rgba(212, 175, 55, 0.08);
-            padding: 2px 10px;
+        .commands-table code {
+            background: rgba(99,102,241,0.08);
+            color: #a78bfa;
+            padding: 0.1rem 0.6rem;
             border-radius: 4px;
-            font-size: 0.78rem;
-            color: #e8c84a;
-            font-family: 'JetBrains Mono', monospace;
-            white-space: nowrap;
+            font-size: 0.8rem;
+            font-family: monospace;
         }
-        .command-table .badge-perm {
-            display: inline-block;
-            background: rgba(212, 175, 55, 0.12);
-            color: #d4af37;
-            padding: 2px 12px;
-            border-radius: 12px;
-            font-size: 0.65rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        .command-table .badge-none {
-            background: rgba(100, 200, 100, 0.10);
-            color: #7acf7a;
-        }
-        .command-table .badge-mod {
-            background: rgba(100, 150, 255, 0.10);
-            color: #7aafff;
-        }
-        .cmd-group td {
-            padding: 8px 18px;
-            color: #d4af37;
-            font-weight: 600;
-            background: rgba(255,255,255,0.02);
-            border-bottom: 1px solid rgba(212,175,55,0.08);
-        }
-        .cmd-group .module-icon {
-            margin-right: 8px;
-        }
-
-        /* ─── STEPS / HOW IT WORKS ─── */
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 30px;
-            margin-top: 20px;
-        }
-        .step-item {
+        .footer {
             text-align: center;
-            padding: 24px 20px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: all 0.3s ease;
-        }
-        .step-item:hover {
-            transform: translateY(-4px);
-            border-color: rgba(212, 175, 55, 0.15);
-        }
-        .step-number {
-            display: inline-block;
-            background: #d4af37;
-            color: #0d0d1a;
-            font-weight: 700;
-            font-size: 1.2rem;
-            width: 48px;
-            height: 48px;
-            line-height: 48px;
-            border-radius: 50%;
-            margin-bottom: 16px;
-        }
-        .step-item h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #e8e0d8;
-        }
-        .step-item p {
-            color: #808098;
-            font-size: 0.95rem;
-        }
-        .step-item code {
-            background: rgba(212, 175, 55, 0.1);
-            color: #d4af37;
-            padding: 1px 8px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* ─── FAQ ─── */
-        .faq-list {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .faq-item {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            padding: 20px 0;
-        }
-        .faq-item summary {
-            font-weight: 600;
-            font-size: 1.05rem;
-            cursor: pointer;
-            color: #e8e0d8;
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .faq-item summary::-webkit-details-marker {
-            display: none;
-        }
-        .faq-item summary::after {
-            content: '+';
-            font-size: 1.5rem;
-            color: #d4af37;
-            transition: transform 0.3s ease;
-        }
-        .faq-item[open] summary::after {
-            content: '−';
-        }
-        .faq-item p {
-            color: #a09890;
-            padding-top: 12px;
-            padding-right: 24px;
-        }
-
-        /* ─── POLICY PAGES ─── */
-        .policy-content {
-            max-width: 800px;
-            margin: 0 auto;
-            color: #a09890;
-            font-size: 0.95rem;
-            line-height: 1.8;
-        }
-        .policy-content p {
-            margin-bottom: 12px;
-        }
-        .policy-content ol {
-            padding-left: 20px;
-            margin: 16px 0;
-        }
-        .policy-content li {
-            margin-bottom: 6px;
-        }
-        .policy-content strong {
-            color: #d4af37;
-        }
-
-        /* ─── FOOTER ─── */
-        footer {
-            padding: 40px 0 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid rgba(255,255,255,0.03);
             color: #606070;
             font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
         }
-        footer .links {
+        .footer .links {
             display: flex;
             justify-content: center;
-            gap: 24px;
-            margin-bottom: 16px;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
             flex-wrap: wrap;
         }
-        footer .links a {
+        .footer .links a {
             color: #808098;
-            transition: color 0.3s ease;
+            text-decoration: none;
+            transition: color 0.3s;
         }
-        footer .links a:hover {
+        .footer .links a:hover {
             color: #d4af37;
         }
-
-        /* ─── RESPONSIVE ─── */
-
-        @media (max-width: 900px) {
-            .nav-links {
-                gap: 16px;
-                font-size: 0.85rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .nav-actions {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        /* ─── MOBILE NAV (max-width: 768px) ─── */
         @media (max-width: 768px) {
-            .menu-toggle {
-                display: flex;
-                order: 3;
+            .navbar {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 1rem;
             }
             .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: rgba(13, 13, 26, 0.98);
-                backdrop-filter: blur(16px);
-                flex-direction: column;
-                padding: 20px 24px;
-                gap: 16px;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-                z-index: 200;
-                flex: none;
-                width: 100%;
-                box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            }
-            .nav-links.open {
-                display: flex;
-            }
-            .nav-links a {
-                padding: 8px 0;
-                font-size: 1.05rem;
-                border-bottom: 1px solid rgba(255,255,255,0.04);
-                width: 100%;
-                text-align: center;
-            }
-            .nav-links a::after {
-                display: none;
-            }
-            .nav-actions {
-                width: auto;
-                justify-content: flex-end;
-                order: 4;
-                gap: 8px;
-            }
-            .nav-actions .btn {
-                font-size: 0.75rem;
-                padding: 6px 12px;
-            }
-            header .container {
-                flex-wrap: nowrap;
-                gap: 8px;
-            }
-            .logo {
-                font-size: 1.2rem;
-                flex: 1;
-            }
-            .logo span {
-                font-size: 0.75rem;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 1rem;
             }
             .hero h1 {
                 font-size: 2.2rem;
             }
-            .stats-bar {
-                gap: 20px 30px;
+            .status-section {
+                flex-direction: column;
+                align-items: flex-start;
             }
-            .stat-number {
-                font-size: 1.8rem;
+            .status-stats {
+                width: 100%;
+                justify-content: space-around;
             }
             .features-grid {
                 grid-template-columns: 1fr;
             }
-            .steps-grid {
-                grid-template-columns: 1fr;
-            }
-            .section {
-                padding: 60px 0;
-            }
-            .section-title {
-                font-size: 2rem;
-            }
-            .command-table {
-                font-size: 0.75rem;
-                min-width: 450px;
-            }
-            .command-table th,
-            .command-table td {
-                padding: 8px 12px;
-            }
-            .command-table code {
-                font-size: 0.65rem;
-                padding: 1px 6px;
-            }
         }
-
         @media (max-width: 480px) {
             .hero h1 {
                 font-size: 1.8rem;
             }
             .btn {
-                padding: 10px 20px;
-                font-size: 0.85rem;
-            }
-            .nav-actions .btn {
-                padding: 4px 10px;
-                font-size: 0.7rem;
-            }
-            .command-table {
-                font-size: 0.65rem;
-                min-width: 350px;
-            }
-            .command-table th,
-            .command-table td {
-                padding: 6px 8px;
-            }
-            .command-table code {
-                font-size: 0.6rem;
-                padding: 1px 4px;
+                padding: 0.5rem 1.2rem;
+                font-size: 0.8rem;
             }
         }
-
-        /* ─── UTILITIES ─── */
-        .highlight {
-            background: linear-gradient(135deg, #d4af37, #e8c84a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .pulse-glow {
-            animation: pulseGlow 3s ease-in-out infinite;
-        }
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.15); }
-            50% { box-shadow: 0 0 40px rgba(212, 175, 55, 0.3); }
-        }
-        code {
-            background: rgba(212, 175, 55, 0.1);
-            color: #d4af37;
-            padding: 1px 8px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* ─── PAGE WRAPPER ─── */
-        .page { display: none; }
-        .page.active { display: block; }
-
-        /* ─── DASHBOARD HERO ─── */
-        .dashboard-hero {
-            min-height: 80vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 40px 20px;
-        }
-        .dashboard-hero .cs-icon {
-            font-size: 5rem;
-            display: block;
-            margin-bottom: 16px;
-            animation: float 4s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-        }
-        .dashboard-hero .cs-title {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 12px;
-            color: #e8e0d8;
-        }
-        .dashboard-hero .cs-sub {
-            color: #a09890;
-            font-size: 1.15rem;
-            margin-bottom: 40px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .dashboard-hero .btn { margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <!-- ─── HEADER ─── -->
-    <header>
-        <div class="container">
-            <a href="/" class="logo" id="logoLink">
-                🤖 <span>SparkyBot</span>
-            </a>
-            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
-                <span></span><span></span><span></span>
-            </button>
-            <nav class="nav-links" id="navLinks">
-                <a href="#features">Features</a>
-                <a href="#commands">Commands</a>
-                <a href="#how-it-works">How It Works</a>
-                <a href="#faq">FAQ</a>
-                <a href="/terms">Terms</a>
-                <a href="/privacy">Privacy</a>
-            </nav>
-            <div class="nav-actions">
-                <a href="https://discord.com/oauth2/authorize?client_id=1528780547411804382&scope=bot+applications.commands&permissions=1099800112246" target="_blank" class="btn btn-primary">Add to Server</a>
-                <a href="/dashboard" class="btn btn-outline">🌐 Dashboard</a>
+<div class="tech-grid"></div>
+<div class="bg-depth"></div>
+<div class="glow-top"></div>
+<div class="glow-bottom"></div>
+
+<div class="loader" id="loader">
+    <h1>AKYN</h1>
+</div>
+
+<nav class="navbar">
+    <div class="logo">AKYN</div>
+    <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#status">Status</a>
+        <a href="#commands">Commands</a>
+        <a href="#" class="btn btn-primary">Invite</a>
+    </div>
+</nav>
+
+<main class="main">
+    <section class="hero">
+        <div class="badge">🎵 Your Ultimate Music Companion</div>
+        <h1>
+            Stream music from your favorite<br />
+            platforms with <span class="highlight">seamless control</span>
+        </h1>
+        <p>
+            Akyn delivers high‑quality audio, intelligent queue management,
+            and a 3‑bot system for ultimate reliability on Discord.
+        </p>
+        <div class="hero-buttons">
+            <a href="#" class="btn btn-primary">🎧 Invite Akyn</a>
+            <a href="#" class="btn btn-secondary">📖 Docs</a>
+            <a href="#" class="btn btn-secondary">💬 Support</a>
+        </div>
+    </section>
+
+    <section id="status">
+        <div class="status-section">
+            <div class="status-left">
+                <span class="status-dot unknown" id="statusDot"></span>
+                <span class="status-label" id="statusLabel">Checking status...</span>
+            </div>
+            <div class="status-stats">
+                <div class="status-stat">
+                    <span class="number" id="serverCount">--</span>
+                    <span class="label">Servers</span>
+                </div>
+                <div class="status-stat">
+                    <span class="number" id="userCount">--</span>
+                    <span class="label">Users</span>
+                </div>
+                <div class="status-stat">
+                    <span class="number" id="uptime">--</span>
+                    <span class="label">Uptime</span>
+                </div>
             </div>
         </div>
-    </header>
+    </section>
 
-    <!-- ─── MAIN CONTENT ─── -->
-    <main>
-
-        <!-- ===== PAGE: MAIN ===== -->
-        <div id="page-main" class="page active">
-            <section class="hero" id="home">
-                <div class="container">
-                    <div class="badge">🚀 All-in-One Discord Bot</div>
-                    <h1>
-                        Power up your Discord<br />
-                        with <span class="highlight">SparkyBot</span>
-                    </h1>
-                    <p>
-                        Moderation, tickets, economy, giveaways, logging, and more —
-                        all in one free, reliable bot. Built for communities that demand the best.
-                    </p>
-                    <div class="hero-buttons">
-                        <a href="https://discord.com/oauth2/authorize?client_id=1528780547411804382&scope=bot+applications.commands&permissions=1099800112246" target="_blank" class="btn btn-primary pulse-glow">✨ Add to Discord</a>
-                        <a href="https://github.com/dhanushk56/sparky-bot-documentation.git" target="_blank" class="btn btn-secondary">📖 Documentation</a>
-                        <a href="https://discord.gg/sEJ6FwHGJw" target="_blank" class="btn btn-outline">💬 Support Server</a>
-                    </div>
-                    <div class="stats-bar">
-                        <div class="stat-item"><span class="stat-number">99+</span><span class="stat-label">Servers</span></div>
-                        <div class="stat-item"><span class="stat-number">10.0K+</span><span class="stat-label">Users</span></div>
-                        <div class="stat-item"><span class="stat-number">18+</span><span class="stat-label">Modules</span></div>
-                        <div class="stat-item"><span class="stat-number">100%</span><span class="stat-label">Free</span></div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section" id="features">
-                <div class="container">
-                    <h2 class="section-title">Everything your server needs</h2>
-                    <p class="section-sub">One bot, countless tools. Replace a dozen bots with SparkyBot and keep your server clean and fast.</p>
-                    <div class="features-grid">
-                        <div class="feature-card"><span class="feature-icon">⚔️</span><h3>Advanced Moderation</h3><p>Kick, ban, mute, warn, jail, purge, and lockdown — all with detailed logging and customizable permissions.</p></div>
-                        <div class="feature-card"><span class="feature-icon">🎟️</span><h3>Ticket System</h3><p>A complete support ticket system with transcripts, categories, claim/close, and staff roles.</p></div>
-                        <div class="feature-card"><span class="feature-icon">💰</span><h3>Economy &amp; Leveling</h3><p>Keep members engaged with a currency, shop, daily rewards, XP, and leveling system with role rewards.</p></div>
-                        <div class="feature-card"><span class="feature-icon">🎉</span><h3>Giveaways</h3><p>Create and manage giveaways with role requirements, multiple winners, rerolls, and full management.</p></div>
-                        <div class="feature-card"><span class="feature-icon">📄</span><h3>Applications</h3><p>Accept staff applications with custom questions, review flows, manager roles, and automatic role assignment.</p></div>
-                        <div class="feature-card"><span class="feature-icon">🔊</span><h3>Join-to-Create Voice</h3><p>Let members create their own private voice channels with automatic cleanup, naming, and full control.</p></div>
-                        <div class="feature-card"><span class="feature-icon">🎭</span><h3>Reaction Roles</h3><p>Assign roles via reactions with multiple modes, exclusive groups, and full customization.</p></div>
-                        <div class="feature-card"><span class="feature-icon">📝</span><h3>Logging</h3><p>Comprehensive audit logs for messages, members, channels, roles, and moderation actions — 20+ events.</p></div>
-                        <div class="feature-card"><span class="feature-icon">🛡️</span><h3>Anti-Nuke Protection</h3><p>Automatically detect and stop malicious mass-deletes, bans, role changes, and channel creations — 22+ events.</p></div>
-                        <div class="feature-card"><span class="feature-icon">🎵</span><h3>Music System</h3><p>Full-featured music with YouTube, SoundCloud, and Spotify support — queue, shuffle, loop, 24/7 mode, and live lyrics.</p></div>
-                        <div class="feature-card"><span class="feature-icon">🌐</span><h3>Translation</h3><p>Translate messages, detect languages, and auto-translate channels with 100+ languages using Google Translate.</p></div>
-                        <div class="feature-card"><span class="feature-icon">▶️</span><h3>YouTube Notifications</h3><p>Track YouTube channels and get notified on new uploads with keyword filters and custom messages.</p></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ═══════ FULL COMMAND LIST ═══════ -->
-            <section class="section section-alt" id="commands">
-                <div class="container">
-                    <h2 class="section-title">📋 Full Command List</h2>
-                    <p class="section-sub">
-                        All commands grouped by module. Default prefix: <code>//</code>. Slash commands are also available.
-                    </p>
-                    <div class="table-wrap">
-                        <table class="command-table">
-                            <thead>
-                                <tr>
-                                    <th style="width:18%;">Module</th>
-                                    <th style="width:52%;">Commands (prefix / slash)</th>
-                                    <th style="width:30%;">Required Permission</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                <!-- ── Moderation ── -->
-                                <tr class="cmd-group"><td colspan="3">⚔️ Moderation</td></tr>
-                                <tr><td>Moderation</td><td><code>//kick</code> / <code>/mod kick</code></td><td><span class="badge-perm">Kick Members</span></td></tr>
-                                <tr><td>Moderation</td><td><code>//ban</code> / <code>/mod ban</code></td><td><span class="badge-perm">Ban Members</span></td></tr>
-                                <tr><td>Moderation</td><td><code>//mute</code> / <code>/mod mute</code></td><td><span class="badge-perm">Moderate Members</span></td></tr>
-                                <tr><td>Moderation</td><td><code>//warn</code> / <code>/mod warn</code></td><td><span class="badge-perm">Manage Messages</span></td></tr>
-                                <tr><td>Moderation</td><td><code>//purge</code> / <code>/mod purge</code></td><td><span class="badge-perm">Manage Messages</span></td></tr>
-                                <tr><td>Moderation</td><td><code>//jail</code> / <code>/mod jail</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>Moderation</td><td><code>//lock</code> / <code>/mod lock</code></td><td><span class="badge-perm">Manage Channels</span></td></tr>
-
-                                <!-- ── Tickets ── -->
-                                <tr class="cmd-group"><td colspan="3">🎟️ Tickets</td></tr>
-                                <tr><td>Tickets</td><td><code>//tkt</code> / <code>/tkt manage setup</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>Tickets</td><td><code>//tktstaff</code> / <code>/tkt staff global</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>Tickets</td><td><code>//tktlog</code> / <code>/tkt manage log</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>Tickets</td><td><code>//tktcat</code> / <code>/tkt manage cat</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-
-                                <!-- ── Leveling ── -->
-                                <tr class="cmd-group"><td colspan="3">⭐ Leveling</td></tr>
-                                <tr><td>Leveling</td><td><code>//lv</code> / <code>/lv rank</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Leveling</td><td><code>//lvlb</code> / <code>/lv lb</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Leveling</td><td><code>//lvtoggle</code> / <code>/lv toggle</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>Leveling</td><td><code>//lvset</code> / <code>/lv setchannel</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>Leveling</td><td><code>//lvrole</code> / <code>/lv role</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-
-                                <!-- ── Economy ── -->
-                                <tr class="cmd-group"><td colspan="3">💰 Economy</td></tr>
-                                <tr><td>Economy</td><td><code>//eco</code> / <code>/eco bal</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Economy</td><td><code>//daily</code> / <code>/eco daily</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Economy</td><td><code>//work</code> / <code>/eco work</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Economy</td><td><code>//shop</code> / <code>/eco shop</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Economy</td><td><code>//pay</code> / <code>/eco pay</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-
-                                <!-- ── Giveaways ── -->
-                                <tr class="cmd-group"><td colspan="3">🎉 Giveaways</td></tr>
-                                <tr><td>Giveaways</td><td><code>//gwy start</code> / <code>/gwy start</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
-                                <tr><td>Giveaways</td><td><code>//gend</code> / <code>/gwy end</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
-                                <tr><td>Giveaways</td><td><code>//greroll</code> / <code>/gwy reroll</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
-
-                                <!-- ── Applications ── -->
-                                <tr class="cmd-group"><td colspan="3">📄 Applications</td></tr>
-                                <tr><td>Applications</td><td><code>//application create</code> / <code>/application create</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
-                                <tr><td>Applications</td><td><code>//application apply</code> / <code>/application apply</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Applications</td><td><code>//application post</code> / <code>/application post</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
-
-                                <!-- ── JTC ── -->
-                                <tr class="cmd-group"><td colspan="3">🔊 Join‑to‑Create Voice</td></tr>
-                                <tr><td>JTC</td><td><code>//jtc</code> / <code>/jtc setup</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>JTC</td><td><code>//jtcname</code> / <code>/jtc name</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>JTC</td><td><code>//jtcinfo</code> / <code>/jtc info</code></td><td><span class="badge-perm">Manage Channels</span></td></tr>
-
-                                <!-- ── Reaction Roles ── -->
-                                <tr class="cmd-group"><td colspan="3">🎭 Reaction Roles</td></tr>
-                                <tr><td>Reaction Roles</td><td><code>//rradd</code> / <code>/rr add</code></td><td><span class="badge-perm">Manage Roles</span></td></tr>
-                                <tr><td>Reaction Roles</td><td><code>//rrremove</code> / <code>/rr remove</code></td><td><span class="badge-perm">Manage Roles</span></td></tr>
-                                <tr><td>Reaction Roles</td><td><code>//rrlist</code> / <code>/rr list</code></td><td><span class="badge-perm">Manage Roles</span></td></tr>
-
-                                <!-- ── Logging ── -->
-                                <tr class="cmd-group"><td colspan="3">📝 Logging</td></tr>
-                                <tr><td>Logging</td><td><code>//setlogchannel</code> / <code>/logging setchannel</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>Logging</td><td><code>//logtoggle</code> / <code>/logging toggle</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>Logging</td><td><code>//logconfig</code> / <code>/logging config</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-
-                                <!-- ── Anti-Nuke ── -->
-                                <tr class="cmd-group"><td colspan="3">🛡️ Anti-Nuke</td></tr>
-                                <tr><td>Anti-Nuke</td><td><code>//antinuke enable</code> / <code>/antinuke enable</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>Anti-Nuke</td><td><code>//antinuke whitelist</code> / <code>/antinuke whitelist</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>Anti-Nuke</td><td><code>//antinuke status</code> / <code>/antinuke status</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
-
-                                <!-- ── Music ── -->
-                                <tr class="cmd-group"><td colspan="3">🎵 Music (Slash Only)</td></tr>
-                                <tr><td>Music</td><td><code>/music play</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Music</td><td><code>/music pause</code> / <code>/music resume</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Music</td><td><code>/music skip</code> / <code>/music stop</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Music</td><td><code>/music queue</code> / <code>/music nowplaying</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-
-                                <!-- ── Translation ── -->
-                                <tr class="cmd-group"><td colspan="3">🌐 Translation</td></tr>
-                                <tr><td>Translation</td><td><code>//translate</code> / <code>/translate text</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Translation</td><td><code>//detect</code> / <code>/translate detect</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Translation</td><td><code>//autotranslate</code> / <code>/autotranslate enable</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-
-                                <!-- ── YouTube ── -->
-                                <tr class="cmd-group"><td colspan="3">▶️ YouTube Notifications</td></tr>
-                                <tr><td>YouTube</td><td><code>//youtube add</code> / <code>/youtube add</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
-                                <tr><td>YouTube</td><td><code>//youtube list</code> / <code>/youtube list</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
-                                <tr><td>YouTube</td><td><code>//youtube addfilter</code> / <code>/youtube addfilter</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
-
-                                <!-- ── Invite Tracking ── -->
-                                <tr class="cmd-group"><td colspan="3">📨 Invite Tracking</td></tr>
-                                <tr><td>Invite Tracking</td><td><code>//invites</code> / <code>/invites check</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Invite Tracking</td><td><code>//invitestats</code> / <code>/invites leaderboard</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Invite Tracking</td><td><code>//messagestats</code> / <code>/messages stats</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-
-                                <!-- ── Verification ── -->
-                                <tr class="cmd-group"><td colspan="3">🔐 Verification</td></tr>
-                                <tr><td>Verification</td><td><code>//verify</code> / <code>/verify setup</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>Verification</td><td><code>//verifypanel</code> / <code>/verify panel</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>Verification</td><td><code>//verifystatus</code> / <code>/verify status</code></td><td><span class="badge-perm">Manage Messages</span></td></tr>
-
-                                <!-- ── Welcome ── -->
-                                <tr class="cmd-group"><td colspan="3">👋 Welcome &amp; Auto‑role</td></tr>
-                                <tr><td>Welcome</td><td><code>//welset</code> / <code>/wel set</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
-                                <tr><td>Welcome</td><td><code>//goodbyeset</code> / <code>/wel setgoodbye</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
-                                <tr><td>Welcome</td><td><code>//autorole</code> / <code>/wel autorole</code></td><td><span class="badge-perm">Manage Roles</span></td></tr>
-
-                                <!-- ── Forum Lock ── -->
-                                <tr class="cmd-group"><td colspan="3">🔒 Forum Lock</td></tr>
-                                <tr><td>Forum Lock</td><td><code>//forumlock set</code> / <code>/forumlock set</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>Forum Lock</td><td><code>//forumlock list</code> / <code>/forumlock list</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
-
-                                <!-- ── AutoMod ── -->
-                                <tr class="cmd-group"><td colspan="3">🛡️ AutoMod</td></tr>
-                                <tr><td>AutoMod</td><td><code>//am toggle</code> / <code>/am toggle</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>AutoMod</td><td><code>//am spam</code> / <code>/am spam</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>AutoMod</td><td><code>//am links</code> / <code>/am links</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>AutoMod</td><td><code>//am addword</code> / <code>/am addword</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-
-                                <!-- ── Admin ── -->
-                                <tr class="cmd-group"><td colspan="3">⚙️ Admin</td></tr>
-                                <tr><td>Admin</td><td><code>//serverconfig</code> / <code>/admin config</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>Admin</td><td><code>//adminreset</code> / <code>/admin reset</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-                                <tr><td>Admin</td><td><code>//announce</code> / <code>/admin announce</code></td><td><span class="badge-perm">Administrator</span></td></tr>
-
-                                <!-- ── Embed & Rules ── -->
-                                <tr class="cmd-group"><td colspan="3">🖼️ Embed &amp; Rules</td></tr>
-                                <tr><td>Embed</td><td><code>//embed send</code> / <code>/embed send</code></td><td><span class="badge-perm">Manage Messages</span></td></tr>
-                                <tr><td>Embed</td><td><code>//embed edit</code> / <code>/embed edit</code></td><td><span class="badge-perm">Manage Messages</span></td></tr>
-                                <tr><td>Rules</td><td><code>//rules create</code> / <code>/rules create</code></td><td><span class="badge-perm">Manage Guild</span></td></tr>
-
-                                <!-- ── Prefix ── -->
-                                <tr class="cmd-group"><td colspan="3">🔀 Prefix</td></tr>
-                                <tr><td>Prefix</td><td><code>//prefix set</code> / <code>/prefix set</code></td><td><span class="badge-perm">Manage Server</span></td></tr>
-                                <tr><td>Prefix</td><td><code>//prefix add</code> / <code>/prefix add</code></td><td><span class="badge-perm">Manage Server</span></td></tr>
-                                <tr><td>Prefix</td><td><code>//prefix list</code> / <code>/prefix list</code></td><td><span class="badge-perm">Manage Server</span></td></tr>
-
-                                <!-- ── Help ── -->
-                                <tr class="cmd-group"><td colspan="3">✨ Help</td></tr>
-                                <tr><td>Help</td><td><code>//help</code> / <code>/help</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-
-                                <!-- ── Owner ── -->
-                                <tr class="cmd-group"><td colspan="3">🔐 Owner (Bot Owner Only)</td></tr>
-                                <tr><td>Owner</td><td><code>//reload</code> / <code>/owner reload</code></td><td><span class="badge-perm">Bot Owner</span></td></tr>
-                                <tr><td>Owner</td><td><code>//restart</code> / <code>/owner restart</code></td><td><span class="badge-perm">Bot Owner</span></td></tr>
-                                <tr><td>Owner</td><td><code>//listservers</code> / <code>/owner listservers</code></td><td><span class="badge-perm">Bot Owner</span></td></tr>
-                                <tr><td>Owner</td><td><code>//globalannounce</code> / <code>/owner globalannounce</code></td><td><span class="badge-perm">Bot Owner</span></td></tr>
-
-                                <!-- ── Fun ── -->
-                                <tr class="cmd-group"><td colspan="3">🎲 Fun</td></tr>
-                                <tr><td>Fun</td><td><code>//8ball</code> / <code>/fun 8ball</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Fun</td><td><code>//coinflip</code> / <code>/fun coinflip</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Fun</td><td><code>//roast</code> / <code>/fun roast</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Fun</td><td><code>//trivia</code> / <code>/fun trivia</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-
-                                <!-- ── Reports ── -->
-                                <tr class="cmd-group"><td colspan="3">🚨 Reports &amp; Suggestions</td></tr>
-                                <tr><td>Reports</td><td><code>//rp</code> / <code>/rp report</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Reports</td><td><code>//sug</code> / <code>/rp suggest</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Reports</td><td><code>//bug</code> / <code>/rp bug</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-
-                                <!-- ── Utility ── -->
-                                <tr class="cmd-group"><td colspan="3">🔧 Utility</td></tr>
-                                <tr><td>Utility</td><td><code>//ping</code> / <code>/utility ping</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Utility</td><td><code>//userinfo</code> / <code>/utility userinfo</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Utility</td><td><code>//serverinfo</code> / <code>/utility serverinfo</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-                                <tr><td>Utility</td><td><code>//poll</code> / <code>/utility poll</code></td><td><span class="badge-perm badge-none">None</span></td></tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <p style="text-align:center; margin-top: 24px; color: #808098; font-size:0.9rem;">
-                        💡 This is a representative list. Run <code>/help</code> or <code>//help</code> in your server for the complete, up‑to‑date command list.
-                    </p>
-                </div>
-            </section>
-
-            <section class="section" id="how-it-works">
-                <div class="container">
-                    <h2 class="section-title">Simple Setup, Powerful Results</h2>
-                    <p class="section-sub">Get SparkyBot running in your server in just a few steps — no coding required.</p>
-                    <div class="steps-grid">
-                        <div class="step-item"><div class="step-number">1</div><h4>Invite the Bot</h4><p>Click the "Add to Server" button and authorize SparkyBot with the necessary permissions.</p></div>
-                        <div class="step-item"><div class="step-number">2</div><h4>Configure Modules</h4><p>Use slash commands like <code>/setup</code> or <code>/admin config</code> to enable features.</p></div>
-                        <div class="step-item"><div class="step-number">3</div><h4>Manage &amp; Monitor</h4><p>All settings can be tweaked on the fly — no restarts required. Changes apply instantly.</p></div>
-                        <div class="step-item"><div class="step-number">4</div><h4>Scale with Ease</h4><p>SparkyBot handles servers of any size with optimized performance and automatic sharding.</p></div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section section-alt" id="faq">
-                <div class="container">
-                    <h2 class="section-title">Frequently Asked Questions</h2>
-                    <p class="section-sub">Quick answers to the most common questions about SparkyBot.</p>
-                    <div class="faq-list">
-                        <details class="faq-item"><summary>Is SparkyBot really free?</summary><p>Yes! SparkyBot is 100% free forever. No paywalls, no premium tiers, no nitro‑gating. All features are available to every server.</p></details>
-                        <details class="faq-item"><summary>What permissions does SparkyBot need?</summary><p>SparkyBot requires standard moderation permissions: Kick Members, Ban Members, Manage Channels, Manage Roles, Send Messages, Embed Links, Attach Files, Connect &amp; Speak (for music), and Moderate Members. You can customize permissions during invite.</p></details>
-                        <details class="faq-item"><summary>How do I change the bot's prefix?</summary><p>Use the <code>/prefix set</code> slash command or the <code>//prefix set</code> command. Server admins can set a custom prefix anytime.</p></details>
-                        <details class="faq-item"><summary>Can I self‑host SparkyBot?</summary><p>Absolutely not! SparkyBot is not an open‑source and fully documented bot. You must add the pre-made bot to access the full features.</p></details>
-                        <details class="faq-item"><summary>How do I report a bug or suggest a feature?</summary><p>Join our support server and use the <code>/rp bug</code> or <code>/rp suggest</code> commands. You can also open an issue on GitHub.</p></details>
-                        <details class="faq-item"><summary>Is my data safe?</summary><p>Yes. SparkyBot only stores minimal configuration data (server settings, economy balances, etc.) and never shares it with third parties. You can reset any module's data at any time.</p></details>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- ===== PAGE: TERMS ===== -->
-        <div id="page-terms" class="page">
-            <section class="section section-alt" style="padding-top:40px;">
-                <div class="container">
-                    <h2 class="section-title">Terms of Service</h2>
-                    <div class="policy-content">
-                        <p><strong>Last updated:</strong> July 2026</p>
-                        <p>By using SparkyBot (the "Bot"), you agree to the following terms:</p>
-                        <ol>
-                            <li><strong>Acceptance of Terms:</strong> By inviting the Bot to your server, you accept these Terms of Service.</li>
-                            <li><strong>Use of the Bot:</strong> You agree to use the Bot in compliance with Discord's Terms of Service and Community Guidelines.</li>
-                            <li><strong>Data Collection:</strong> The Bot collects minimal data (server IDs, user IDs, configuration settings) to provide its services. No personal data is shared with third parties.</li>
-                            <li><strong>Prohibited Uses:</strong> You may not use the Bot for any illegal, abusive, or harmful purposes, including harassment, spam, or distribution of malicious content.</li>
-                            <li><strong>Availability:</strong> While we strive to keep the Bot online, we do not guarantee 100% uptime. We reserve the right to modify, suspend, or discontinue the Bot at any time.</li>
-                            <li><strong>Changes to Terms:</strong> We may update these Terms at any time. Continued use of the Bot constitutes acceptance of the updated Terms.</li>
-                            <li><strong>Contact:</strong> For questions about these Terms, please join our support server.</li>
-                        </ol>
-                        <p>By using SparkyBot, you acknowledge that you have read and understood these Terms of Service.</p>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- ===== PAGE: PRIVACY ===== -->
-        <div id="page-privacy" class="page">
-            <section class="section" style="padding-top:40px;">
-                <div class="container">
-                    <h2 class="section-title">Privacy Policy</h2>
-                    <div class="policy-content">
-                        <p><strong>Last updated:</strong> July 2026</p>
-                        <p>SparkyBot ("we", "our", "us") respects your privacy. This Privacy Policy explains how we collect, use, and protect your data.</p>
-                        <ol>
-                            <li><strong>Data We Collect:</strong> We collect server IDs, user IDs, message content (for logging and auto-moderation), configuration settings, and economy/leveling data.</li>
-                            <li><strong>How We Use Data:</strong> Data is used solely to provide the Bot's functionality, including moderation, logging, economy, and user preferences.</li>
-                            <li><strong>Data Storage:</strong> Data is stored securely in JSON files or databases. No data is shared with third parties except as required by law.</li>
-                            <li><strong>Your Rights:</strong> You may request deletion of your data at any time by contacting us through our support server.</li>
-                            <li><strong>Data Retention:</strong> We retain data for as long as the Bot is in your server. You can remove data by using the <code>/admin reset</code> command or by kicking the Bot.</li>
-                            <li><strong>Children's Privacy:</strong> The Bot is not intended for children under 13. We do not knowingly collect data from children.</li>
-                            <li><strong>Changes to Policy:</strong> We may update this Privacy Policy from time to time. Continued use of the Bot constitutes acceptance of the updated Policy.</li>
-                            <li><strong>Contact:</strong> For privacy concerns, please join our support server.</li>
-                        </ol>
-                        <p>By using SparkyBot, you consent to the collection and use of your data as described in this Privacy Policy.</p>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- ===== PAGE: DASHBOARD ===== -->
-        <div id="page-dashboard" class="page">
-            <section class="dashboard-hero">
-                <div class="container">
-                    <span class="cs-icon">🚧</span>
-                    <h2 class="cs-title">Dashboard <span class="highlight">Coming Soon</span></h2>
-                    <p class="cs-sub">We're building a powerful web dashboard to manage your server without commands. Stay tuned!</p>
-                    <a href="/" class="btn btn-secondary">← Go Back</a>
-                </div>
-            </section>
-        </div>
-
-    </main>
-
-    <!-- ─── FOOTER ─── -->
-    <footer>
-        <div class="container">
-            <div class="links">
-                <a href="/terms">Terms of Service</a>
-                <a href="/privacy">Privacy Policy</a>
-                <a href="https://discord.gg/sEJ6FwHGJw" target="_blank">Support Server</a>
-                <a href="https://github.com/dhanushk56/sparky-bot-documentation.git" target="_blank">GitHub</a>
+    <section id="features">
+        <h2 class="section-title">Everything you need</h2>
+        <p class="section-sub">Akyn combines powerful features with a modern interface – all free and open source.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">🎵</span>
+                <h3>High‑Quality Music</h3>
+                <p>Supports YouTube, Spotify, SoundCloud, and more with 24/7 playback.</p>
             </div>
-            <p>&copy; 2026 SparkyBot. Built with ❤️ for Discord communities.</p>
+            <div class="feature-card">
+                <span class="feature-icon">🤖</span>
+                <h3>3‑Bot System</h3>
+                <p>Three specialized bots work together for stability and zero downtime.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">📊</span>
+                <h3>Smart Queue</h3>
+                <p>Intelligent queuing with loop, shuffle, and skip controls for every listener.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">📱</span>
+                <h3>Slash Commands</h3>
+                <p>Modern slash command interface that’s intuitive and mobile‑friendly.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">📝</span>
+                <h3>Live Lyrics</h3>
+                <p>Display real‑time lyrics synchronized with the playing track.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🔒</span>
+                <h3>Secure & Reliable</h3>
+                <p>Built with the latest Discord APIs and actively maintained.</p>
+            </div>
         </div>
-    </footer>
+    </section>
 
-    <script>
-        // ─── MOBILE MENU TOGGLE ────────────────────────────────────────────
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
+    <section id="commands">
+        <h2 class="section-title">Quick Commands</h2>
+        <p class="section-sub">Use <code style="background:rgba(99,102,241,0.1);color:#a78bfa;padding:0.1rem 0.5rem;border-radius:4px;">/</code> to see all available slash commands.</p>
+        <div class="commands-table">
+            <table>
+                <thead>
+                    <tr><th>Category</th><th>Commands</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>🎵 Playback</td><td><code>/play</code> <code>/pause</code> <code>/resume</code> <code>/skip</code> <code>/stop</code></td></tr>
+                    <tr><td>📋 Queue</td><td><code>/queue</code> <code>/nowplaying</code> <code>/shuffle</code> <code>/loop</code></td></tr>
+                    <tr><td>🔊 Volume</td><td><code>/volume</code> <code>/volumeset</code></td></tr>
+                    <tr><td>📝 Lyrics</td><td><code>/lyrics</code> <code>/lyrics enable</code></td></tr>
+                    <tr><td>⚙️ Settings</td><td><code>/config</code> <code>/config set</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
 
-        if (menuToggle) {
-            menuToggle.addEventListener('click', function(e) {
-                e.stopPropagation();
-                navLinks.classList.toggle('open');
-            });
+<footer class="footer">
+    <div class="links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="#">Support</a>
+        <a href="#">GitHub</a>
+    </div>
+    <p>&copy; 2026 Akyn. Built with ❤️ for Discord communities.</p>
+</footer>
 
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', function() {
-                    navLinks.classList.remove('open');
-                });
-            });
+<script>
+    (function() {
+        const loader = document.getElementById('loader');
+        window.addEventListener('load', function() {
+            loader.classList.add('hidden');
+        });
 
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.container') && navLinks.classList.contains('open')) {
-                    navLinks.classList.remove('open');
-                }
-            });
-        }
-
-        // ─── SPA ROUTER ──────────────────────────────────────────────────────
-
-        function router() {
-            const path = window.location.pathname;
-            const mainPage = document.getElementById('page-main');
-            const termsPage = document.getElementById('page-terms');
-            const privacyPage = document.getElementById('page-privacy');
-            const dashboardPage = document.getElementById('page-dashboard');
-            const footer = document.querySelector('footer');
-
-            mainPage.classList.remove('active');
-            termsPage.classList.remove('active');
-            privacyPage.classList.remove('active');
-            dashboardPage.classList.remove('active');
-
-            footer.style.display = 'block';
-
-            if (path === '/terms') {
-                termsPage.classList.add('active');
-                document.title = 'SparkyBot — Terms of Service';
-                updateActiveNav('/terms');
-            } else if (path === '/privacy') {
-                privacyPage.classList.add('active');
-                document.title = 'SparkyBot — Privacy Policy';
-                updateActiveNav('/privacy');
-            } else if (path === '/dashboard') {
-                dashboardPage.classList.add('active');
-                document.title = 'SparkyBot — Dashboard';
-                footer.style.display = 'none';
-                updateActiveNav('/dashboard');
-            } else {
-                mainPage.classList.add('active');
-                document.title = 'SparkyBot — Power up your Discord';
-                updateActiveNav('/');
-            }
-        }
-
-        function updateActiveNav(currentRoute) {
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                const href = link.getAttribute('href');
-                if (href.startsWith('#')) {
-                    link.classList.remove('active-page');
-                    return;
-                }
-                link.classList.toggle('active-page', href === currentRoute);
-            });
-        }
-
-        function scrollToSection(sectionId) {
-            const el = document.getElementById(sectionId);
-            if (!el) return;
-            const headerOffset = 80;
-            const elPos = el.getBoundingClientRect().top + window.pageYOffset;
-            window.scrollTo({ top: elPos - headerOffset, behavior: 'smooth' });
-        }
-
-        // ── Intercept all link clicks ──
-        document.addEventListener('click', function(e) {
-            const link = e.target.closest('a');
-            if (!link) return;
-            const href = link.getAttribute('href');
-            if (!href) return;
-
-            if (href.startsWith('#')) {
-                e.preventDefault();
-                const targetId = href.substring(1);
-                const isMainPage = window.location.pathname === '/';
-
-                if (isMainPage) {
-                    scrollToSection(targetId);
-                    if (history.pushState) {
-                        history.pushState(null, '', href);
-                    }
+        async function fetchStatus() {
+            try {
+                const res = await fetch('/api/status');
+                if (!res.ok) throw new Error('API error');
+                const data = await res.json();
+                const dot = document.getElementById('statusDot');
+                const label = document.getElementById('statusLabel');
+                if (data.status === 'online') {
+                    dot.className = 'status-dot online';
+                    label.innerHTML = '<span class="online">● Online</span>';
+                } else if (data.status === 'offline') {
+                    dot.className = 'status-dot offline';
+                    label.innerHTML = '<span class="offline">● Offline</span>';
                 } else {
-                    history.pushState(null, '', '/');
-                    router();
-                    setTimeout(() => {
-                        scrollToSection(targetId);
-                    }, 150);
+                    dot.className = 'status-dot unknown';
+                    label.innerHTML = '<span class="unknown">● Unknown</span>';
                 }
-                return;
+                document.getElementById('serverCount').textContent = data.servers || '--';
+                document.getElementById('userCount').textContent = data.users || '--';
+                document.getElementById('uptime').textContent = data.uptime || '--';
+            } catch (e) {
+                document.getElementById('statusLabel').innerHTML = '<span class="unknown">● Unable to fetch</span>';
             }
+        }
 
-            if (href.startsWith('/') && !href.startsWith('//')) {
-                const targetUrl = new URL(href, window.location.origin);
-                if (targetUrl.origin === window.location.origin) {
-                    if (link.target === '_blank') return;
-                    e.preventDefault();
-                    history.pushState(null, '', targetUrl.pathname);
-                    router();
-                }
-            }
-        });
-
-        window.addEventListener('popstate', function() {
-            router();
-        });
-
-        document.getElementById('logoLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            if (window.location.pathname === '/') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                if (window.location.hash) {
-                    history.pushState(null, '', '/');
-                }
-            } else {
-                history.pushState(null, '', '/');
-                router();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            router();
-            if (window.location.hash) {
-                const id = window.location.hash.substring(1);
-                setTimeout(() => scrollToSection(id), 200);
-            }
-        });
-
-        // ── Scroll reveal ──
-        const revealElements = document.querySelectorAll('#page-main .feature-card, #page-main .step-item, #page-main .section-title, #page-main .section-sub');
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-        revealElements.forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.8s cubic-bezier(0.22, 1, 0.36, 1)';
-            revealObserver.observe(el);
-        });
-
-        console.log('✨ SparkyBot — zoom disabled on mobile, dashboard coming soon restored');
-    </script>
+        fetchStatus();
+        setInterval(fetchStatus, 30000);
+    })();
+</script>
 
 </body>
 </html>
