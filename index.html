@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SparkyBot – Commands</title>
+    <title>SparkyBot</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🤖%3C/text%3E%3C/svg%3E" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
     <style>
+        /* ── RESET & BASE ── */
         * {
             margin: 0;
             padding: 0;
@@ -26,13 +27,13 @@
         a {
             color: #d4af37;
             text-decoration: none;
-            transition: color 0.2s ease;
+            transition: color 0.3s;
         }
         a:hover {
             color: #e8c84a;
         }
 
-        /* ── Background layers ── */
+        /* ── BACKGROUND LAYERS ── */
         .bg-grid {
             position: fixed;
             inset: 0;
@@ -87,7 +88,7 @@
             }
         }
 
-        /* ── Loader ── */
+        /* ── LOADER ── */
         .loader {
             position: fixed;
             inset: 0;
@@ -121,7 +122,7 @@
             }
         }
 
-        /* ── Navbar ── */
+        /* ── NAVBAR ── */
         .navbar {
             position: sticky;
             top: 0;
@@ -216,7 +217,7 @@
             transform: translateY(-2px);
         }
 
-        /* ── Main container ── */
+        /* ── MAIN ── */
         .main {
             position: relative;
             z-index: 1;
@@ -225,11 +226,199 @@
             margin: 0 auto;
         }
 
-        /* ── Commands header ── */
+        /* ── PAGES ── */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── HOME PAGE ── */
+        .hero {
+            text-align: center;
+            padding: 4rem 0 2rem;
+        }
+        .hero .badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.12);
+            color: #d4af37;
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 0.3rem 1.2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            margin-bottom: 1.5rem;
+        }
+        .hero h1 {
+            font-size: clamp(2.8rem, 8vw, 4.8rem);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.08;
+            max-width: 800px;
+            margin: 0 auto 1rem;
+        }
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, #d4af37, #e8c84a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            color: #a09890;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .status-section {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            backdrop-filter: blur(4px);
+        }
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse-dot 2s infinite;
+        }
+        .status-dot.online {
+            background: #4ade80;
+            box-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
+        }
+        .status-dot.offline {
+            background: #f87171;
+            box-shadow: 0 0 20px rgba(248, 113, 113, 0.3);
+        }
+        .status-dot.unknown {
+            background: #fbbf24;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+        }
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.1);
+            }
+        }
+        .status-label {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .status-label .online {
+            color: #4ade80;
+        }
+        .status-label .offline {
+            color: #f87171;
+        }
+        .status-label .unknown {
+            color: #fbbf24;
+        }
+        .status-stats {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .status-stat {
+            text-align: center;
+        }
+        .status-stat .number {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #e8e0d8;
+            display: block;
+        }
+        .status-stat .label {
+            font-size: 0.7rem;
+            color: #808098;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        .feature-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateY(-6px);
+            border-color: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .feature-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: #e8e0d8;
+        }
+        .feature-card p {
+            color: #909090;
+            font-size: 0.95rem;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #e8e0d8;
+        }
+        .section-sub {
+            text-align: center;
+            color: #a09890;
+            max-width: 640px;
+            margin: 0 auto 2.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* ── COMMANDS PAGE ── */
         .commands-header {
             text-align: center;
             padding: 2rem 0 1rem;
-            animation: fadeUp 0.8s ease forwards;
         }
         .commands-header h1 {
             font-size: 2.8rem;
@@ -248,16 +437,16 @@
             font-family: monospace;
         }
 
-        /* ── Search bar ── */
-        .search-box {
+        .filter-bar {
             display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
             justify-content: center;
             margin: 2rem 0;
-            animation: fadeUp 0.8s ease 0.1s both;
         }
-        .search-box input {
-            width: 100%;
-            max-width: 500px;
+        .filter-bar select,
+        .filter-bar input {
             padding: 0.8rem 1.2rem;
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -266,23 +455,33 @@
             font-size: 1rem;
             outline: none;
             transition: border-color 0.3s, box-shadow 0.3s;
+            min-width: 200px;
         }
-        .search-box input:focus {
+        .filter-bar select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23d4af37' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+        }
+        .filter-bar select option {
+            background: #1a1a2e;
+            color: #e8e0d8;
+        }
+        .filter-bar select:focus,
+        .filter-bar input:focus {
             border-color: #d4af37;
             box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
         }
-        .search-box input::placeholder {
+        .filter-bar input::placeholder {
             color: #606070;
         }
 
-        /* ── Commands table ── */
         .commands-table-wrap {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 16px;
             overflow: hidden;
-            animation: fadeUp 0.8s ease 0.2s both;
-            transition: all 0.3s ease;
         }
         .commands-table {
             width: 100%;
@@ -334,8 +533,6 @@
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
-
-        /* ── No results ── */
         .no-results {
             text-align: center;
             color: #808098;
@@ -344,7 +541,7 @@
             display: none;
         }
 
-        /* ── Footer ── */
+        /* ── FOOTER ── */
         .footer {
             text-align: center;
             padding: 2rem 0;
@@ -369,18 +566,7 @@
             color: #d4af37;
         }
 
-        @keyframes fadeUp {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ── Responsive ── */
+        /* ── RESPONSIVE ── */
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
@@ -395,6 +581,15 @@
             .commands-header h1 {
                 font-size: 2.2rem;
             }
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .filter-bar select,
+            .filter-bar input {
+                width: 100%;
+                min-width: unset;
+            }
             .commands-table {
                 font-size: 0.85rem;
             }
@@ -408,6 +603,17 @@
             }
             .commands-table .cmd-desc {
                 font-size: 0.8rem;
+            }
+            .status-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .status-stats {
+                width: 100%;
+                justify-content: space-around;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
             }
         }
         @media (max-width: 480px) {
@@ -430,60 +636,113 @@
 </head>
 <body>
 
-    <!-- ── Background layers ── -->
+    <!-- ── BACKGROUND ── -->
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="glow-1"></div>
     <div class="glow-2"></div>
 
-    <!-- ── Loader ── -->
+    <!-- ── LOADER ── -->
     <div class="loader" id="loader">
         <h1>SPARKY</h1>
     </div>
 
-    <!-- ── Navbar ── -->
+    <!-- ── NAVBAR ── -->
     <nav class="navbar">
         <div class="logo">🤖 <span>SparkyBot</span></div>
         <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="#" class="active">Commands</a>
+            <a class="active" data-page="home">Home</a>
+            <a data-page="commands">Commands</a>
             <a href="https://discord.com/oauth2/authorize?client_id=1528780547411804382&scope=bot+applications.commands&permissions=1099800112246" target="_blank" class="btn btn-primary">Invite</a>
             <a href="https://discord.gg/sEJ6FwHGJw" target="_blank">Support</a>
             <a href="https://github.com/dhanushk56/sparky-bot-documentation.git" target="_blank">Docs</a>
         </div>
     </nav>
 
-    <!-- ── Main ── -->
+    <!-- ── MAIN ── -->
     <main class="main">
-        <div class="commands-header">
-            <h1>📋 All Commands</h1>
-            <p>Default prefix: <code>//</code> — slash commands also available.</p>
+
+        <!-- ===== HOME PAGE ===== -->
+        <div id="page-home" class="page active">
+            <section class="hero">
+                <div class="badge">🚀 All-in-One Discord Bot</div>
+                <h1>Power up your Discord<br />with <span class="highlight">SparkyBot</span></h1>
+                <p>Moderation, tickets, economy, giveaways, logging, and more — all in one free, reliable bot.</p>
+                <div class="hero-buttons">
+                    <a href="https://discord.com/oauth2/authorize?client_id=1528780547411804382&scope=bot+applications.commands&permissions=1099800112246" target="_blank" class="btn btn-primary">✨ Add to Discord</a>
+                    <a href="https://github.com/dhanushk56/sparky-bot-documentation.git" target="_blank" class="btn btn-secondary">📖 Docs</a>
+                    <a href="https://discord.gg/sEJ6FwHGJw" target="_blank" class="btn btn-secondary">💬 Support</a>
+                </div>
+            </section>
+
+            <div id="status">
+                <div class="status-section">
+                    <div class="status-left">
+                        <span class="status-dot unknown" id="statusDot"></span>
+                        <span class="status-label" id="statusLabel">Checking status...</span>
+                    </div>
+                    <div class="status-stats">
+                        <div class="status-stat"><span class="number" id="serverCount">--</span><span class="label">Servers</span></div>
+                        <div class="status-stat"><span class="number" id="userCount">--</span><span class="label">Users</span></div>
+                        <div class="status-stat"><span class="number" id="uptime">--</span><span class="label">Uptime</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <section id="features">
+                <h2 class="section-title">Everything your server needs</h2>
+                <p class="section-sub">One bot, countless tools. Replace a dozen bots with SparkyBot.</p>
+                <div class="features-grid">
+                    <div class="feature-card"><span class="feature-icon">⚔️</span><h3>Advanced Moderation</h3><p>Kick, ban, mute, warn, jail, purge, and lockdown — all with detailed logging.</p></div>
+                    <div class="feature-card"><span class="feature-icon">🎟️</span><h3>Ticket System</h3><p>Complete support tickets with transcripts, categories, claim/close, and staff roles.</p></div>
+                    <div class="feature-card"><span class="feature-icon">💰</span><h3>Economy &amp; Leveling</h3><p>Currency, shop, daily rewards, XP, and leveling with role rewards.</p></div>
+                    <div class="feature-card"><span class="feature-icon">🎉</span><h3>Giveaways</h3><p>Create and manage giveaways with role requirements, multiple winners, and rerolls.</p></div>
+                    <div class="feature-card"><span class="feature-icon">📄</span><h3>Applications</h3><p>Staff applications with custom questions, review flows, and automatic role assignment.</p></div>
+                    <div class="feature-card"><span class="feature-icon">🎵</span><h3>Music System</h3><p>YouTube, SoundCloud, and Spotify support — queue, shuffle, loop, 24/7 mode, and live lyrics.</p></div>
+                    <div class="feature-card"><span class="feature-icon">🛡️</span><h3>Anti-Nuke Protection</h3><p>Automatically detect and stop malicious mass-deletes, bans, role changes, and channel creations.</p></div>
+                    <div class="feature-card"><span class="feature-icon">🌐</span><h3>Translation</h3><p>Translate messages, detect languages, and auto-translate channels with 100+ languages.</p></div>
+                    <div class="feature-card"><span class="feature-icon">🎭</span><h3>Reaction Roles</h3><p>Assign roles via reactions with multiple modes, exclusive groups, and full customization.</p></div>
+                </div>
+            </section>
         </div>
 
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Search commands by name or description..." />
-        </div>
+        <!-- ===== COMMANDS PAGE ===== -->
+        <div id="page-commands" class="page">
+            <div class="commands-header">
+                <h1>📋 All Commands</h1>
+                <p>Default prefix: <code>//</code> — slash commands also available.</p>
+            </div>
 
-        <div id="commandsContainer">
-            <div class="commands-table-wrap">
-                <table class="commands-table" id="commandTable">
-                    <thead>
-                        <tr>
-                            <th>Command</th>
-                            <th>Description</th>
-                            <th style="text-align:right;">Module</th>
-                        </tr>
-                    </thead>
-                    <tbody id="commandTableBody">
-                        <!-- rows will be injected by JavaScript -->
-                    </tbody>
-                </table>
+            <div class="filter-bar">
+                <select id="moduleFilter">
+                    <option value="all">All Modules</option>
+                    <!-- options will be injected by JS -->
+                </select>
+                <input type="text" id="searchInput" placeholder="Search commands by name or description..." />
+            </div>
+
+            <div id="commandsContainer">
+                <div class="commands-table-wrap">
+                    <table class="commands-table">
+                        <thead>
+                            <tr>
+                                <th>Command</th>
+                                <th>Description</th>
+                                <th style="text-align:right;">Module</th>
+                            </tr>
+                        </thead>
+                        <tbody id="commandTableBody">
+                            <!-- rows injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="noResults" class="no-results">No commands found.</div>
             </div>
         </div>
-        <div id="noResults" class="no-results">No commands found.</div>
+
     </main>
 
-    <!-- ── Footer ── -->
+    <!-- ── FOOTER ── -->
     <footer class="footer">
         <div class="links">
             <a href="#">Terms</a>
@@ -502,7 +761,35 @@
                 loader.classList.add('hidden');
             });
 
-            // ── Command data (alphabetical by command name) ──
+            // ── Page switching ──
+            const navLinks = document.querySelectorAll('.nav-links a[data-page]');
+            const pages = {
+                home: document.getElementById('page-home'),
+                commands: document.getElementById('page-commands')
+            };
+
+            function showPage(pageId) {
+                Object.keys(pages).forEach(id => {
+                    pages[id].classList.toggle('active', id === pageId);
+                });
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.dataset.page === pageId);
+                });
+                // If commands page, refresh filter in case it wasn't rendered
+                if (pageId === 'commands') {
+                    applyFilters();
+                }
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.dataset.page;
+                    if (page) showPage(page);
+                });
+            });
+
+            // ── Command data (same as before) ──
             const commands = [
                 { name: '8ball', desc: 'Ask the magic 8-ball a question.', module: 'Fun' },
                 { name: 'adminreset', desc: 'Reset all module configurations for this server.', module: 'Admin' },
@@ -632,20 +919,34 @@
                 { name: 'youtube removefilter', desc: 'Remove a keyword filter.', module: 'YouTube' }
             ];
 
-            // Sort alphabetically by command name
+            // Sort alphabetically
             commands.sort((a, b) => a.name.localeCompare(b.name));
+
+            // ── Populate module filter ──
+            const moduleFilter = document.getElementById('moduleFilter');
+            const modules = [...new Set(commands.map(c => c.module))].sort();
+            modules.forEach(mod => {
+                const opt = document.createElement('option');
+                opt.value = mod;
+                opt.textContent = mod;
+                moduleFilter.appendChild(opt);
+            });
 
             const tableBody = document.getElementById('commandTableBody');
             const searchInput = document.getElementById('searchInput');
             const noResults = document.getElementById('noResults');
 
-            function render(filter = '') {
-                const lower = filter.toLowerCase().trim();
-                const filtered = commands.filter(cmd =>
-                    cmd.name.toLowerCase().includes(lower) ||
-                    cmd.desc.toLowerCase().includes(lower) ||
-                    cmd.module.toLowerCase().includes(lower)
-                );
+            function applyFilters() {
+                const moduleVal = moduleFilter.value;
+                const searchVal = searchInput.value.toLowerCase().trim();
+
+                const filtered = commands.filter(cmd => {
+                    const matchModule = moduleVal === 'all' || cmd.module === moduleVal;
+                    const matchSearch = cmd.name.toLowerCase().includes(searchVal) ||
+                        cmd.desc.toLowerCase().includes(searchVal) ||
+                        cmd.module.toLowerCase().includes(searchVal);
+                    return matchModule && matchSearch;
+                });
 
                 if (filtered.length === 0) {
                     tableBody.innerHTML = '';
@@ -665,16 +966,70 @@
                 tableBody.innerHTML = html;
             }
 
-            // Initial render
-            render('');
+            // ── Event listeners ──
+            moduleFilter.addEventListener('change', applyFilters);
+            searchInput.addEventListener('input', applyFilters);
 
-            // Search listener
-            searchInput.addEventListener('input', function() {
-                render(this.value);
+            // Initial render (commands page may not be active, but we call it when shown)
+            // We'll call it once so if commands page is the default (it isn't, home is), but we call when switching.
+            // Also call on page load in case someone lands directly on commands (we'll set active page based on URL hash later)
+            // For now, call it if commands page is active on load.
+            if (document.getElementById('page-commands').classList.contains('active')) {
+                applyFilters();
+            }
+
+            // Override showPage to apply filters when commands page is shown
+            const originalShow = showPage;
+            showPage = function(pageId) {
+                originalShow(pageId);
+                if (pageId === 'commands') {
+                    applyFilters();
+                }
+            };
+
+            // ── Status fetch ──
+            async function fetchStatus() {
+                try {
+                    const res = await fetch('/api/status');
+                    if (!res.ok) throw new Error();
+                    const data = await res.json();
+                    const dot = document.getElementById('statusDot');
+                    const label = document.getElementById('statusLabel');
+                    if (data.status === 'online') {
+                        dot.className = 'status-dot online';
+                        label.innerHTML = '<span class="online">● Online</span>';
+                    } else if (data.status === 'offline') {
+                        dot.className = 'status-dot offline';
+                        label.innerHTML = '<span class="offline">● Offline</span>';
+                    } else {
+                        dot.className = 'status-dot unknown';
+                        label.innerHTML = '<span class="unknown">● Unknown</span>';
+                    }
+                    document.getElementById('serverCount').textContent = data.servers || '--';
+                    document.getElementById('userCount').textContent = data.users || '--';
+                    document.getElementById('uptime').textContent = data.uptime || '--';
+                } catch (e) {
+                    document.getElementById('statusLabel').innerHTML = '<span class="unknown">● Unable to fetch</span>';
+                }
+            }
+            fetchStatus();
+            setInterval(fetchStatus, 30000);
+
+            // ── Feature card fade-in ──
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(el => {
+                    if (el.isIntersecting) {
+                        el.target.style.opacity = '1';
+                        el.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.feature-card').forEach(c => {
+                c.style.opacity = '0';
+                c.style.transform = 'translateY(30px)';
+                c.style.transition = 'all 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
+                observer.observe(c);
             });
-
-            // ── Smooth scroll to top when page loads ──
-            window.scrollTo({ top: 0, behavior: 'smooth' });
 
         })();
     </script>
