@@ -7,7 +7,7 @@ class Config:
 
     OWNER_IDS   = [1077905352244338688]
 
-    STATUS_WEBHOOK_URL = "https://discord.com/api/webhooks/1525152001426587729/l-KC6p4pwiCUxSPTPjR-gtTTAO7wEcVVZY1UlxjdFP6cVGxsFbyKq_h3JCIQy3rmZECX"
+    STATUS_WEBHOOK_URL = ""
 
     STATUS_NOTIFICATION_ROLE = None
 
@@ -50,4 +50,4 @@ class Config:
 
     DATA_DIR = "data"
 
-    DEV_GUILD_ID = 1524887610378551426
+    DEV_GUILD_ID = 
