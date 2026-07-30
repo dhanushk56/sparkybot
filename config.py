@@ -11,7 +11,7 @@ class Config:
 
     STATUS_NOTIFICATION_ROLE = None
 
-    COOKIE_API_KEY = "sk_live_2DEwbgELMMghmNqnKPbPxoCTsGRO2L8Win2eMSKPZgTA5NDVdJkMKDKg5CmcxC5S"
+    COOKIE_API_KEY = ""
 
     DASHBOARD_API_SECRET = os.environ.get("DASHBOARD_API_SECRET", "change-me-before-going-live")
 
