@@ -57,7 +57,7 @@ export default function SettingsForm({ guildId, initial }) {
           <select
             className="field-input"
             value={form.mod_log_channel || ""}
-            onChange={(e) => set("mod_log_channel")(e.target.value ? Number(e.target.value) : null)}
+            onChange={(e) => set("mod_log_channel")(e.target.value || null)}
           >
             <option value="">None</option>
             {channelOptions.map((c) => (
@@ -81,7 +81,7 @@ export default function SettingsForm({ guildId, initial }) {
           <select
             className="field-input"
             value={form.welcome_channel || ""}
-            onChange={(e) => set("welcome_channel")(e.target.value ? Number(e.target.value) : null)}
+            onChange={(e) => set("welcome_channel")(e.target.value || null)}
           >
             <option value="">None</option>
             {channelOptions.map((c) => (
@@ -94,7 +94,7 @@ export default function SettingsForm({ guildId, initial }) {
           <select
             className="field-input"
             value={form.goodbye_channel || ""}
-            onChange={(e) => set("goodbye_channel")(e.target.value ? Number(e.target.value) : null)}
+            onChange={(e) => set("goodbye_channel")(e.target.value || null)}
           >
             <option value="">None</option>
             {channelOptions.map((c) => (
@@ -152,4 +152,5 @@ export default function SettingsForm({ guildId, initial }) {
       {toast && <div className="toast">{toast}</div>}
     </div>
   );
-}
+              }
+              
