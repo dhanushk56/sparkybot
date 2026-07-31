@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Toggle({ checked, onChange }) {
   return (
@@ -11,8 +11,398 @@ function Toggle({ checked, onChange }) {
   );
 }
 
+// ---------- Application Manager Component ----------
+function ApplicationsManager({ guildId, apps, onAppsChange }) {
+  const [editingApp, setEditingApp] = useState(null);
+  const [isCreating, setIsCreating] = useState(false);
+  const [newApp, setNewApp] = useState({
+    name: "",
+    description: "",
+    log_channel: null,
+    grant_role: null,
+    manager_roles: [],
+    questions: [],
+    open: true,
+    cooldown: 1209600,
+  });
+  const [questionText, setQuestionText] = useState("");
+  const [questionType, setQuestionType] = useState("short_answer");
+  const [savingApp, setSavingApp] = useState(false);
+
+  const appList = apps || {};
+
+  const handleCreateApp = async () => {
+    if (!newApp.name) return;
+    setSavingApp(true);
+    try {
+      const res = await fetch(`/api/guilds/${guildId}/applications`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newApp),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        onAppsChange({ ...appList, [newApp.name]: data });
+        setIsCreating(false);
+        setNewApp({
+          name: "",
+          description: "",
+          log_channel: null,
+          grant_role: null,
+          manager_roles: [],
+          questions: [],
+          open: true,
+          cooldown: 1209600,
+        });
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setSavingApp(false);
+    }
+  };
+
+  const handleDeleteApp = async (name) => {
+    if (!confirm(`Delete application "${name}"?`)) return;
+    try {
+      const res = await fetch(`/api/guilds/${guildId}/applications/${name}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        const newApps = { ...appList };
+        delete newApps[name];
+        onAppsChange(newApps);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleToggleApp = async (name, open) => {
+    try {
+      const res = await fetch(`/api/guilds/${guildId}/applications/${name}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ open }),
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        onAppsChange({ ...appList, [name]: { ...appList[name], open } });
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const addQuestion = () => {
+    if (!questionText) return;
+    const q = {
+      text: questionText,
+      type: questionType,
+      options: [],
+      required: true,
+    };
+    if (editingApp) {
+      setEditingApp({
+        ...editingApp,
+        questions: [...(editingApp.questions || []), q],
+      });
+    } else {
+      setNewApp({
+        ...newApp,
+        questions: [...(newApp.questions || []), q],
+      });
+    }
+    setQuestionText("");
+  };
+
+  const removeQuestion = (index) => {
+    if (editingApp) {
+      const qs = [...(editingApp.questions || [])];
+      qs.splice(index, 1);
+      setEditingApp({ ...editingApp, questions: qs });
+    } else {
+      const qs = [...(newApp.questions || [])];
+      qs.splice(index, 1);
+      setNewApp({ ...newApp, questions: qs });
+    }
+  };
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+        <h4 style={{ color: "#e8e0d8", margin: 0 }}>Applications</h4>
+        <button
+          className="btn btn-primary"
+          onClick={() => setIsCreating(!isCreating)}
+          style={{ padding: "0.3rem 1rem", fontSize: "0.85rem" }}
+        >
+          {isCreating ? "Cancel" : "+ Create"}
+        </button>
+      </div>
+
+      {isCreating && (
+        <div className="dash-card" style={{ marginBottom: "1rem", padding: "1rem" }}>
+          <div className="field-group">
+            <label>Name (internal ID)</label>
+            <input
+              className="field-input"
+              value={newApp.name}
+              placeholder="staff, mod, builder"
+              onChange={(e) => setNewApp({ ...newApp, name: e.target.value.toLowerCase().replace(/\s/g, "_") })}
+            />
+          </div>
+          <div className="field-group">
+            <label>Description</label>
+            <input
+              className="field-input"
+              value={newApp.description || ""}
+              placeholder="Application description"
+              onChange={(e) => setNewApp({ ...newApp, description: e.target.value })}
+            />
+          </div>
+          <div className="field-group">
+            <label>Log Channel</label>
+            <select
+              className="field-input"
+              value={newApp.log_channel || ""}
+              onChange={(e) => setNewApp({ ...newApp, log_channel: e.target.value || null })}
+            >
+              <option value="">None</option>
+              {window.channelOptions?.map((c) => (
+                <option key={c.id} value={c.id}>#{c.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="field-group">
+            <label>Grant Role (on acceptance)</label>
+            <select
+              className="field-input"
+              value={newApp.grant_role || ""}
+              onChange={(e) => setNewApp({ ...newApp, grant_role: e.target.value || null })}
+            >
+              <option value="">None</option>
+              {window.roleOptions?.map((r) => (
+                <option key={r.id} value={r.id}>@{r.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="field-group">
+            <label>Cooldown (seconds)</label>
+            <input
+              className="field-input"
+              type="number"
+              value={newApp.cooldown || 1209600}
+              onChange={(e) => setNewApp({ ...newApp, cooldown: parseInt(e.target.value) || 0 })}
+            />
+          </div>
+          <div className="field-group">
+            <label>Questions</label>
+            <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}>
+              <input
+                className="field-input"
+                value={questionText}
+                placeholder="Question text"
+                onChange={(e) => setQuestionText(e.target.value)}
+                style={{ flex: 1 }}
+              />
+              <select
+                className="field-input"
+                value={questionType}
+                onChange={(e) => setQuestionType(e.target.value)}
+                style={{ width: "150px" }}
+              >
+                <option value="short_answer">Short</option>
+                <option value="long_answer">Long</option>
+                <option value="multiple_choice">Multiple Choice</option>
+                <option value="dropdown">Dropdown</option>
+                <option value="numeric">Numeric</option>
+                <option value="yes_no">Yes/No</option>
+                <option value="url">URL</option>
+              </select>
+              <button className="btn btn-secondary" onClick={addQuestion}>+</button>
+            </div>
+            {(newApp.questions || []).length > 0 && (
+              <div style={{ maxHeight: "150px", overflow: "auto" }}>
+                {(newApp.questions || []).map((q, i) => (
+                  <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "0.25rem 0", borderBottom: "1px solid #2b2d31" }}>
+                    <span style={{ color: "#e8e0d8" }}>{i+1}. {q.text}</span>
+                    <button onClick={() => removeQuestion(i)} style={{ background: "none", border: "none", color: "#ed4245", cursor: "pointer" }}>✕</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <button
+            className="btn btn-primary"
+            onClick={handleCreateApp}
+            disabled={!newApp.name || savingApp}
+          >
+            {savingApp ? "Creating..." : "Create Application"}
+          </button>
+        </div>
+      )}
+
+      {Object.keys(appList).length === 0 && !isCreating && (
+        <p style={{ color: "#aaa" }}>No applications created yet.</p>
+      )}
+
+      {Object.entries(appList).map(([name, app]) => (
+        <div key={name} className="dash-card" style={{ padding: "0.75rem 1rem", marginBottom: "0.5rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
+            <div>
+              <strong style={{ color: "#e8e0d8" }}>{name}</strong>
+              <span style={{ color: "#aaa", marginLeft: "0.5rem", fontSize: "0.85rem" }}>
+                {app.questions?.length || 0} questions • {app.open ? "🟢 Open" : "🔴 Closed"}
+              </span>
+            </div>
+            <div style={{ display: "flex", gap: "0.5rem" }}>
+              <button
+                className="btn btn-secondary"
+                style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }}
+                onClick={() => handleToggleApp(name, !app.open)}
+              >
+                {app.open ? "Close" : "Open"}
+              </button>
+              <button
+                className="btn btn-secondary"
+                style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }}
+                onClick={() => setEditingApp(app)}
+              >
+                Edit
+              </button>
+              <button
+                className="btn btn-danger"
+                style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }}
+                onClick={() => handleDeleteApp(name)}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {editingApp && (
+        <div className="modal-overlay" style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "rgba(0,0,0,0.8)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: 1000,
+        }} onClick={() => setEditingApp(null)}>
+          <div className="dash-card" style={{ maxWidth: "600px", width: "90%", maxHeight: "80vh", overflow: "auto" }} onClick={(e) => e.stopPropagation()}>
+            <h4 style={{ color: "#e8e0d8" }}>Edit {editingApp.name}</h4>
+            <div className="field-group">
+              <label>Description</label>
+              <input
+                className="field-input"
+                value={editingApp.description || ""}
+                onChange={(e) => setEditingApp({ ...editingApp, description: e.target.value })}
+              />
+            </div>
+            <div className="field-group">
+              <label>Cooldown (seconds)</label>
+              <input
+                className="field-input"
+                type="number"
+                value={editingApp.cooldown || 1209600}
+                onChange={(e) => setEditingApp({ ...editingApp, cooldown: parseInt(e.target.value) || 0 })}
+              />
+            </div>
+            <div className="field-group">
+              <label>Questions</label>
+              <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}>
+                <input
+                  className="field-input"
+                  value={questionText}
+                  placeholder="Question text"
+                  onChange={(e) => setQuestionText(e.target.value)}
+                  style={{ flex: 1 }}
+                />
+                <select
+                  className="field-input"
+                  value={questionType}
+                  onChange={(e) => setQuestionType(e.target.value)}
+                  style={{ width: "150px" }}
+                >
+                  <option value="short_answer">Short</option>
+                  <option value="long_answer">Long</option>
+                  <option value="multiple_choice">Multiple Choice</option>
+                  <option value="dropdown">Dropdown</option>
+                  <option value="numeric">Numeric</option>
+                  <option value="yes_no">Yes/No</option>
+                  <option value="url">URL</option>
+                </select>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    if (!questionText) return;
+                    setEditingApp({
+                      ...editingApp,
+                      questions: [...(editingApp.questions || []), { text: questionText, type: questionType, options: [], required: true }],
+                    });
+                    setQuestionText("");
+                  }}
+                >+</button>
+              </div>
+              {(editingApp.questions || []).map((q, i) => (
+                <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "0.25rem 0", borderBottom: "1px solid #2b2d31" }}>
+                  <span style={{ color: "#e8e0d8" }}>{i+1}. {q.text}</span>
+                  <button
+                    onClick={() => {
+                      const qs = [...(editingApp.questions || [])];
+                      qs.splice(i, 1);
+                      setEditingApp({ ...editingApp, questions: qs });
+                    }}
+                    style={{ background: "none", border: "none", color: "#ed4245", cursor: "pointer" }}
+                  >✕</button>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: "flex", gap: "0.5rem", marginTop: "1rem" }}>
+              <button
+                className="btn btn-primary"
+                onClick={async () => {
+                  setSavingApp(true);
+                  try {
+                    const res = await fetch(`/api/guilds/${guildId}/applications/${editingApp.name}`, {
+                      method: "PUT",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify(editingApp),
+                    });
+                    if (res.ok) {
+                      const updated = await res.json();
+                      onAppsChange({ ...appList, [editingApp.name]: updated });
+                      setEditingApp(null);
+                    }
+                  } catch (e) {
+                    console.error(e);
+                  } finally {
+                    setSavingApp(false);
+                  }
+                }}
+                disabled={savingApp}
+              >
+                {savingApp ? "Saving..." : "Save"}
+              </button>
+              <button className="btn btn-secondary" onClick={() => setEditingApp(null)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function SettingsForm({ guildId, initial }) {
   const [form, setForm] = useState(initial);
+  const [apps, setApps] = useState(initial.applications || {});
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState(null);
   const [expanded, setExpanded] = useState({
@@ -31,7 +421,14 @@ export default function SettingsForm({ guildId, initial }) {
     reports: false,
     forumlock: false,
     autotranslate: false,
+    applications: false,
   });
+
+  // Make channel/role options available to ApplicationsManager
+  if (typeof window !== "undefined") {
+    window.channelOptions = initial.channels || [];
+    window.roleOptions = initial.roles || [];
+  }
 
   const set = (key) => (value) => setForm((f) => ({ ...f, [key]: value }));
   const setNested = (parent, key) => (value) =>
@@ -46,10 +443,16 @@ export default function SettingsForm({ guildId, initial }) {
   async function handleSave() {
     setSaving(true);
     try {
+      const payload = { ...form };
+      delete payload.applications;
+      delete payload.channels;
+      delete payload.roles;
+      delete payload.categories;
+
       const res = await fetch(`/api/guilds/${guildId}/settings`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error("Save failed");
       setToast("✅ Settings saved.");
@@ -64,7 +467,7 @@ export default function SettingsForm({ guildId, initial }) {
   const channelOptions = initial.channels || [];
   const roleOptions = initial.roles || [];
 
-  const ChannelSelect = ({ value, onChange, label, allowNone = true }) => (
+  const ChannelSelect = ({ value, onChange, allowNone = true }) => (
     <select className="field-input" value={value || ""} onChange={(e) => onChange(e.target.value || null)}>
       {allowNone && <option value="">None</option>}
       {channelOptions.map((c) => (
@@ -148,10 +551,7 @@ export default function SettingsForm({ guildId, initial }) {
             </div>
             <div className="field-group">
               <label>Moderation Log Channel</label>
-              <ChannelSelect
-                value={form.mod_log_channel}
-                onChange={set("mod_log_channel")}
-              />
+              <ChannelSelect value={form.mod_log_channel} onChange={set("mod_log_channel")} />
             </div>
             <div className="field-group">
               <label>Support Hours Start (UTC)</label>
@@ -1347,6 +1747,14 @@ export default function SettingsForm({ guildId, initial }) {
               />
             </div>
           </>
+        )}
+      </Card>
+
+      {/* APPLICATIONS */}
+      <Card>
+        <SectionHeader title="📋 Applications" section="applications" />
+        {expanded.applications && (
+          <ApplicationsManager guildId={guildId} apps={apps} onAppsChange={setApps} />
         )}
       </Card>
 
