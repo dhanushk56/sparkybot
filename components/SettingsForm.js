@@ -152,4 +152,4 @@ export default function SettingsForm({ guildId, initial }) {
       {toast && <div className="toast">{toast}</div>}
     </div>
   );
-              }
+}
