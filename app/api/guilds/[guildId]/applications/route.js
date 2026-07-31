@@ -1,4 +1,4 @@
-// app/api/guilds/[guildId]/settings/route.js
+// app/api/guilds/[guildId]/applications/route.js
 import { getApiSecret } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
@@ -6,15 +6,9 @@ const BOT_API_URL = process.env.NEXT_PUBLIC_BOT_API_URL || "http://localhost:255
 
 export async function GET(request, { params }) {
   const { guildId } = params;
-  const url = new URL(request.url);
-  const userId = url.searchParams.get("user_id");
-  
-  if (!userId) {
-    return NextResponse.json({ error: "user_id required" }, { status: 400 });
-  }
   
   const res = await fetch(
-    `${BOT_API_URL}/api/guilds/${guildId}/settings?user_id=${userId}`,
+    `${BOT_API_URL}/api/guilds/${guildId}/applications`,
     {
       headers: {
         "x-api-secret": getApiSecret(),
@@ -36,7 +30,7 @@ export async function POST(request, { params }) {
   const body = await request.json();
   
   const res = await fetch(
-    `${BOT_API_URL}/api/guilds/${guildId}/settings`,
+    `${BOT_API_URL}/api/guilds/${guildId}/applications`,
     {
       method: "POST",
       headers: {
