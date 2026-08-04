@@ -44,6 +44,7 @@ export default function Navbar() {
     setMobileOpen(false);
   };
 
+  // Updated DropdownItem with external link support
   const DropdownItem = ({ label, name, items, links }) => {
     const isOpen = openDropdown === name;
     return (
@@ -78,32 +79,60 @@ export default function Navbar() {
               zIndex: 200,
             }}
           >
-            {items.map((item, i) => (
-              <Link
-                key={i}
-                href={links[i]}
-                onClick={closeAll}
-                style={{
-                  display: "block",
-                  padding: "0.5rem 1.2rem",
-                  color: "#e8e0d8",
-                  textDecoration: "none",
-                  fontSize: "0.9rem",
-                  transition: "background 0.15s",
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"}
-                onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
-              >
-                {item}
-              </Link>
-            ))}
+            {items.map((item, i) => {
+              const href = links[i];
+              const isExternal = href.startsWith('http://') || href.startsWith('https://');
+              const commonStyles = {
+                display: "block",
+                padding: "0.5rem 1.2rem",
+                color: "#e8e0d8",
+                textDecoration: "none",
+                fontSize: "0.9rem",
+                transition: "background 0.15s",
+              };
+              const hoverHandlers = {
+                onMouseEnter: (e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)",
+                onMouseLeave: (e) => e.currentTarget.style.background = "transparent",
+              };
+
+              if (isExternal) {
+                return (
+                  <a
+                    key={i}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={closeAll}
+                    style={commonStyles}
+                    {...hoverHandlers}
+                  >
+                    {item}
+                  </a>
+                );
+              }
+
+              return (
+                <Link
+                  key={i}
+                  href={href}
+                  onClick={closeAll}
+                  style={commonStyles}
+                  {...hoverHandlers}
+                >
+                  {item}
+                </Link>
+              );
+            })}
           </div>
         )}
       </div>
     );
   };
 
+  // Account dropdown – only shown when user is logged in
   const AccountDropdown = () => {
+    if (!user) return null; // hide when not logged in
+
     const isOpen = openDropdown === "account";
     return (
       <div style={{ position: "relative", display: "inline-block" }}>
@@ -120,7 +149,7 @@ export default function Navbar() {
             fontFamily: "inherit",
           }}
         >
-          {user ? user.username : "Account"} {isOpen ? "▴" : "▾"}
+          {user.username} {isOpen ? "▴" : "▾"}
         </button>
         {isOpen && (
           <div
@@ -137,41 +166,29 @@ export default function Navbar() {
               zIndex: 200,
             }}
           >
-            {user ? (
-              <>
-                <Link href="/dashboard" onClick={closeAll} style={{ display: "block", padding: "0.5rem 1.2rem", color: "#e8e0d8", textDecoration: "none" }}>My Dashboard</Link>
-                <button
-                  onClick={() => {
-                    localStorage.removeItem("review_user");
-                    setUser(null);
-                    closeAll();
-                    window.location.href = "/";
-                  }}
-                  style={{
-                    display: "block",
-                    width: "100%",
-                    textAlign: "left",
-                    background: "none",
-                    border: "none",
-                    color: "#f87171",
-                    padding: "0.5rem 1.2rem",
-                    cursor: "pointer",
-                    fontFamily: "inherit",
-                    fontSize: "0.9rem",
-                  }}
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <a
-                href={`https://discord.com/api/oauth2/authorize?client_id=1528780547411804382&redirect_uri=${encodeURIComponent("https://sparkysite.vercel.app/reviews")}&response_type=token&scope=identify`}
-                onClick={closeAll}
-                style={{ display: "block", padding: "0.5rem 1.2rem", color: "#5865F2", textDecoration: "none" }}
-              >
-                Login with Discord
-              </a>
-            )}
+            <Link href="/dashboard" onClick={closeAll} style={{ display: "block", padding: "0.5rem 1.2rem", color: "#e8e0d8", textDecoration: "none" }}>My Dashboard</Link>
+            <button
+              onClick={() => {
+                localStorage.removeItem("review_user");
+                setUser(null);
+                closeAll();
+                window.location.href = "/";
+              }}
+              style={{
+                display: "block",
+                width: "100%",
+                textAlign: "left",
+                background: "none",
+                border: "none",
+                color: "#f87171",
+                padding: "0.5rem 1.2rem",
+                cursor: "pointer",
+                fontFamily: "inherit",
+                fontSize: "0.9rem",
+              }}
+            >
+              Logout
+            </button>
           </div>
         )}
       </div>
@@ -188,12 +205,22 @@ export default function Navbar() {
 
         {/* Desktop Navigation - hidden on mobile via CSS */}
         <div className="nav-links">
-          <DropdownItem label="Bot" name="bot" items={["Dashboard", "Commands", "Invite", "Support"]} links={["/dashboard", "/commands", "/invite", "/support"]} />
-          <DropdownItem label="Community" name="community" items={["Reviews", "FAQ"]} links={["/reviews", "/faq"]} />
+          <DropdownItem 
+            label="Bot" 
+            name="bot" 
+            items={["Dashboard", "Commands", "Invite", "Support"]} 
+            links={["/dashboard", "/commands", "https://invite.sparkybot.bond", "https://support.sparkybot.bond"]} 
+          />
+          <DropdownItem 
+            label="Community" 
+            name="community" 
+            items={["Reviews", "FAQ"]} 
+            links={["/reviews", "/faq"]} 
+          />
           <AccountDropdown />
         </div>
 
-        {/* Mobile Hamburger - shown on mobile via CSS */}
+        {/* Mobile Hamburger */}
         <button
           onClick={toggleMobile}
           className="mobile-hamburger"
@@ -206,8 +233,18 @@ export default function Navbar() {
       {/* Mobile Menu - only shown when mobileOpen is true */}
       {mobileOpen && (
         <div style={{ marginTop: "1rem", paddingTop: "1rem", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-          <MobileDropdown label="Bot" items={["Dashboard", "Commands", "Invite", "Support"]} links={["/dashboard", "/commands", "/invite", "/support"]} closeAll={closeAll} />
-          <MobileDropdown label="Community" items={["Reviews", "FAQ"]} links={["/reviews", "/faq"]} closeAll={closeAll} />
+          <MobileDropdown 
+            label="Bot" 
+            items={["Dashboard", "Commands", "Invite", "Support"]} 
+            links={["/dashboard", "/commands", "/invite", "https://support.sparkybot.bond"]} 
+            closeAll={closeAll} 
+          />
+          <MobileDropdown 
+            label="Community" 
+            items={["Reviews", "FAQ"]} 
+            links={["/reviews", "/faq"]} 
+            closeAll={closeAll} 
+          />
           {user ? (
             <>
               <Link href="/dashboard" onClick={closeAll} style={{ display: "block", padding: "0.6rem 1rem", color: "#e8e0d8", textDecoration: "none" }}>My Dashboard</Link>
@@ -223,21 +260,14 @@ export default function Navbar() {
                 Logout
               </button>
             </>
-          ) : (
-            <a
-              href={`https://discord.com/api/oauth2/authorize?client_id=1528780547411804382&redirect_uri=${encodeURIComponent("https://sparkysite.vercel.app/reviews")}&response_type=token&scope=identify`}
-              onClick={closeAll}
-              style={{ display: "block", padding: "0.6rem 1rem", color: "#5865F2", textDecoration: "none" }}
-            >
-              Login with Discord
-            </a>
-          )}
+          ) : null}
         </div>
       )}
     </nav>
   );
 }
 
+// MobileDropdown component (unchanged)
 function MobileDropdown({ label, items, links, closeAll }) {
   const [open, setOpen] = useState(false);
   return (
@@ -258,16 +288,34 @@ function MobileDropdown({ label, items, links, closeAll }) {
       >
         {label} {open ? "▲" : "▼"}
       </button>
-      {open && items.map((item, i) => (
-        <Link
-          key={i}
-          href={links[i]}
-          onClick={() => { setOpen(false); closeAll(); }}
-          style={{ display: "block", padding: "0.4rem 1.5rem", color: "#a09890", textDecoration: "none", fontSize: "0.95rem" }}
-        >
-          {item}
-        </Link>
-      ))}
+      {open && items.map((item, i) => {
+        const href = links[i];
+        const isExternal = href.startsWith('http://') || href.startsWith('https://');
+        if (isExternal) {
+          return (
+            <a
+              key={i}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => { setOpen(false); closeAll(); }}
+              style={{ display: "block", padding: "0.4rem 1.5rem", color: "#a09890", textDecoration: "none", fontSize: "0.95rem" }}
+            >
+              {item}
+            </a>
+          );
+        }
+        return (
+          <Link
+            key={i}
+            href={href}
+            onClick={() => { setOpen(false); closeAll(); }}
+            style={{ display: "block", padding: "0.4rem 1.5rem", color: "#a09890", textDecoration: "none", fontSize: "0.95rem" }}
+          >
+            {item}
+          </Link>
+        );
+      })}
     </div>
   );
 }
