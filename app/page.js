@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StatusWidget from "@/components/StatusWidget";
+import ScrollReveal from "@/components/ScrollReveal";
 import { getCurrentUser } from "@/lib/currentUser";
 
 const INVITE_URL =
@@ -64,7 +65,8 @@ export default async function HomePage() {
           </div>
         </section>
       </main>
+      <ScrollReveal />
       <Footer />
     </>
   );
-}
+    }
