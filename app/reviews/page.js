@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 
 // ---------- Discord OAuth Helper ----------
 const DISCORD_CLIENT_ID = "1528780547411804382";
-const REDIRECT_URI = "https://sparkysite.vercel.app/reviews";
+const REDIRECT_URI = "https://sparkybot.bond/reviews";
 const DISCORD_OAUTH_URL = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=identify`;
 
 // ---------- Star Rating Component ----------
