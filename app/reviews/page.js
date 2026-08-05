@@ -6,7 +6,6 @@ const DISCORD_CLIENT_ID = "1528780547411804382";
 const REDIRECT_URI = "https://sparkybot.bond/reviews";
 const DISCORD_OAUTH_URL = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=identify`;
 
-// ---------- StarRating ----------
 function StarRating({ rating, onRatingChange, readonly = false, size = 28 }) {
   return (
     <div style={{ display: "flex", gap: "4px" }}>
@@ -29,7 +28,6 @@ function StarRating({ rating, onRatingChange, readonly = false, size = 28 }) {
   );
 }
 
-// ---------- ReviewItem ----------
 function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replyText, setReplyText] = useState("");
@@ -59,7 +57,6 @@ function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) 
 
   return (
     <div style={{ background: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "8px", padding: "1rem", marginBottom: "1rem" }}>
-      {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "0.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
           <img src={review.userAvatar || "https://cdn.discordapp.com/embed/avatars/0.png"} alt={review.username} style={{ width: "32px", height: "32px", borderRadius: "50%" }} />
@@ -92,11 +89,7 @@ function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) 
           )}
         </div>
       </div>
-
-      {/* Rating */}
       <div style={{ marginTop: "0.25rem" }}><StarRating rating={review.rating} readonly size={20} /></div>
-
-      {/* Text / Edit */}
       {isEditing ? (
         <div style={{ marginTop: "0.5rem" }}>
           <StarRating rating={editRating} onRatingChange={setEditRating} size={24} />
@@ -109,8 +102,6 @@ function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) 
       ) : (
         review.text && <div style={{ marginTop: "0.5rem", color: "#e8e0d8", whiteSpace: "pre-wrap" }}>{review.text}</div>
       )}
-
-      {/* Replies */}
       {(review.replies || []).length > 0 && (
         <div style={{ marginTop: "0.75rem", paddingLeft: "1rem", borderLeft: "2px solid #2b2d31" }}>
           {review.replies.map((reply) => (
@@ -125,8 +116,6 @@ function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) 
           ))}
         </div>
       )}
-
-      {/* Reply Form */}
       {showReplyForm && currentUser && (
         <div style={{ marginTop: "0.5rem", display: "flex", gap: "0.5rem", alignItems: "flex-start" }}>
           <img src={currentUser.avatar || "https://cdn.discordapp.com/embed/avatars/0.png"} alt="" style={{ width: "24px", height: "24px", borderRadius: "50%" }} />
@@ -143,7 +132,6 @@ function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) 
   );
 }
 
-// ---------- Main Page ----------
 export default function ReviewsPage() {
   const [user, setUser] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -306,11 +294,16 @@ export default function ReviewsPage() {
 
       if (res.ok) {
         const newReply = await res.json();
-        setReviews(reviews.map(r =>
-          r.id === reviewId
-            ? { ...r, replies: [...(r.replies || []), newReply] }
-            : r
-        ));
+        setReviews(prevReviews =>
+          prevReviews.map(r =>
+            r.id === reviewId
+              ? { ...r, replies: [...(r.replies || []), newReply] }
+              : r
+          )
+        );
+      } else {
+        const error = await res.json();
+        alert(`Failed to post reply: ${error.error}`);
       }
     } catch (e) {
       console.error("Reply error:", e);
@@ -395,7 +388,6 @@ export default function ReviewsPage() {
         }
       `}</style>
 
-      {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.75rem", marginBottom: "1.5rem" }}>
         <div><h1 style={{ margin: 0, fontSize: "1.8rem" }}>⭐ Reviews</h1><p style={{ color: "#949ba4", margin: "0.25rem 0 0 0", fontSize: "0.9rem" }}>Share your experience</p></div>
         <div>
@@ -411,14 +403,12 @@ export default function ReviewsPage() {
         </div>
       </div>
 
-      {/* Migration status */}
       {migrating && (
         <div style={{ background: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "8px", padding: "0.75rem", marginBottom: "1rem", textAlign: "center", color: "#d4af37" }}>
           ⏳ Migrating your old reviews to the new system...
         </div>
       )}
 
-      {/* Submit Review */}
       <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
         {user ? (
           <button className="btn btn-primary" onClick={() => setShowSubmitForm(!showSubmitForm)} style={{ padding: "0.6rem 1.5rem", fontSize: "1rem" }}>
@@ -448,7 +438,6 @@ export default function ReviewsPage() {
         </div>
       )}
 
-      {/* Sort & Filter */}
       <div className="filter-group" style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.5rem" }}>
         <div style={{ flex: 1, minWidth: "120px" }}>
           <label style={{ display: "block", marginBottom: "0.25rem", color: "#949ba4", fontSize: "0.85rem" }}>Sort</label>
@@ -475,7 +464,6 @@ export default function ReviewsPage() {
         </div>
       </div>
 
-      {/* Reviews List */}
       {processedReviews.length === 0 ? (
         <p style={{ color: "#949ba4", textAlign: "center", padding: "2rem 0" }}>No reviews yet. Be the first!</p>
       ) : (
@@ -484,7 +472,6 @@ export default function ReviewsPage() {
         ))
       )}
 
-      {/* Highlights */}
       {highlights.length > 0 && (
         <div style={{ marginTop: "2.5rem", borderTop: "1px solid #2b2d31", paddingTop: "2rem" }}>
           <h2 style={{ textAlign: "center", marginBottom: "1rem", fontSize: "1.4rem" }}>🏆 Top Reviews</h2>
