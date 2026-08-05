@@ -1,19 +1,23 @@
-import SettingsForm from "@/components/SettingsForm";
 import { getCurrentUser } from "@/lib/currentUser";
+import { getGuildSettings } from "@/lib/botApi";
+import SettingsForm from "@/components/SettingsForm";
 
 export default async function DashboardPage({ params }) {
   const user = await getCurrentUser();
-  const guildId = params.guildId;
-  const settings = await fetchSettings(guildId); // your existing fetch
+  if (!user) {
+    // Handle unauthenticated user (redirect or show login)
+    return <div>Please log in.</div>;
+  }
 
-  // ✅ Convert to string if you pass it
-  const userId = user?.id?.toString();
+  const guildId = params.guildId;
+
+  // ✅ Fetch settings using the correct function
+  const settings = await getGuildSettings(user.id, guildId);
 
   return (
     <SettingsForm
       guildId={guildId}
       initial={settings}
-      userId={userId}   // optional – API uses session
     />
   );
 }
