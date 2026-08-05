@@ -1226,7 +1226,7 @@ export default function SettingsForm({ guildId, initial }) {
       </div>
 
       {/* ----- MOBILE HEADER & SLIDE-OUT MENU ----- */}
-      <div style={{ width: "100%" }}>
+      <div style={{ flex: 1, minWidth: 0 }}>
         <div className="mobile-dash-header" style={{
           display: "none",
           justifyContent: "space-between",
