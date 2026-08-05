@@ -1,14 +1,7 @@
 import { getCurrentUser } from "@/lib/currentUser";
 import { NextResponse } from "next/server";
+import { reviews } from "@/lib/reviewsStore";
 
-// Shared reviews array – in a real app, this would be a database
-// For now, we need to import it from the main route file.
-// Since we can't share state across files easily, I'll use a global.
-// In production, use a database.
-
-let reviews = [];
-
-// This is a workaround – in production, use a database
 export async function POST(request) {
   const user = await getCurrentUser();
   if (!user) {
@@ -19,11 +12,20 @@ export async function POST(request) {
   const reviewId = searchParams.get("reviewId");
 
   const data = await request.json();
-  
-  // In a real app, fetch the review from your database
-  // For now, we'll use a global store – but this won't work across files.
-  // You need to move reviews to a shared module or use a database.
+  const review = reviews.find(r => r.id === reviewId);
+  if (!review) {
+    return NextResponse.json({ error: "Review not found" }, { status: 404 });
+  }
 
-  // TEMPORARY: We'll handle replies directly in the main route for now.
-  // Let me provide a better solution below.
+  const reply = {
+    id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+    userId: user.id,
+    username: user.username,
+    userAvatar: user.avatar || null,
+    text: data.text,
+    createdAt: Date.now(),
+  };
+
+  review.replies.push(reply);
+  return NextResponse.json(reply);
 }
