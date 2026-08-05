@@ -6,6 +6,7 @@ const DISCORD_CLIENT_ID = "1528780547411804382";
 const REDIRECT_URI = "https://sparkybot.bond/reviews";
 const DISCORD_OAUTH_URL = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=identify`;
 
+// ---------- StarRating Component ----------
 function StarRating({ rating, onRatingChange, readonly = false, size = 28 }) {
   return (
     <div style={{ display: "flex", gap: "4px" }}>
@@ -28,6 +29,7 @@ function StarRating({ rating, onRatingChange, readonly = false, size = 28 }) {
   );
 }
 
+// ---------- ReviewItem Component ----------
 function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replyText, setReplyText] = useState("");
@@ -91,7 +93,7 @@ function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) 
         <div style={{ marginTop: "0.75rem", paddingLeft: "1rem", borderLeft: "2px solid #2b2d31" }}>
           {review.replies.map((reply) => (
             <div key={reply.id} style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem", alignItems: "flex-start" }}>
-              <img src={reply.userAvatar || "https://cdn.discordapp.com/embed/avatars/0.png"} style={{ width: "20px", height: "20px", borderRadius: "50%" }} />
+              <img src={reply.userAvatar || "https://cdn.discordapp.com/embed/avatars/0.png"} alt="" style={{ width: "20px", height: "20px", borderRadius: "50%" }} />
               <div>
                 <strong style={{ color: "#e8e0d8", fontSize: "0.85rem" }}>{reply.username}</strong>
                 <span style={{ color: "#949ba4", fontSize: "0.7rem", marginLeft: "0.25rem" }}>{new Date(reply.createdAt).toLocaleDateString()}</span>
@@ -103,7 +105,7 @@ function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) 
       )}
       {showReplyForm && currentUser && (
         <div style={{ marginTop: "0.5rem", display: "flex", gap: "0.5rem", alignItems: "flex-start" }}>
-          <img src={currentUser.avatar || "https://cdn.discordapp.com/embed/avatars/0.png"} style={{ width: "24px", height: "24px", borderRadius: "50%" }} />
+          <img src={currentUser.avatar || "https://cdn.discordapp.com/embed/avatars/0.png"} alt="" style={{ width: "24px", height: "24px", borderRadius: "50%" }} />
           <div style={{ flex: 1 }}>
             <textarea className="field-input" rows="2" placeholder="Write a reply..." value={replyText} onChange={(e) => setReplyText(e.target.value)} style={{ width: "100%" }} />
             <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.25rem" }}>
@@ -117,10 +119,12 @@ function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) 
   );
 }
 
+// ---------- Main Page ----------
 export default function ReviewsPage() {
   const [user, setUser] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [migrating, setMigrating] = useState(false);
   const [sortBy, setSortBy] = useState("latest");
   const [filterBy, setFilterBy] = useState("all");
   const [showSubmitForm, setShowSubmitForm] = useState(false);
@@ -146,6 +150,8 @@ export default function ReviewsPage() {
               avatar: data.avatar ? `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.png` : null,
             };
             setUser(userData);
+            // After login, migrate any local reviews
+            migrateLocalReviews(userData);
             window.history.replaceState({}, document.title, window.location.pathname);
           })
           .catch(console.error);
@@ -153,7 +159,11 @@ export default function ReviewsPage() {
     }
     const savedUser = localStorage.getItem("review_user");
     if (savedUser && !user) {
-      try { setUser(JSON.parse(savedUser)); } catch {}
+      try {
+        const parsed = JSON.parse(savedUser);
+        setUser(parsed);
+        migrateLocalReviews(parsed);
+      } catch {}
     }
   }, []);
 
@@ -180,6 +190,49 @@ export default function ReviewsPage() {
   useEffect(() => {
     loadReviews();
   }, []);
+
+  // ----- Migration: Upload local reviews to API -----
+  const migrateLocalReviews = async (userData) => {
+    const localKey = "reviews_data";
+    const localData = localStorage.getItem(localKey);
+    if (!localData) return;
+
+    try {
+      const localReviews = JSON.parse(localData);
+      if (!localReviews.length) return;
+
+      setMigrating(true);
+      let migrated = 0;
+
+      for (const localReview of localReviews) {
+        // Check if this review already exists on server (by userId + createdAt)
+        const exists = reviews.some(r => r.userId === userData.id && r.createdAt === localReview.createdAt);
+        if (exists) continue;
+
+        const res = await fetch("/api/reviews", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            rating: localReview.rating,
+            text: localReview.text || "",
+            createdAt: localReview.createdAt,
+          }),
+        });
+        if (res.ok) migrated++;
+      }
+
+      if (migrated > 0) {
+        // Reload reviews to show the migrated ones
+        await loadReviews();
+        // Optionally clear localStorage after migration
+        // localStorage.removeItem(localKey);
+      }
+    } catch (e) {
+      console.error("Migration error:", e);
+    } finally {
+      setMigrating(false);
+    }
+  };
 
   // ----- CRUD Operations (API) -----
   const handleSubmitReview = async () => {
@@ -237,10 +290,11 @@ export default function ReviewsPage() {
       createdAt: Date.now(),
     };
 
+    // Optimistic update
     setReviews(reviews.map(r => r.id === reviewId ? { ...r, replies: [...(r.replies || []), reply] } : r));
 
-    // In a real app, you'd also POST this to the API
-    // For now, it's client-side only
+    // In a real app, POST to /api/reviews/:reviewId/replies
+    // For now, we only store replies in memory (will reset on server restart)
   };
 
   const handleEdit = async (reviewId, rating, text) => {
@@ -335,6 +389,13 @@ export default function ReviewsPage() {
           )}
         </div>
       </div>
+
+      {/* Migration status */}
+      {migrating && (
+        <div style={{ background: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "8px", padding: "0.75rem", marginBottom: "1rem", textAlign: "center", color: "#d4af37" }}>
+          ⏳ Migrating your old reviews to the new system...
+        </div>
+      )}
 
       {/* Submit Review */}
       <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
