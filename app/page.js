@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import UptimeCounter from "@/components/UptimeCounter";
 
 export default function HomePage() {
   const [loading, setLoading] = useState(true);
@@ -139,29 +140,14 @@ export default function HomePage() {
             border-radius: 4px;
             animation: line-scale 1s ease-in-out infinite;
           }
-          .loader-inner > div:nth-child(1) {
-            animation-delay: 0s;
-          }
-          .loader-inner > div:nth-child(2) {
-            animation-delay: 0.1s;
-          }
-          .loader-inner > div:nth-child(3) {
-            animation-delay: 0.2s;
-          }
-          .loader-inner > div:nth-child(4) {
-            animation-delay: 0.3s;
-          }
-          .loader-inner > div:nth-child(5) {
-            animation-delay: 0.4s;
-          }
+          .loader-inner > div:nth-child(1) { animation-delay: 0s; }
+          .loader-inner > div:nth-child(2) { animation-delay: 0.1s; }
+          .loader-inner > div:nth-child(3) { animation-delay: 0.2s; }
+          .loader-inner > div:nth-child(4) { animation-delay: 0.3s; }
+          .loader-inner > div:nth-child(5) { animation-delay: 0.4s; }
           @keyframes line-scale {
-            0%,
-            100% {
-              transform: scaleY(1);
-            }
-            50% {
-              transform: scaleY(2.5);
-            }
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(2.5); }
           }
         `}</style>
       </div>
@@ -192,168 +178,6 @@ export default function HomePage() {
       />
 
       <div style={{ position: "relative", zIndex: 1 }}>
-        {/* Navbar */}
-        <nav
-          className="navbar"
-          style={{
-            position: "sticky",
-            top: 0,
-            zIndex: 100,
-            padding: "1rem 2rem",
-            background: "rgba(10,10,20,.7)",
-            backdropFilter: "blur(16px)",
-            borderBottom: "1px solid rgba(255,255,255,.04)",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "1rem",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "1.5rem",
-              flexWrap: "wrap",
-              width: "100%",
-            }}
-          >
-            <a
-              href="/"
-              style={{
-                fontSize: "1.8rem",
-                fontWeight: 800,
-                display: "flex",
-                alignItems: "center",
-                gap: ".5rem",
-                color: "#e8e0d8",
-                textDecoration: "none",
-              }}
-            >
-              SparkyBot{" "}
-              <span
-                style={{
-                  background: "#d4af37",
-                  color: "#0d0d1a",
-                  padding: ".1rem .7rem",
-                  borderRadius: "6px",
-                  fontSize: ".75rem",
-                  fontWeight: 700,
-                }}
-              >
-                BETA
-              </span>
-            </a>
-
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "2rem",
-                flexWrap: "wrap",
-                marginLeft: "auto",
-              }}
-            >
-              <a
-                href="/"
-                style={{
-                  color: "#d4af37",
-                  fontSize: ".95rem",
-                  textDecoration: "none",
-                }}
-              >
-                Home
-              </a>
-              <a
-                href="/commands"
-                style={{
-                  color: "#a09890",
-                  fontSize: ".95rem",
-                  textDecoration: "none",
-                  transition: "color .3s ease",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = "#d4af37")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = "#a09890")
-                }
-              >
-                Commands
-              </a>
-              <a
-                href="/dashboard"
-                style={{
-                  color: "#a09890",
-                  fontSize: ".95rem",
-                  textDecoration: "none",
-                  transition: "color .3s ease",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = "#d4af37")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = "#a09890")
-                }
-              >
-                Dashboard
-              </a>
-              <a
-                href="/reviews"
-                style={{
-                  color: "#a09890",
-                  fontSize: ".95rem",
-                  textDecoration: "none",
-                  transition: "color .3s ease",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = "#d4af37")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = "#a09890")
-                }
-              >
-                Reviews
-              </a>
-              <a
-                href="https://invite.sparkybot.bond"
-                target="_blank"
-                rel="noreferrer"
-                style={{
-                  display: "inline-block",
-                  padding: ".6rem 1.5rem",
-                  borderRadius: "8px",
-                  fontWeight: 600,
-                  fontSize: ".9rem",
-                  transition: "all .3s cubic-bezier(.22,1,.36,1)",
-                  border: "none",
-                  cursor: "pointer",
-                  background: "#d4af37",
-                  color: "#0d0d1a",
-                  boxShadow: "0 4px 16px rgba(212,175,55,.3)",
-                  textDecoration: "none",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#e8c84a";
-                  e.currentTarget.style.transform =
-                    "translateY(-2px) scale(1.02)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 28px rgba(212,175,55,.4)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#d4af37";
-                  e.currentTarget.style.transform = "translateY(0) scale(1)";
-                  e.currentTarget.style.boxShadow =
-                    "0 4px 16px rgba(212,175,55,.3)";
-                }}
-              >
-                ✨ Invite
-              </a>
-            </div>
-          </div>
-        </nav>
-
         {/* Header with Banner */}
         <div style={{ position: "relative", overflow: "hidden" }}>
           <div
@@ -407,14 +231,12 @@ export default function HomePage() {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "rgba(10,10,20,.95)";
-                e.currentTarget.style.borderColor =
-                  "rgba(212,175,55,.3)";
+                e.currentTarget.style.borderColor = "rgba(212,175,55,.3)";
                 e.currentTarget.style.transform = "translateY(-2px)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "rgba(10,10,20,.8)";
-                e.currentTarget.style.borderColor =
-                  "rgba(255,255,255,.06)";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,.06)";
                 e.currentTarget.style.transform = "translateY(0)";
               }}
             >
@@ -459,7 +281,7 @@ export default function HomePage() {
             </a>
           </div>
 
-          {/* Support Button */}
+          {/* Discord Button with Emoji */}
           <a
             href="https://support.sparkybot.bond"
             target="_blank"
@@ -470,7 +292,7 @@ export default function HomePage() {
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "1rem",
+                gap: "0.75rem",
                 background: "rgba(10,10,20,.8)",
                 backdropFilter: "blur(10px)",
                 padding: "0.75rem 1.5rem",
@@ -480,36 +302,53 @@ export default function HomePage() {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "rgba(10,10,20,.95)";
-                e.currentTarget.style.borderColor =
-                  "rgba(88,101,242,.4)";
+                e.currentTarget.style.borderColor = "rgba(88,101,242,.4)";
                 e.currentTarget.style.transform = "translateY(-2px)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "rgba(10,10,20,.8)";
-                e.currentTarget.style.borderColor =
-                  "rgba(255,255,255,.06)";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,.06)";
                 e.currentTarget.style.transform = "translateY(0)";
               }}
             >
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 512 512"
-                  style={{ width: "32px", height: "32px", fill: "#5865F2" }}
-                >
-                  <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0zm88.3 339.1c-7.6 4.2-12.3 12.3-12.3 20.9V344c0 8.7-4.7 16.7-12.3 20.9s-16.8 4.1-24.3-.5l-144-88c-7.1-4.4-11.5-12.1-11.5-20.5s4.4-16.1 11.5-20.5l144-88c7.4-4.5 16.7-4.7 24.3-.5 7.6 4.2 12.3 12.3 12.3 20.9v144c0 8.7-4.7 16.7-12.3 20.9z" />
-                </svg>
-              </div>
-              <div>
-                <div style={{ fontSize: "1.1rem", fontWeight: 600 }}>
-                  <span style={{ color: "#5865F2" }}>🟣 Click to join</span>
-                </div>
-                <div style={{ fontSize: "0.85rem", color: "#a09890" }}>
-                  support.sparkybot.bond
-                </div>
-              </div>
+              <img
+                src="https://cdn3.emoji.gg/emojis/660815-discordlogo.png"
+                width="32"
+                height="32"
+                alt="Discord"
+                style={{ display: "block" }}
+              />
+              <span style={{ color: "#5865F2", fontSize: "1.1rem", fontWeight: 600 }}>
+                Discord
+              </span>
             </div>
           </a>
+        </div>
+
+        {/* Uptime Counter */}
+        <div
+          style={{
+            maxWidth: "900px",
+            margin: "1.5rem auto 0",
+            padding: "0 1.5rem",
+            animation: "fadeInUp 0.8s ease forwards",
+            animationDelay: "0.3s",
+            opacity: 0,
+          }}
+        >
+          <h2
+            style={{
+              textAlign: "center",
+              color: "#808098",
+              fontSize: "0.8rem",
+              textTransform: "uppercase",
+              letterSpacing: "0.15rem",
+              marginBottom: "0.5rem",
+            }}
+          >
+            Bot Uptime
+          </h2>
+          <UptimeCounter />
         </div>
 
         {/* Features Section */}
@@ -568,21 +407,15 @@ export default function HomePage() {
                   opacity: 0,
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background =
-                    "rgba(255,255,255,.04)";
-                  e.currentTarget.style.transform =
-                    "translateY(-8px) scale(1.01)";
-                  e.currentTarget.style.borderColor =
-                    "rgba(212,175,55,.2)";
-                  e.currentTarget.style.boxShadow =
-                    "0 20px 60px rgba(0,0,0,.3)";
+                  e.currentTarget.style.background = "rgba(255,255,255,.04)";
+                  e.currentTarget.style.transform = "translateY(-8px) scale(1.01)";
+                  e.currentTarget.style.borderColor = "rgba(212,175,55,.2)";
+                  e.currentTarget.style.boxShadow = "0 20px 60px rgba(0,0,0,.3)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background =
-                    "rgba(255,255,255,.02)";
+                  e.currentTarget.style.background = "rgba(255,255,255,.02)";
                   e.currentTarget.style.transform = "translateY(0) scale(1)";
-                  e.currentTarget.style.borderColor =
-                    "rgba(255,255,255,.04)";
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,.04)";
                   e.currentTarget.style.boxShadow = "none";
                 }}
               >
@@ -704,12 +537,8 @@ export default function HomePage() {
                     marginBottom: "0.4rem",
                     transition: "color .3s ease",
                   }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = "#d4af37")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "#808098")
-                  }
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#d4af37")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#808098")}
                 >
                   Commands
                 </a>
@@ -722,12 +551,8 @@ export default function HomePage() {
                     marginBottom: "0.4rem",
                     transition: "color .3s ease",
                   }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = "#d4af37")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "#808098")
-                  }
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#d4af37")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#808098")}
                 >
                   Dashboard
                 </a>
@@ -740,12 +565,8 @@ export default function HomePage() {
                     marginBottom: "0.4rem",
                     transition: "color .3s ease",
                   }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = "#d4af37")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "#808098")
-                  }
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#d4af37")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#808098")}
                 >
                   Reviews
                 </a>
@@ -757,12 +578,8 @@ export default function HomePage() {
                     textDecoration: "none",
                     transition: "color .3s ease",
                   }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = "#d4af37")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "#808098")
-                  }
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#d4af37")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#808098")}
                 >
                   FAQ
                 </a>
@@ -805,12 +622,10 @@ export default function HomePage() {
                     transition: "all .3s cubic-bezier(.22,1,.36,1)",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background =
-                      "rgba(88,101,242,0.3)";
+                    e.currentTarget.style.background = "rgba(88,101,242,0.3)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background =
-                      "rgba(88,101,242,0.2)";
+                    e.currentTarget.style.background = "rgba(88,101,242,0.2)";
                   }}
                 >
                   Visit Support →
@@ -855,12 +670,8 @@ export default function HomePage() {
                     fontSize: "0.85rem",
                     transition: "color .3s ease",
                   }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = "#d4af37")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "#606070")
-                  }
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#d4af37")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#606070")}
                 >
                   Terms
                 </a>
@@ -872,12 +683,8 @@ export default function HomePage() {
                     fontSize: "0.85rem",
                     transition: "color .3s ease",
                   }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = "#d4af37")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "#606070")
-                  }
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#d4af37")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#606070")}
                 >
                   Privacy
                 </a>
@@ -891,12 +698,8 @@ export default function HomePage() {
                     fontSize: "0.85rem",
                     transition: "color .3s ease",
                   }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = "#d4af37")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "#606070")
-                  }
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#d4af37")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#606070")}
                 >
                   GitHub
                 </a>
@@ -908,46 +711,22 @@ export default function HomePage() {
 
       <style jsx>{`
         @keyframes line-scale {
-          0%,
-          100% {
-            transform: scaleY(1);
-          }
-          50% {
-            transform: scaleY(2.5);
-          }
+          0%, 100% { transform: scaleY(1); }
+          50% { transform: scaleY(2.5); }
         }
         @keyframes fadeInUp {
-          0% {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          0% { opacity: 0; transform: translateY(30px); }
+          100% { opacity: 1; transform: translateY(0); }
         }
         @keyframes float {
-          0% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-8px);
-          }
-          100% {
-            transform: translateY(0px);
-          }
+          0% { transform: translateY(0px); }
+          50% { transform: translateY(-8px); }
+          100% { transform: translateY(0px); }
         }
         @media (max-width: 768px) {
-          .logo-ds-flex {
-            flex-direction: column;
-            gap: 1rem;
-          }
-          .header {
-            height: 300px !important;
-          }
-          .logo {
-            height: 100px !important;
-          }
+          .logo-ds-flex { flex-direction: column; gap: 1rem; }
+          .header { height: 300px !important; }
+          .logo { height: 100px !important; }
         }
       `}</style>
     </div>
