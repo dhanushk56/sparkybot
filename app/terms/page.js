@@ -1,14 +1,10 @@
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { getCurrentUser } from "@/lib/currentUser";
 
 export const metadata = { title: "Terms of Service — SparkyBot" };
 
 export default async function TermsPage() {
-  const user = await getCurrentUser();
   return (
     <>
-      <Navbar active="/terms" user={user} />
       <main className="main">
         <div className="policy-content">
           <h2 style={{ color: "#e8e0d8", marginBottom: "1.5rem" }}>Terms of Service</h2>
