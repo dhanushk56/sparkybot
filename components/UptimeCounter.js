@@ -78,28 +78,30 @@ export default function UptimeCounter() {
       <style jsx>{`
         .uptime-counter {
           display: flex;
-          gap: 1rem;
+          gap: 0.8rem;
           justify-content: center;
           align-items: center;
-          padding: 0.5rem 0;
+          padding: 0.25rem 0;
           flex-wrap: nowrap;
           overflow-x: auto;
+          width: 100%;
         }
         .clock-group {
           display: flex;
           flex-direction: column;
           align-items: center;
+          flex-shrink: 0;
         }
         .clock-label {
           font-size: 0.6rem;
           color: #808098;
           text-transform: uppercase;
           letter-spacing: 0.08rem;
-          margin-bottom: 0.2rem;
+          margin-bottom: 0.15rem;
         }
         .clock-digits {
           display: flex;
-          gap: 0.15rem;
+          gap: 0.12rem;
         }
         .flip-digit {
           position: relative;
@@ -107,6 +109,7 @@ export default function UptimeCounter() {
           height: 2.4rem;
           perspective: 300px;
           display: inline-block;
+          flex-shrink: 0;
         }
         .flip-digit > div {
           position: absolute;
@@ -148,11 +151,19 @@ export default function UptimeCounter() {
           height: 2px;
           background: rgba(0,0,0,0.4);
         }
+
+        /* Responsive – scale down on small screens but keep one row */
         @media (max-width: 600px) {
+          .uptime-counter { gap: 0.4rem; }
           .clock-label { font-size: 0.5rem; }
-          .flip-digit { width: 1.2rem; height: 1.8rem; }
-          .flip-digit > div { font-size: 1.1rem; line-height: 1.8rem; }
-          .uptime-counter { gap: 0.5rem; }
+          .flip-digit { width: 1.1rem; height: 1.7rem; }
+          .flip-digit > div { font-size: 1rem; line-height: 1.7rem; }
+        }
+        @media (max-width: 420px) {
+          .flip-digit { width: 0.9rem; height: 1.4rem; }
+          .flip-digit > div { font-size: 0.8rem; line-height: 1.4rem; }
+          .uptime-counter { gap: 0.25rem; }
+          .clock-label { font-size: 0.4rem; }
         }
       `}</style>
     </div>
