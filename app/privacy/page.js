@@ -1,14 +1,10 @@
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { getCurrentUser } from "@/lib/currentUser";
 
 export const metadata = { title: "Privacy Policy — SparkyBot" };
 
 export default async function PrivacyPage() {
-  const user = await getCurrentUser();
   return (
     <>
-      <Navbar active="/privacy" user={user} />
       <main className="main">
         <div className="policy-content">
           <h2 style={{ color: "#e8e0d8", marginBottom: "1.5rem" }}>Privacy Policy</h2>
