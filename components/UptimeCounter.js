@@ -49,7 +49,11 @@ export default function UptimeCounter() {
   const secondsStr = pad(time.seconds);
 
   return (
-    <div className="uptime-counter">
+    // ↓ inline style guarantees one row before styled-jsx loads
+    <div
+      className="uptime-counter"
+      style={{ display: "flex", flexWrap: "nowrap", overflowX: "auto", gap: "0.8rem", justifyContent: "center", alignItems: "center" }}
+    >
       <div className="clock-group">
         <span className="clock-label">DAYS</span>
         <div className="clock-digits">
@@ -77,13 +81,7 @@ export default function UptimeCounter() {
 
       <style jsx>{`
         .uptime-counter {
-          display: flex;
-          gap: 0.8rem;
-          justify-content: center;
-          align-items: center;
           padding: 0.25rem 0;
-          flex-wrap: nowrap;
-          overflow-x: auto;
           width: 100%;
         }
         .clock-group {
@@ -151,10 +149,7 @@ export default function UptimeCounter() {
           height: 2px;
           background: rgba(0,0,0,0.4);
         }
-
-        /* Responsive – scale down on small screens but keep one row */
         @media (max-width: 600px) {
-          .uptime-counter { gap: 0.4rem; }
           .clock-label { font-size: 0.5rem; }
           .flip-digit { width: 1.1rem; height: 1.7rem; }
           .flip-digit > div { font-size: 1rem; line-height: 1.7rem; }
@@ -162,10 +157,9 @@ export default function UptimeCounter() {
         @media (max-width: 420px) {
           .flip-digit { width: 0.9rem; height: 1.4rem; }
           .flip-digit > div { font-size: 0.8rem; line-height: 1.4rem; }
-          .uptime-counter { gap: 0.25rem; }
           .clock-label { font-size: 0.4rem; }
         }
       `}</style>
     </div>
   );
-}
+      }
