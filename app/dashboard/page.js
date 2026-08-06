@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getCurrentUser } from "@/lib/currentUser";
 import { getMutualGuildIds } from "@/lib/botApi";
@@ -16,7 +15,6 @@ export default async function DashboardPage() {
   if (!user) {
     return (
       <>
-        <Navbar active="/dashboard" user={null} />
         <main className="main">
           <div className="hero">
             <div className="badge">🔐 Members only</div>
@@ -45,7 +43,6 @@ export default async function DashboardPage() {
 
   return (
     <>
-      <Navbar active="/dashboard" user={user} />
       <main className="main">
         <div className="commands-header">
           <h1>Your servers</h1>
