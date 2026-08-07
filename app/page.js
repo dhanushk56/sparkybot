@@ -1,478 +1,253 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function HomePage() {
-  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({ servers: 0, users: 0 });
   const [isOnline, setIsOnline] = useState(true);
-  const [statusMessage, setStatusMessage] = useState("Checking...");
-
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1200);
-    return () => clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     fetch("/api/status")
       .then((res) => res.json())
       .then((data) => {
-        const online = data.status === "online" || data.uptime > 0;
-        setIsOnline(online);
-        setStatusMessage(online ? "Online" : "Offline");
+        setIsOnline(data.status === "online" || data.uptime > 0);
+        setStats({ servers: data.servers || 0, users: data.users || 0 });
       })
-      .catch(() => {
-        setIsOnline(false);
-        setStatusMessage("Offline");
-      });
+      .catch(() => setIsOnline(false));
   }, []);
 
   const features = [
-    {
-      icon: "⚔️",
-      title: "Advanced Moderation",
-      desc: "Kick, ban, mute, warn, jail, purge, lockdown, and slowmode – all with detailed logging.",
-    },
-    {
-      icon: "🎟️",
-      title: "Ticket System",
-      desc: "Complete support tickets with transcripts, categories, claim/close, and staff roles.",
-    },
-    {
-      icon: "💰",
-      title: "Economy & Leveling",
-      desc: "Currency, shop, daily rewards, XP, and leveling with role rewards and leaderboards.",
-    },
-    {
-      icon: "🎉",
-      title: "Giveaways",
-      desc: "Create and manage giveaways with role requirements, multiple winners, and rerolls.",
-    },
-    {
-      icon: "📄",
-      title: "Applications",
-      desc: "Staff applications with custom questions, review flows, and automatic role assignment.",
-    },
-    {
-      icon: "🎵",
-      title: "Music System",
-      desc: "YouTube, SoundCloud, and Spotify support — queue, shuffle, loop, 24/7 mode, and live lyrics.",
-    },
-    {
-      icon: "🛡️",
-      title: "Anti-Nuke Protection",
-      desc: "Automatically detect and stop mass-deletes, bans, role changes, channel creations, and webhooks.",
-    },
-    {
-      icon: "🌐",
-      title: "Translation",
-      desc: "Translate messages, detect languages, and auto-translate channels with 100+ languages.",
-    },
-    {
-      icon: "🎭",
-      title: "Reaction Roles",
-      desc: "Assign roles via reactions with multiple modes, exclusive groups, and full customization.",
-    },
-    {
-      icon: "🔊",
-      title: "Join-to-Create",
-      desc: "Let members create private voice channels with automatic cleanup, naming, and full control.",
-    },
-    {
-      icon: "📝",
-      title: "Logging",
-      desc: "Comprehensive audit logs for messages, members, channels, roles, and moderation actions – 20+ events.",
-    },
-    {
-      icon: "📨",
-      title: "Invite Tracking",
-      desc: "Track invites, detect fake accounts, view leaderboards, and message statistics.",
-    },
-    {
-      icon: "🔐",
-      title: "Verification",
-      desc: "Image captcha verification with private channels, timeout, and custom roles.",
-    },
-    {
-      icon: "👋",
-      title: "Welcome & Auto-role",
-      desc: "Welcome/goodbye messages with embeds, DMs, and auto-roles for new members.",
-    },
-    {
-      icon: "▶️",
-      title: "YouTube Notifications",
-      desc: "Track YouTube channels and get notified on new uploads with keyword filters and custom messages.",
-    },
-    {
-      icon: "🔒",
-      title: "Forum Lock",
-      desc: "Automatically lock forum posts after a set time with logging.",
-    },
-    {
-      icon: "🖥️",
-      title: "Web Dashboard",
-      desc: "Manage prefixes, welcome messages and automod straight from your browser — no commands needed.",
-    },
+    { icon: "🛡️", title: "Advanced Moderation", desc: "Kick, ban, mute, warn, jail, purge, lockdown, and slowmode – all with detailed logging." },
+    { icon: "🎫", title: "Ticket System", desc: "Complete support tickets with transcripts, categories, claim/close, and staff roles." },
+    { icon: "💰", title: "Economy & Leveling", desc: "Currency, shop, daily rewards, XP, and leveling with role rewards and leaderboards." },
+    { icon: "🎁", title: "Giveaways", desc: "Create and manage giveaways with role requirements, multiple winners, and rerolls." },
+    { icon: "📋", title: "Applications", desc: "Staff applications with custom questions, review flows, and automatic role assignment." },
+    { icon: "🎵", title: "Music System", desc: "YouTube, SoundCloud, and Spotify support — queue, shuffle, loop, 24/7 mode, and live lyrics." },
+    { icon: "🧨", title: "Anti-Nuke Protection", desc: "Automatically detect and stop mass-deletes, bans, role changes, channel creations, and webhooks." },
+    { icon: "🌐", title: "Translation", desc: "Translate messages, detect languages, and auto-translate channels with 100+ languages." },
+    { icon: "🎭", title: "Reaction Roles", desc: "Assign roles via reactions with multiple modes, exclusive groups, and full customization." },
+    { icon: "🔊", title: "Join-to-Create", desc: "Let members create private voice channels with automatic cleanup, naming, and full control." },
+    { icon: "📜", title: "Logging", desc: "Comprehensive audit logs for messages, members, channels, roles, and moderation actions – 20+ events." },
+    { icon: "📨", title: "Invite Tracking", desc: "Track invites, detect fake accounts, view leaderboards, and message statistics." },
+    { icon: "✅", title: "Verification", desc: "Image captcha verification with private channels, timeout, and custom roles." },
+    { icon: "🚪", title: "Welcome & Auto-role", desc: "Welcome/goodbye messages with embeds, DMs, and auto-roles for new members." },
+    { icon: "📹", title: "YouTube Notifications", desc: "Track YouTube channels and get notified on new uploads with keyword filters and custom messages." },
+    { icon: "🔒", title: "Forum Lock", desc: "Automatically lock forum posts after a set time with logging." },
+    { icon: "💻", title: "Web Dashboard", desc: "Manage prefixes, welcome messages and automod straight from your browser — no commands needed." },
   ];
 
-  const logoUrl =
-    "https://cdn.discordapp.com/attachments/1524887612479770713/1534971345224470579/file_000000008b2481fda22d4ceb4daad3e4.png?ex=6a776277&is=6a7610f7&hm=8207aba8af8957747c0736b7edf3a406dd4a44a205dcd40046e4f48fd697d7d2&";
-  const bannerUrl =
-    "https://cdn.discordapp.com/attachments/1524887612479770713/1534971593443250308/1786036117833.png?ex=6a7762b2&is=6a761132&hm=c0fa82bf4ecb8db1c4b36b017728fce194f3000fd0ec113952fdba8d57a055f4&";
-
-  if (loading) {
-    return (
-      <div className="load-wrapper">
-        <div className="loader">
-          <div className="loader-inner line-scale">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-        <style jsx>{`
-          .load-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #0a0a14;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }
-          .loader-inner {
-            display: flex;
-            gap: 0.5rem;
-          }
-          .loader-inner > div {
-            width: 6px;
-            height: 24px;
-            background: #d4af37;
-            border-radius: 4px;
-            animation: line-scale 1s ease-in-out infinite;
-          }
-          .loader-inner > div:nth-child(1) { animation-delay: 0s; }
-          .loader-inner > div:nth-child(2) { animation-delay: 0.1s; }
-          .loader-inner > div:nth-child(3) { animation-delay: 0.2s; }
-          .loader-inner > div:nth-child(4) { animation-delay: 0.3s; }
-          .loader-inner > div:nth-child(5) { animation-delay: 0.4s; }
-          @keyframes line-scale {
-            0%, 100% { transform: scaleY(1); }
-            50% { transform: scaleY(2.5); }
-          }
-        `}</style>
-      </div>
-    );
-  }
-
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        color: "#e8e0d8",
-        overflowX: "hidden",
-        position: "relative",
-        background: `url(${logoUrl}) no-repeat center center fixed`,
-        backgroundSize: "700px",
-        backgroundOpacity: 0.08,
-      }}
-    >
-      {/* Background overlay */}
-      <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          background:
-            "radial-gradient(ellipse at center, rgba(10,10,20,0.92) 40%, rgba(10,10,20,0.96) 70%, #0a0a14 100%)",
-          zIndex: 0,
-        }}
-      />
+    <div className="landing-root">
+      {/* ==================== HERO ==================== */}
+      <section className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#050507]">
+        <div className="absolute inset-0 bg-gradient-to-br from-gold-primary/10 via-dark-bg to-gold-secondary/5"></div>
+        <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+        <div className="absolute top-20 -right-20 w-96 h-96 bg-gold-primary/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 -left-20 w-80 h-80 bg-gold-secondary/15 rounded-full blur-3xl animate-pulse animation-delay-1000"></div>
 
-      <div style={{ position: "relative", zIndex: 1 }}>
-        {/* Header with Banner */}
-        <div style={{ position: "relative", overflow: "hidden" }}>
-          <div
-            style={{
-              height: "475px",
-              background: `url('${bannerUrl}') no-repeat center center`,
-              backgroundSize: "cover",
-              position: "relative",
-              zIndex: 1,
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                background:
-                  "linear-gradient(rgba(0,0,0,0.3), rgba(10,10,20,0.7))",
-                zIndex: 2,
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Status Boxes */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "2rem",
-            marginTop: "-60px",
-            position: "relative",
-            zIndex: 3,
-            flexWrap: "wrap",
-            padding: "0 1rem",
-          }}
-        >
-          {/* Bot Status with animated emoji & colored border */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "1rem",
-              background: "rgba(10,10,20,.8)",
-              backdropFilter: "blur(10px)",
-              padding: "0.75rem 1.5rem",
-              borderRadius: "12px",
-              border: `2px solid ${isOnline ? "#4ade80" : "#f87171"}`,
-              transition: "all .3s ease",
-            }}
-          >
-            <img
-              src={
-                isOnline
-                  ? "https://cdn3.emoji.gg/emojis/49198-online1.gif"
-                  : "https://cdn3.emoji.gg/emojis/460240-statusoffline.gif"
-              }
-              width="32"
-              height="32"
-              alt={isOnline ? "Online" : "Offline"}
-            />
-            <span style={{ color: isOnline ? "#4ade80" : "#f87171", fontSize: "1.1rem", fontWeight: 600 }}>
-              {statusMessage}
-            </span>
-          </div>
-
-          {/* Logo */}
-          <div style={{ animation: "float 4s ease-in-out infinite" }}>
-            <a href="/">
-              <img
-                alt="SparkyBot"
-                src={logoUrl}
-                style={{
-                  height: "150px",
-                  maxWidth: "100%",
-                  filter: "drop-shadow(0 0 30px rgba(212,175,55,0.15))",
-                }}
-              />
-            </a>
-          </div>
-
-          {/* Discord Button with blue border */}
-          <a
-            href="https://support.sparkybot.bond"
-            target="_blank"
-            rel="noreferrer"
-            style={{ textDecoration: "none" }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.75rem",
-                background: "rgba(10,10,20,.8)",
-                backdropFilter: "blur(10px)",
-                padding: "0.75rem 1.5rem",
-                borderRadius: "12px",
-                border: "2px solid #5865F2",
-                transition: "all .3s ease",
-              }}
-            >
-              <img
-                src="https://cdn3.emoji.gg/emojis/660815-discordlogo.png"
-                width="32"
-                height="32"
-                alt="Discord"
-              />
-              <span style={{ color: "#5865F2", fontSize: "1.1rem", fontWeight: 600 }}>
-                Discord
-              </span>
+        <div className="container mx-auto px-4 relative z-10 pt-32 lg:pt-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="hero-content space-y-8 text-center lg:text-left">
+              <div className="space-y-6">
+                <div>
+                  <div className="w-24 h-24 lg:w-24 lg:h-24 mx-auto lg:mx-0 mb-4 rounded-full bg-gradient-to-br from-gold-primary to-gold-secondary flex items-center justify-center text-black font-orbitron font-black text-4xl drop-shadow-[0_0_20px_rgba(255,215,0,0.7)]">
+                    S
+                  </div>
+                  <h1 className="text-6xl md:text-7xl lg:text-8xl font-orbitron font-black mb-6 bg-gradient-to-r from-gold-primary via-gold-primary to-gold-secondary bg-clip-text text-transparent">
+                    SparkyBot
+                  </h1>
+                </div>
+                <h2 className="text-2xl lg:text-3xl font-semibold font-orbitron text-gold-primary mb-6 text-center lg:text-left">
+                  The Swiss Army Knife for Discord
+                </h2>
+                <p className="text-xl lg:text-2xl text-gray-300 leading-relaxed text-center lg:text-left">
+                  A feature-rich multipurpose bot with economy, moderation, fun, and automation – all managed via an intuitive dashboard.
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start">
+                <Link href="/invite" className="btn-primary group w-full sm:w-auto flex items-center justify-center gap-2">
+                  <i className="fab fa-discord text-xl"></i> Add to Discord
+                </Link>
+                <Link href="/dashboard" className="btn-secondary group w-full sm:w-auto flex items-center justify-center gap-2">
+                  <i className="fas fa-cog text-xl"></i> Go to Dashboard
+                </Link>
+              </div>
             </div>
-          </a>
+            <div className="hero-image flex justify-center lg:justify-end">
+              <div className="floating-container-clean">
+                <img
+                  src="/img/dashboard-preview.png"
+                  alt="SparkyBot Dashboard Preview"
+                  className="w-full max-w-lg h-auto drop-shadow-2xl rounded-3xl border border-white/10"
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Features Section */}
-        <div
-          style={{
-            maxWidth: "1200px",
-            margin: "4rem auto",
-            padding: "0 1.5rem",
-            animation: "fadeInUp 0.8s ease forwards",
-            animationDelay: "0.15s",
-            opacity: 0,
-          }}
-        >
-          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 800, marginBottom: "0.5rem", color: "#e8e0d8" }}>
-              Everything your server needs
-            </h1>
-            <p style={{ color: "#a09890", fontSize: "1.2rem", maxWidth: "640px", margin: "0 auto" }}>
-              One bot, countless tools. Replace a dozen bots with SparkyBot.
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center animate-bounce">
+          <span className="text-gray-400 text-sm mb-2">Scroll to explore</span>
+          <div className="w-6 h-10 border-2 border-gold-primary/50 rounded-full flex justify-center relative">
+            <div className="w-1 h-3 bg-gold-primary rounded-full mt-2 animate-[scrollDot_2s_infinite]"></div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== CORE CAPABILITIES ==================== */}
+      <section className="pt-24 pb-12 relative overflow-hidden bg-black">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,215,0,0.05)_0%,transparent_50%)]"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-primary/10 border border-gold-primary/20 text-gold-primary font-mono text-sm mb-6 uppercase tracking-widest shadow-[0_0_20px_rgba(255,215,0,0.15)]">
+              <i className="fas fa-bolt"></i> Core Capabilities
+            </div>
+            <h2 className="text-4xl lg:text-6xl font-orbitron font-black mb-6 text-white">
+              Everything Your <br /><span className="gradient-text">Server Needs</span>
+            </h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+              From moderation to economy, SparkyBot has you covered with enterprise-grade features.
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "1.5rem" }}>
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                style={{
-                  background: "rgba(255,255,255,.02)",
-                  border: "1px solid rgba(255,255,255,.04)",
-                  borderRadius: "16px",
-                  padding: "1.5rem",
-                  transition: "all .5s cubic-bezier(.22,1,.36,1)",
-                  cursor: "default",
-                  animation: "fadeInUp 0.8s ease forwards",
-                  animationDelay: `${0.1 + index * 0.04}s`,
-                  opacity: 0,
-                }}
-              >
-                <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>{feature.icon}</div>
-                <h3 style={{ fontSize: "1.1rem", fontWeight: 600, marginBottom: "0.4rem", color: "#e8e0d8" }}>{feature.title}</h3>
-                <p style={{ color: "#909090", fontSize: "0.95rem", lineHeight: "1.6" }}>{feature.desc}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.slice(0, 9).map((feature, index) => (
+              <div key={index} className="relative group [perspective:1000px] h-full">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-gold-primary to-gold-secondary rounded-[2rem] blur opacity-15 group-hover:opacity-25 transition duration-500"></div>
+                <div className="relative h-full overflow-hidden bg-black/40 backdrop-blur-2xl border border-gold-primary/20 rounded-[2rem] p-8 transition-all duration-500 group-hover:bg-[#0a0a0a]/80 group-hover:border-gold-primary/40 group-hover:-translate-y-1 hover:scale-[1.02]">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gold-primary/10 rounded-full blur-[50px] pointer-events-none group-hover:bg-gold-primary/20 transition-all duration-500"></div>
+                  <div className="text-4xl mb-4">{feature.icon}</div>
+                  <h3 className="text-xl font-orbitron font-bold text-white mb-3 group-hover:text-gold-primary transition-colors duration-300">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors duration-300 relative z-10">
+                    {feature.desc}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Footer */}
-        <div
-          style={{
-            background: "rgba(10,10,20,.7)",
-            borderTop: "1px solid rgba(255,255,255,.03)",
-            marginTop: "4rem",
-            padding: "2rem 0",
-          }}
-        >
-          <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 1.5rem" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "2rem" }}>
-              <div>
-                <div style={{ color: "#d4af37", fontSize: "1.1rem", fontWeight: 700, marginBottom: "0.75rem" }}>Get Started</div>
-                <p style={{ color: "#808098", fontSize: "0.95rem", lineHeight: "1.6" }}>
-                  Add SparkyBot to your server and unlock powerful moderation, music, tickets, and more.
-                </p>
-                <a
-                  href="https://invite.sparkybot.bond"
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{
-                    display: "inline-block",
-                    padding: "0.6rem 1.5rem",
-                    borderRadius: "8px",
-                    background: "#d4af37",
-                    color: "#0d0d1a",
-                    fontWeight: 600,
-                    textDecoration: "none",
-                    marginTop: "0.5rem",
-                    transition: "all .3s cubic-bezier(.22,1,.36,1)",
-                  }}
-                >
-                  Invite Now →
-                </a>
-              </div>
-              <div>
-                <div style={{ color: "#d4af37", fontSize: "1.1rem", fontWeight: 700, marginBottom: "0.75rem" }}>Links</div>
-                <a href="/commands" style={{ display: "block", color: "#808098", textDecoration: "none", marginBottom: "0.4rem" }}>Commands</a>
-                <a href="/dashboard" style={{ display: "block", color: "#808098", textDecoration: "none", marginBottom: "0.4rem" }}>Dashboard</a>
-                <a href="/reviews" style={{ display: "block", color: "#808098", textDecoration: "none", marginBottom: "0.4rem" }}>Reviews</a>
-                <a href="/faq" style={{ display: "block", color: "#808098", textDecoration: "none" }}>FAQ</a>
-              </div>
-              <div>
-                <div style={{ color: "#d4af37", fontSize: "1.1rem", fontWeight: 700, marginBottom: "0.75rem" }}>Support</div>
-                <p style={{ color: "#808098", fontSize: "0.95rem", lineHeight: "1.6" }}>
-                  Need help? Join our support community for assistance, updates, and feedback.
-                </p>
-                <a
-                  href="https://support.sparkybot.bond"
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{
-                    display: "inline-block",
-                    padding: "0.6rem 1.5rem",
-                    borderRadius: "8px",
-                    background: "rgba(88,101,242,0.2)",
-                    color: "#5865F2",
-                    fontWeight: 600,
-                    textDecoration: "none",
-                    border: "1px solid rgba(88,101,242,0.3)",
-                    marginTop: "0.5rem",
-                    transition: "all .3s cubic-bezier(.22,1,.36,1)",
-                  }}
-                >
-                  Visit Support →
-                </a>
-              </div>
+      {/* ==================== SECURITY ==================== */}
+      <section className="py-24 relative overflow-hidden bg-[#03060a] border-t border-white/[0.02]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,215,0,0.05)_0%,transparent_70%)] pointer-events-none"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-primary/10 border border-gold-primary/20 text-gold-primary font-mono text-sm mb-6 uppercase tracking-widest">
+              <i className="fas fa-shield-alt"></i> Defense in Depth
             </div>
+            <h2 className="text-4xl lg:text-6xl font-orbitron font-black text-white mb-6">
+              Military-Grade <br /><span className="gradient-text">Security Architecture</span>
+            </h2>
           </div>
 
-          <div
-            style={{
-              borderTop: "1px solid rgba(255,255,255,.03)",
-              padding: "1.5rem 0",
-              marginTop: "2rem",
-            }}
-          >
-            <div
-              style={{
-                maxWidth: "1200px",
-                margin: "0 auto",
-                padding: "0 1.5rem",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                flexWrap: "wrap",
-                gap: "0.5rem",
-              }}
-            >
-              <div>
-                <div><span>SparkyBot <i className="fa-regular fa-copyright"></i> 2026.</span> All rights reserved.</div>
-                <div style={{ color: "#606070", fontSize: "0.8rem" }}>Made with ❤️ for Discord communities.</div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {[
+              { icon: "🛡️", title: "Instant Anti-Nuke", desc: "Detects and halts unauthorized mass-deletions, bans, and token raids in milliseconds." },
+              { icon: "⚡", title: "Adaptive Limit System", desc: "Set strict action thresholds for admins to prevent compromised accounts from dealing damage." },
+              { icon: "🚨", title: "Emergency Lockdown Mode", desc: "One-click global server freeze that revokes risky permissions and pauses invites until the threat passes." },
+            ].map((item, i) => (
+              <div key={i} className="relative group">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-gold-primary to-gold-secondary rounded-[2rem] blur opacity-10 group-hover:opacity-20 transition duration-500"></div>
+                <div className="relative bg-black/40 backdrop-blur-2xl border border-gold-primary/20 rounded-[2rem] p-8 text-center group-hover:border-gold-primary/40 transition-all duration-500 group-hover:-translate-y-1">
+                  <div className="text-5xl mb-4">{item.icon}</div>
+                  <h3 className="text-xl font-orbitron font-bold text-white mb-3">{item.title}</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+                </div>
               </div>
-              <div style={{ display: "flex", gap: "1rem" }}>
-                <a href="/terms" style={{ color: "#606070", textDecoration: "none", fontSize: "0.85rem" }}>Terms</a>
-                <a href="/privacy" style={{ color: "#606070", textDecoration: "none", fontSize: "0.85rem" }}>Privacy</a>
-                <a href="https://github.com/dhanushk56/sparky-bot-documentation.git" target="_blank" rel="noreferrer" style={{ color: "#606070", textDecoration: "none", fontSize: "0.85rem" }}>GitHub</a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== AUTOMATION ==================== */}
+      <section className="py-24 relative bg-[#050507] border-t border-white/[0.02]">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-primary/10 border border-gold-primary/20 text-gold-primary font-mono text-sm mb-6 uppercase tracking-widest">
+              <i className="fas fa-cogs"></i> Automation
+            </div>
+            <h2 className="text-4xl lg:text-6xl font-orbitron font-black text-white mb-6">
+              Automate <span className="gradient-text">Everything</span>
+            </h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">Free your staff from repetitive tasks. SparkyBot handles the heavy lifting.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {[
+              { icon: "🤖", title: "Auto Moderation", desc: "Enable automated rule enforcement to block spam, abuse, and unsafe content in real time." },
+              { icon: "🎭", title: "Autorole", desc: "Assign join-time roles automatically for faster server setup and seamless member onboarding." },
+              { icon: "💬", title: "Auto Responder", desc: "Automatically reply or react to triggers with saved responses to improve channel interactions." },
+              { icon: "🚪", title: "Welcomer", desc: "Personalize welcome messages with custom configuration, built-in and reusable templates." },
+            ].map((item, i) => (
+              <div key={i} className="relative group">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-gold-primary to-gold-secondary rounded-[2rem] blur opacity-10 group-hover:opacity-20 transition duration-500"></div>
+                <div className="relative bg-black/40 backdrop-blur-2xl border border-gold-primary/20 rounded-[2rem] p-8 group-hover:border-gold-primary/40 transition-all duration-500 group-hover:-translate-y-1">
+                  <div className="text-4xl mb-4">{item.icon}</div>
+                  <h3 className="text-xl font-orbitron font-bold text-white mb-3">{item.title}</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== STATISTICS ==================== */}
+      <section className="py-16 relative bg-[#03060a] border-t border-white/[0.02]">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto text-center">
+            <div className="relative group">
+              <div className="bg-black/40 backdrop-blur-2xl border border-gold-primary/20 rounded-[2rem] p-8 group-hover:border-gold-primary/40 transition-all duration-500">
+                <div className="text-4xl font-orbitron font-black text-gold-primary mb-2">{stats.servers || 0}</div>
+                <p className="text-gray-400 text-sm uppercase tracking-wider">Active Servers</p>
+              </div>
+            </div>
+            <div className="relative group">
+              <div className="bg-black/40 backdrop-blur-2xl border border-gold-primary/20 rounded-[2rem] p-8 group-hover:border-gold-primary/40 transition-all duration-500">
+                <div className="text-4xl font-orbitron font-black text-gold-primary mb-2">{stats.users || 0}</div>
+                <p className="text-gray-400 text-sm uppercase tracking-wider">Global Users</p>
+              </div>
+            </div>
+            <div className="relative group">
+              <div className="bg-black/40 backdrop-blur-2xl border border-gold-primary/20 rounded-[2rem] p-8 group-hover:border-gold-primary/40 transition-all duration-500">
+                <div className="text-4xl font-orbitron font-black text-gold-primary mb-2">99.9%</div>
+                <p className="text-gray-400 text-sm uppercase tracking-wider">System Uptime</p>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <style jsx>{`
-        @keyframes line-scale {
-          0%, 100% { transform: scaleY(1); }
-          50% { transform: scaleY(2.5); }
-        }
-        @keyframes fadeInUp {
-          0% { opacity: 0; transform: translateY(30px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes float {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-8px); }
-          100% { transform: translateY(0px); }
-        }
-        @media (max-width: 768px) {
-          .header { height: 300px !important; }
-          .logo { height: 100px !important; }
-        }
-      `}</style>
+      {/* ==================== FINAL CTA ==================== */}
+      <section className="py-24 relative overflow-hidden bg-[#050507] border-t border-white/[0.02]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,215,0,0.05)_0%,transparent_60%)] pointer-events-none"></div>
+        <div className="container mx-auto px-4 relative z-10 text-center">
+          <div className="mb-10 inline-block relative group">
+            <div className="absolute inset-0 bg-gold-primary/20 blur-[60px] pointer-events-none group-hover:bg-gold-primary/40 transition-colors duration-700"></div>
+            <div className="relative w-40 h-40 rounded-full bg-gradient-to-br from-gold-primary to-gold-secondary flex items-center justify-center text-black font-orbitron font-black text-6xl drop-shadow-[0_0_30px_rgba(255,215,0,0.3)] z-10 hover:scale-110 transition-transform duration-700">
+              S
+            </div>
+          </div>
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-orbitron font-black text-white mb-6">
+            Secure your server.<br />
+            <span className="gradient-text">In minutes.</span>
+          </h2>
+          <p className="text-lg md:text-xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
+            Join thousands of communities trusting SparkyBot for their moderation, security, and automation needs.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-5 items-center justify-center">
+            <Link href="/invite" className="btn-primary group flex items-center justify-center gap-2 px-8 py-4 w-full sm:w-auto">
+              <i className="fab fa-discord text-xl"></i> Add to Discord
+            </Link>
+            <Link href="/dashboard" className="btn-secondary group flex items-center justify-center gap-2 px-8 py-4 w-full sm:w-auto">
+              <i className="fas fa-desktop text-xl"></i> Open Dashboard
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
