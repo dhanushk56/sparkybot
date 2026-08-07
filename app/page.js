@@ -115,9 +115,9 @@ export default function HomePage() {
   ];
 
   const logoUrl =
-    "https://cdn.discordapp.com/attachments/1524887612479770713/1534971345224470579/file_000000008b2481fda22d4ceb4daad3e4.png?ex=6a7610f7&is=6a74bf77&hm=bc71ae5176091024349ad00224763446fda9ba66c99c068cd82c9486bf161756&";
+    "https://cdn.discordapp.com/attachments/1524887612479770713/1534971345224470579/file_000000008b2481fda22d4ceb4daad3e4.png?ex=6a776277&is=6a7610f7&hm=8207aba8af8957747c0736b7edf3a406dd4a44a205dcd40046e4f48fd697d7d2&";
   const bannerUrl =
-    "https://cdn.discordapp.com/attachments/1524887612479770713/1534971593443250308/1786036117833.png?ex=6a761132&is=6a74bfb2&hm=641a5071b3bea41a8f9e7a769976b6a9071dc521915d70e8a851d3e65ff92b88&";
+    "https://cdn.discordapp.com/attachments/1524887612479770713/1534971593443250308/1786036117833.png?ex=6a7762b2&is=6a761132&hm=c0fa82bf4ecb8db1c4b36b017728fce194f3000fd0ec113952fdba8d57a055f4&";
 
   if (loading) {
     return (
