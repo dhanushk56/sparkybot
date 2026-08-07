@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar";
 
 export default function HomePage() {
   const [loading, setLoading] = useState(true);
@@ -194,8 +193,6 @@ export default function HomePage() {
       />
 
       <div style={{ position: "relative", zIndex: 1 }}>
-        <Navbar />
-
         {/* Header with Banner */}
         <div style={{ position: "relative", overflow: "hidden" }}>
           <div
