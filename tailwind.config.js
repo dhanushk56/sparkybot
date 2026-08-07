@@ -17,15 +17,6 @@ module.exports = {
         orbitron: ['Orbitron', 'sans-serif'],
         inter: ['Inter', 'sans-serif'],
       },
-      animation: {
-        'scroll-dot': 'scrollDot 2s infinite',
-      },
-      keyframes: {
-        scrollDot: {
-          '0%': { transform: 'translateY(0)', opacity: 1 },
-          '100%': { transform: 'translateY(16px)', opacity: 0 },
-        },
-      },
     },
   },
   plugins: [],
