@@ -550,13 +550,37 @@ export default function SettingsForm({ guildId, initial }) {
     </select>
   );
 
-  // Voice channel selector – filters only voice channels (type === 2)
+  // ✅ FIXED Voice channel selector – filters only voice channels
   const VoiceChannelSelect = ({ value, onChange, allowNone = true }) => {
-    const voiceChannels = channelOptions.filter(c => c.type === 2);
+    // Debug: log the channel options to see what's available
+    console.log("[SettingsForm] Channel options:", channelOptions);
+
+    // Try multiple type values
+    const voiceChannels = channelOptions.filter(c =>
+      c.type === 2 || c.type === 'voice' || c.type === 'GUILD_VOICE'
+    );
+
+    // If still none, try to guess by name (fallback)
+    const finalVoiceChannels = voiceChannels.length > 0
+      ? voiceChannels
+      : channelOptions.filter(c =>
+          c.name?.toLowerCase().includes('voice') ||
+          c.name?.toLowerCase().includes('vc') ||
+          c.name?.toLowerCase().includes('talk')
+        );
+
+    if (finalVoiceChannels.length === 0) {
+      return (
+        <select className="field-input" value="" disabled>
+          <option value="">No voice channels found</option>
+        </select>
+      );
+    }
+
     return (
       <select className="field-input" value={value || ""} onChange={(e) => onChange(e.target.value || null)}>
         {allowNone && <option value="">None</option>}
-        {voiceChannels.map((c) => (
+        {finalVoiceChannels.map((c) => (
           <option key={c.id} value={c.id}>🔊 {c.name}</option>
         ))}
       </select>
