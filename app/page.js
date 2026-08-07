@@ -447,7 +447,7 @@ export default function HomePage() {
               <div style={{ display: "flex", gap: "1rem" }}>
                 <a href="/terms" style={{ color: "#606070", textDecoration: "none", fontSize: "0.85rem" }}>Terms</a>
                 <a href="/privacy" style={{ color: "#606070", textDecoration: "none", fontSize: "0.85rem" }}>Privacy</a>
-                <a href="https://github.com/dhanushk56/sparkybot" target="_blank" rel="noreferrer" style={{ color: "#606070", textDecoration: "none", fontSize: "0.85rem" }}>GitHub</a>
+                <a href="https://github.com/dhanushk56/sparky-bot-documentation.git" target="_blank" rel="noreferrer" style={{ color: "#606070", textDecoration: "none", fontSize: "0.85rem" }}>GitHub</a>
               </div>
             </div>
           </div>
