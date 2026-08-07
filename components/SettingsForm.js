@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 
-// ---------- Toggle Component ----------
+// ---------- Toggle ----------
 function Toggle({ checked, onChange }) {
   return (
     <label className="switch">
@@ -12,12 +12,11 @@ function Toggle({ checked, onChange }) {
   );
 }
 
-// ---------- Role Multi-Select Component ----------
+// ---------- Role Multi-Select ----------
 function RoleMultiSelect({ value, onChange, placeholder = "Select roles...", roleOptions }) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef(null);
-
   const ids = value || [];
   const selectedRoles = (roleOptions || []).filter(r => ids.includes(r.id));
   const availableRoles = (roleOptions || []).filter(r => !ids.includes(r.id));
@@ -38,7 +37,6 @@ function RoleMultiSelect({ value, onChange, placeholder = "Select roles...", rol
   const handleRemoveRole = (roleId) => {
     onChange(ids.filter(id => id !== roleId));
   };
-
   const handleAddRole = (roleId) => {
     if (!ids.includes(roleId)) {
       onChange([...ids, roleId]);
@@ -49,123 +47,29 @@ function RoleMultiSelect({ value, onChange, placeholder = "Select roles...", rol
 
   return (
     <div ref={dropdownRef} style={{ position: "relative", width: "100%" }}>
-      <div
-        className="field-input"
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "0.25rem",
-          padding: "0.25rem",
-          minHeight: "44px",
-          cursor: "pointer",
-          alignItems: "center",
-          transition: "border-color 0.15s",
-          borderColor: isOpen ? "#5865F2" : undefined,
-        }}
-        onClick={() => setIsOpen(!isOpen)}
-      >
+      <div className="field-input" style={{ display: "flex", flexWrap: "wrap", gap: "0.25rem", padding: "0.25rem", minHeight: "44px", cursor: "pointer", alignItems: "center", transition: "border-color 0.15s", borderColor: isOpen ? "#5865F2" : undefined }} onClick={() => setIsOpen(!isOpen)}>
         {selectedRoles.length === 0 ? (
-          <span style={{ color: "#949ba4", padding: "0.25rem", fontSize: "0.9rem" }}>
-            {placeholder}
-          </span>
+          <span style={{ color: "#949ba4", padding: "0.25rem", fontSize: "0.9rem" }}>{placeholder}</span>
         ) : (
           selectedRoles.map((role) => (
-            <span
-              key={role.id}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.25rem",
-                backgroundColor: "rgba(88, 101, 242, 0.25)",
-                color: "#e8e0d8",
-                padding: "0.15rem 0.5rem",
-                borderRadius: "0.25rem",
-                fontSize: "0.85rem",
-                border: "1px solid rgba(88, 101, 242, 0.35)",
-              }}
-            >
+            <span key={role.id} style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem", backgroundColor: "rgba(88, 101, 242, 0.25)", color: "#e8e0d8", padding: "0.15rem 0.5rem", borderRadius: "0.25rem", fontSize: "0.85rem", border: "1px solid rgba(88, 101, 242, 0.35)" }}>
               @{role.name}
-              <span
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleRemoveRole(role.id);
-                }}
-                style={{
-                  cursor: "pointer",
-                  color: "#ed4245",
-                  fontSize: "0.7rem",
-                  marginLeft: "0.15rem",
-                  opacity: 0.7,
-                }}
-              >
-                ✕
-              </span>
+              <span onClick={(e) => { e.stopPropagation(); handleRemoveRole(role.id); }} style={{ cursor: "pointer", color: "#ed4245", fontSize: "0.7rem", marginLeft: "0.15rem", opacity: 0.7 }}>✕</span>
             </span>
           ))
         )}
-        <span style={{ marginLeft: "auto", color: "#949ba4", fontSize: "0.7rem" }}>
-          {isOpen ? "▲" : "▼"}
-        </span>
+        <span style={{ marginLeft: "auto", color: "#949ba4", fontSize: "0.7rem" }}>{isOpen ? "▲" : "▼"}</span>
       </div>
-
       {isOpen && (
-        <div
-          style={{
-            position: "absolute",
-            top: "calc(100% + 4px)",
-            left: 0,
-            right: 0,
-            backgroundColor: "#1e1f22",
-            border: "1px solid #2b2d31",
-            borderRadius: "0.5rem",
-            maxHeight: "220px",
-            overflowY: "auto",
-            zIndex: 100,
-            boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
-          }}
-        >
+        <div style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, backgroundColor: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "0.5rem", maxHeight: "220px", overflowY: "auto", zIndex: 100, boxShadow: "0 8px 24px rgba(0,0,0,0.5)" }}>
           <div style={{ padding: "0.5rem", borderBottom: "1px solid #2b2d31", position: "sticky", top: 0, backgroundColor: "#1e1f22", zIndex: 1 }}>
-            <input
-              type="text"
-              placeholder="Search roles..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                width: "100%",
-                padding: "0.5rem",
-                backgroundColor: "#2b2d31",
-                border: "1px solid #3b3d41",
-                borderRadius: "0.25rem",
-                color: "#e8e0d8",
-                fontSize: "0.9rem",
-                outline: "none",
-              }}
-            />
+            <input type="text" placeholder="Search roles..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onClick={(e) => e.stopPropagation()} style={{ width: "100%", padding: "0.5rem", backgroundColor: "#2b2d31", border: "1px solid #3b3d41", borderRadius: "0.25rem", color: "#e8e0d8", fontSize: "0.9rem", outline: "none" }} />
           </div>
           {filteredAvailable.length === 0 ? (
-            <div style={{ padding: "0.75rem", color: "#949ba4", textAlign: "center", fontSize: "0.9rem" }}>
-              {searchTerm ? "No roles match your search" : "All roles selected"}
-            </div>
+            <div style={{ padding: "0.75rem", color: "#949ba4", textAlign: "center", fontSize: "0.9rem" }}>{searchTerm ? "No roles match your search" : "All roles selected"}</div>
           ) : (
             filteredAvailable.map((role) => (
-              <div
-                key={role.id}
-                onClick={() => handleAddRole(role.id)}
-                style={{
-                  padding: "0.5rem 0.75rem",
-                  cursor: "pointer",
-                  color: "#e8e0d8",
-                  fontSize: "0.9rem",
-                  transition: "background 0.15s",
-                  borderBottom: "1px solid #2b2d31",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"}
-                onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
-              >
+              <div key={role.id} onClick={() => handleAddRole(role.id)} style={{ padding: "0.5rem 0.75rem", cursor: "pointer", color: "#e8e0d8", fontSize: "0.9rem", transition: "background 0.15s", borderBottom: "1px solid #2b2d31", display: "flex", alignItems: "center", justifyContent: "space-between" }} onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"} onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}>
                 <span>@{role.name}</span>
                 <span style={{ color: "#5865F2", fontSize: "0.75rem" }}>+ Add</span>
               </div>
@@ -177,18 +81,15 @@ function RoleMultiSelect({ value, onChange, placeholder = "Select roles...", rol
   );
 }
 
-// ---------- Channel Multi-Select Component ----------
+// ---------- Channel Multi-Select ----------
 function ChannelMultiSelect({ value, onChange, placeholder = "Select channels...", channelOptions }) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef(null);
-
   const ids = value || [];
   const selectedChannels = (channelOptions || []).filter(c => ids.includes(c.id));
   const availableChannels = (channelOptions || []).filter(c => !ids.includes(c.id));
-  const filteredAvailable = availableChannels.filter(c =>
-    c.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredAvailable = availableChannels.filter(c => c.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -203,7 +104,6 @@ function ChannelMultiSelect({ value, onChange, placeholder = "Select channels...
   const handleRemoveChannel = (channelId) => {
     onChange(ids.filter(id => id !== channelId));
   };
-
   const handleAddChannel = (channelId) => {
     if (!ids.includes(channelId)) {
       onChange([...ids, channelId]);
@@ -214,123 +114,29 @@ function ChannelMultiSelect({ value, onChange, placeholder = "Select channels...
 
   return (
     <div ref={dropdownRef} style={{ position: "relative", width: "100%" }}>
-      <div
-        className="field-input"
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "0.25rem",
-          padding: "0.25rem",
-          minHeight: "44px",
-          cursor: "pointer",
-          alignItems: "center",
-          transition: "border-color 0.15s",
-          borderColor: isOpen ? "#5865F2" : undefined,
-        }}
-        onClick={() => setIsOpen(!isOpen)}
-      >
+      <div className="field-input" style={{ display: "flex", flexWrap: "wrap", gap: "0.25rem", padding: "0.25rem", minHeight: "44px", cursor: "pointer", alignItems: "center", transition: "border-color 0.15s", borderColor: isOpen ? "#5865F2" : undefined }} onClick={() => setIsOpen(!isOpen)}>
         {selectedChannels.length === 0 ? (
-          <span style={{ color: "#949ba4", padding: "0.25rem", fontSize: "0.9rem" }}>
-            {placeholder}
-          </span>
+          <span style={{ color: "#949ba4", padding: "0.25rem", fontSize: "0.9rem" }}>{placeholder}</span>
         ) : (
           selectedChannels.map((channel) => (
-            <span
-              key={channel.id}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.25rem",
-                backgroundColor: "rgba(88, 101, 242, 0.25)",
-                color: "#e8e0d8",
-                padding: "0.15rem 0.5rem",
-                borderRadius: "0.25rem",
-                fontSize: "0.85rem",
-                border: "1px solid rgba(88, 101, 242, 0.35)",
-              }}
-            >
+            <span key={channel.id} style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem", backgroundColor: "rgba(88, 101, 242, 0.25)", color: "#e8e0d8", padding: "0.15rem 0.5rem", borderRadius: "0.25rem", fontSize: "0.85rem", border: "1px solid rgba(88, 101, 242, 0.35)" }}>
               #{channel.name}
-              <span
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleRemoveChannel(channel.id);
-                }}
-                style={{
-                  cursor: "pointer",
-                  color: "#ed4245",
-                  fontSize: "0.7rem",
-                  marginLeft: "0.15rem",
-                  opacity: 0.7,
-                }}
-              >
-                ✕
-              </span>
+              <span onClick={(e) => { e.stopPropagation(); handleRemoveChannel(channel.id); }} style={{ cursor: "pointer", color: "#ed4245", fontSize: "0.7rem", marginLeft: "0.15rem", opacity: 0.7 }}>✕</span>
             </span>
           ))
         )}
-        <span style={{ marginLeft: "auto", color: "#949ba4", fontSize: "0.7rem" }}>
-          {isOpen ? "▲" : "▼"}
-        </span>
+        <span style={{ marginLeft: "auto", color: "#949ba4", fontSize: "0.7rem" }}>{isOpen ? "▲" : "▼"}</span>
       </div>
-
       {isOpen && (
-        <div
-          style={{
-            position: "absolute",
-            top: "calc(100% + 4px)",
-            left: 0,
-            right: 0,
-            backgroundColor: "#1e1f22",
-            border: "1px solid #2b2d31",
-            borderRadius: "0.5rem",
-            maxHeight: "220px",
-            overflowY: "auto",
-            zIndex: 100,
-            boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
-          }}
-        >
+        <div style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, backgroundColor: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "0.5rem", maxHeight: "220px", overflowY: "auto", zIndex: 100, boxShadow: "0 8px 24px rgba(0,0,0,0.5)" }}>
           <div style={{ padding: "0.5rem", borderBottom: "1px solid #2b2d31", position: "sticky", top: 0, backgroundColor: "#1e1f22", zIndex: 1 }}>
-            <input
-              type="text"
-              placeholder="Search channels..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                width: "100%",
-                padding: "0.5rem",
-                backgroundColor: "#2b2d31",
-                border: "1px solid #3b3d41",
-                borderRadius: "0.25rem",
-                color: "#e8e0d8",
-                fontSize: "0.9rem",
-                outline: "none",
-              }}
-            />
+            <input type="text" placeholder="Search channels..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onClick={(e) => e.stopPropagation()} style={{ width: "100%", padding: "0.5rem", backgroundColor: "#2b2d31", border: "1px solid #3b3d41", borderRadius: "0.25rem", color: "#e8e0d8", fontSize: "0.9rem", outline: "none" }} />
           </div>
           {filteredAvailable.length === 0 ? (
-            <div style={{ padding: "0.75rem", color: "#949ba4", textAlign: "center", fontSize: "0.9rem" }}>
-              {searchTerm ? "No channels match your search" : "All channels selected"}
-            </div>
+            <div style={{ padding: "0.75rem", color: "#949ba4", textAlign: "center", fontSize: "0.9rem" }}>{searchTerm ? "No channels match your search" : "All channels selected"}</div>
           ) : (
             filteredAvailable.map((channel) => (
-              <div
-                key={channel.id}
-                onClick={() => handleAddChannel(channel.id)}
-                style={{
-                  padding: "0.5rem 0.75rem",
-                  cursor: "pointer",
-                  color: "#e8e0d8",
-                  fontSize: "0.9rem",
-                  transition: "background 0.15s",
-                  borderBottom: "1px solid #2b2d31",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"}
-                onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
-              >
+              <div key={channel.id} onClick={() => handleAddChannel(channel.id)} style={{ padding: "0.5rem 0.75rem", cursor: "pointer", color: "#e8e0d8", fontSize: "0.9rem", transition: "background 0.15s", borderBottom: "1px solid #2b2d31", display: "flex", alignItems: "center", justifyContent: "space-between" }} onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"} onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}>
                 <span>#{channel.name}</span>
                 <span style={{ color: "#5865F2", fontSize: "0.75rem" }}>+ Add</span>
               </div>
@@ -342,7 +148,74 @@ function ChannelMultiSelect({ value, onChange, placeholder = "Select channels...
   );
 }
 
-// ---------- Application Manager Component ----------
+// ---------- Category Multi-Select ----------
+function CategoryMultiSelect({ value, onChange, placeholder = "Select categories...", categoryOptions }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const dropdownRef = useRef(null);
+  const ids = value || [];
+  const selectedCategories = (categoryOptions || []).filter(c => ids.includes(c.id));
+  const availableCategories = (categoryOptions || []).filter(c => !ids.includes(c.id));
+  const filteredAvailable = availableCategories.filter(c => c.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleRemoveCategory = (categoryId) => {
+    onChange(ids.filter(id => id !== categoryId));
+  };
+  const handleAddCategory = (categoryId) => {
+    if (!ids.includes(categoryId)) {
+      onChange([...ids, categoryId]);
+    }
+    setSearchTerm("");
+    setIsOpen(false);
+  };
+
+  return (
+    <div ref={dropdownRef} style={{ position: "relative", width: "100%" }}>
+      <div className="field-input" style={{ display: "flex", flexWrap: "wrap", gap: "0.25rem", padding: "0.25rem", minHeight: "44px", cursor: "pointer", alignItems: "center", transition: "border-color 0.15s", borderColor: isOpen ? "#5865F2" : undefined }} onClick={() => setIsOpen(!isOpen)}>
+        {selectedCategories.length === 0 ? (
+          <span style={{ color: "#949ba4", padding: "0.25rem", fontSize: "0.9rem" }}>{placeholder}</span>
+        ) : (
+          selectedCategories.map((category) => (
+            <span key={category.id} style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem", backgroundColor: "rgba(88, 101, 242, 0.25)", color: "#e8e0d8", padding: "0.15rem 0.5rem", borderRadius: "0.25rem", fontSize: "0.85rem", border: "1px solid rgba(88, 101, 242, 0.35)" }}>
+              {category.name}
+              <span onClick={(e) => { e.stopPropagation(); handleRemoveCategory(category.id); }} style={{ cursor: "pointer", color: "#ed4245", fontSize: "0.7rem", marginLeft: "0.15rem", opacity: 0.7 }}>✕</span>
+            </span>
+          ))
+        )}
+        <span style={{ marginLeft: "auto", color: "#949ba4", fontSize: "0.7rem" }}>{isOpen ? "▲" : "▼"}</span>
+      </div>
+      {isOpen && (
+        <div style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, backgroundColor: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "0.5rem", maxHeight: "220px", overflowY: "auto", zIndex: 100, boxShadow: "0 8px 24px rgba(0,0,0,0.5)" }}>
+          <div style={{ padding: "0.5rem", borderBottom: "1px solid #2b2d31", position: "sticky", top: 0, backgroundColor: "#1e1f22", zIndex: 1 }}>
+            <input type="text" placeholder="Search categories..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onClick={(e) => e.stopPropagation()} style={{ width: "100%", padding: "0.5rem", backgroundColor: "#2b2d31", border: "1px solid #3b3d41", borderRadius: "0.25rem", color: "#e8e0d8", fontSize: "0.9rem", outline: "none" }} />
+          </div>
+          {filteredAvailable.length === 0 ? (
+            <div style={{ padding: "0.75rem", color: "#949ba4", textAlign: "center", fontSize: "0.9rem" }}>{searchTerm ? "No categories match your search" : "All categories selected"}</div>
+          ) : (
+            filteredAvailable.map((category) => (
+              <div key={category.id} onClick={() => handleAddCategory(category.id)} style={{ padding: "0.5rem 0.75rem", cursor: "pointer", color: "#e8e0d8", fontSize: "0.9rem", transition: "background 0.15s", borderBottom: "1px solid #2b2d31", display: "flex", alignItems: "center", justifyContent: "space-between" }} onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"} onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}>
+                <span>{category.name}</span>
+                <span style={{ color: "#5865F2", fontSize: "0.75rem" }}>+ Add</span>
+              </div>
+            ))
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ---------- Application Manager ----------
 function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channelOptions }) {
   const [editingApp, setEditingApp] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
@@ -362,7 +235,6 @@ function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channel
 
   const appList = apps || {};
 
-  // ----- Create Application -----
   const handleCreateApp = async () => {
     if (!newApp.name) {
       alert("Please enter a name for the application.");
@@ -404,7 +276,6 @@ function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channel
     }
   };
 
-  // ----- Delete Application -----
   const handleDeleteApp = async (name) => {
     if (!confirm(`Delete application "${name}"? This cannot be undone.`)) return;
 
@@ -437,7 +308,6 @@ function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channel
     }
   };
 
-  // ----- Toggle Open/Close -----
   const handleToggleApp = async (name, open) => {
     try {
       const encodedName = encodeURIComponent(name);
@@ -457,7 +327,6 @@ function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channel
     }
   };
 
-  // ----- Add Question -----
   const addQuestion = () => {
     if (!questionText.trim()) {
       alert("Please enter a question text.");
@@ -483,7 +352,6 @@ function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channel
     setQuestionText("");
   };
 
-  // ----- Remove Question -----
   const removeQuestion = (index) => {
     if (editingApp) {
       const qs = [...(editingApp.questions || [])];
@@ -496,7 +364,6 @@ function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channel
     }
   };
 
-  // ----- Update Application -----
   const handleUpdateApp = async () => {
     if (!editingApp) return;
     setSavingApp(true);
@@ -522,98 +389,25 @@ function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channel
     }
   };
 
-  // ----- Render -----
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
         <h4 style={{ color: "#e8e0d8", margin: 0 }}>Applications</h4>
-        <button
-          className="btn btn-primary"
-          onClick={() => setIsCreating(!isCreating)}
-          style={{ padding: "0.3rem 1rem", fontSize: "0.85rem" }}
-        >
-          {isCreating ? "Cancel" : "+ Create"}
-        </button>
+        <button className="btn btn-primary" onClick={() => setIsCreating(!isCreating)} style={{ padding: "0.3rem 1rem", fontSize: "0.85rem" }}>{isCreating ? "Cancel" : "+ Create"}</button>
       </div>
 
       {isCreating && (
         <div className="dash-card" style={{ marginBottom: "1rem", padding: "1rem" }}>
-          <div className="field-group">
-            <label>Name (internal ID)</label>
-            <input
-              className="field-input"
-              value={newApp.name}
-              placeholder="staff, mod, builder"
-              onChange={(e) => setNewApp({ ...newApp, name: e.target.value.toLowerCase().replace(/\s/g, "_") })}
-            />
-          </div>
-          <div className="field-group">
-            <label>Description</label>
-            <input
-              className="field-input"
-              value={newApp.description || ""}
-              placeholder="Application description"
-              onChange={(e) => setNewApp({ ...newApp, description: e.target.value })}
-            />
-          </div>
-          <div className="field-group">
-            <label>Log Channel</label>
-            <select
-              className="field-input"
-              value={newApp.log_channel || ""}
-              onChange={(e) => setNewApp({ ...newApp, log_channel: e.target.value || null })}
-            >
-              <option value="">None</option>
-              {channelOptions?.map((c) => (
-                <option key={c.id} value={c.id}>#{c.name}</option>
-              ))}
-            </select>
-          </div>
-          <div className="field-group">
-            <label>Grant Role (on acceptance)</label>
-            <select
-              className="field-input"
-              value={newApp.grant_role || ""}
-              onChange={(e) => setNewApp({ ...newApp, grant_role: e.target.value || null })}
-            >
-              <option value="">None</option>
-              {roleOptions?.map((r) => (
-                <option key={r.id} value={r.id}>@{r.name}</option>
-              ))}
-            </select>
-          </div>
-          <div className="field-group">
-            <label>Cooldown (seconds)</label>
-            <input
-              className="field-input"
-              type="number"
-              value={newApp.cooldown || 1209600}
-              onChange={(e) => setNewApp({ ...newApp, cooldown: parseInt(e.target.value) || 0 })}
-            />
-          </div>
-          <div className="field-group">
-            <label>Questions</label>
+          <div className="field-group"><label>Name (internal ID)</label><input className="field-input" value={newApp.name} placeholder="staff, mod, builder" onChange={(e) => setNewApp({ ...newApp, name: e.target.value.toLowerCase().replace(/\s/g, "_") })} /></div>
+          <div className="field-group"><label>Description</label><input className="field-input" value={newApp.description || ""} placeholder="Application description" onChange={(e) => setNewApp({ ...newApp, description: e.target.value })} /></div>
+          <div className="field-group"><label>Log Channel</label><select className="field-input" value={newApp.log_channel || ""} onChange={(e) => setNewApp({ ...newApp, log_channel: e.target.value || null })}><option value="">None</option>{channelOptions?.map((c) => <option key={c.id} value={c.id}>#{c.name}</option>)}</select></div>
+          <div className="field-group"><label>Grant Role (on acceptance)</label><select className="field-input" value={newApp.grant_role || ""} onChange={(e) => setNewApp({ ...newApp, grant_role: e.target.value || null })}><option value="">None</option>{roleOptions?.map((r) => <option key={r.id} value={r.id}>@{r.name}</option>)}</select></div>
+          <div className="field-group"><label>Cooldown (seconds)</label><input className="field-input" type="number" value={newApp.cooldown || 1209600} onChange={(e) => setNewApp({ ...newApp, cooldown: parseInt(e.target.value) || 0 })} /></div>
+          <div className="field-group"><label>Questions</label>
             <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem", flexWrap: "wrap" }}>
-              <input
-                className="field-input"
-                value={questionText}
-                placeholder="Question text"
-                onChange={(e) => setQuestionText(e.target.value)}
-                style={{ flex: 1, minWidth: "150px" }}
-              />
-              <select
-                className="field-input"
-                value={questionType}
-                onChange={(e) => setQuestionType(e.target.value)}
-                style={{ width: "150px" }}
-              >
-                <option value="short_answer">Short</option>
-                <option value="long_answer">Long</option>
-                <option value="multiple_choice">Multiple Choice</option>
-                <option value="dropdown">Dropdown</option>
-                <option value="numeric">Numeric</option>
-                <option value="yes_no">Yes/No</option>
-                <option value="url">URL</option>
+              <input className="field-input" value={questionText} placeholder="Question text" onChange={(e) => setQuestionText(e.target.value)} style={{ flex: 1, minWidth: "150px" }} />
+              <select className="field-input" value={questionType} onChange={(e) => setQuestionType(e.target.value)} style={{ width: "150px" }}>
+                <option value="short_answer">Short</option><option value="long_answer">Long</option><option value="multiple_choice">Multiple Choice</option><option value="dropdown">Dropdown</option><option value="numeric">Numeric</option><option value="yes_no">Yes/No</option><option value="url">URL</option>
               </select>
               <button className="btn btn-secondary" onClick={addQuestion}>+</button>
             </div>
@@ -628,154 +422,48 @@ function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channel
               </div>
             )}
           </div>
-          <button
-            className="btn btn-primary"
-            onClick={handleCreateApp}
-            disabled={!newApp.name || savingApp}
-          >
-            {savingApp ? "Creating..." : "Create Application"}
-          </button>
+          <button className="btn btn-primary" onClick={handleCreateApp} disabled={!newApp.name || savingApp}>{savingApp ? "Creating..." : "Create Application"}</button>
         </div>
       )}
 
-      {Object.keys(appList).length === 0 && !isCreating && (
-        <p style={{ color: "#aaa" }}>No applications created yet.</p>
-      )}
+      {Object.keys(appList).length === 0 && !isCreating && <p style={{ color: "#aaa" }}>No applications created yet.</p>}
 
       {Object.entries(appList).map(([name, app]) => (
         <div key={name} className="dash-card" style={{ padding: "0.75rem 1rem", marginBottom: "0.5rem" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
-            <div>
-              <strong style={{ color: "#e8e0d8" }}>{name}</strong>
-              <span style={{ color: "#aaa", marginLeft: "0.5rem", fontSize: "0.85rem" }}>
-                {app.questions?.length || 0} questions • {app.open ? "🟢 Open" : "🔴 Closed"}
-              </span>
-            </div>
+            <div><strong style={{ color: "#e8e0d8" }}>{name}</strong><span style={{ color: "#aaa", marginLeft: "0.5rem", fontSize: "0.85rem" }}>{app.questions?.length || 0} questions • {app.open ? "🟢 Open" : "🔴 Closed"}</span></div>
             <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-              <button
-                className="btn btn-secondary"
-                style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }}
-                onClick={() => handleToggleApp(name, !app.open)}
-              >
-                {app.open ? "Close" : "Open"}
-              </button>
-              <button
-                className="btn btn-secondary"
-                style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }}
-                onClick={() => setEditingApp(app)}
-              >
-                Edit
-              </button>
-              <button
-                className="btn btn-danger"
-                style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }}
-                onClick={() => handleDeleteApp(name)}
-              >
-                Delete
-              </button>
+              <button className="btn btn-secondary" style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }} onClick={() => handleToggleApp(name, !app.open)}>{app.open ? "Close" : "Open"}</button>
+              <button className="btn btn-secondary" style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }} onClick={() => setEditingApp(app)}>Edit</button>
+              <button className="btn btn-danger" style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }} onClick={() => handleDeleteApp(name)}>Delete</button>
             </div>
           </div>
         </div>
       ))}
 
       {editingApp && (
-        <div
-          className="modal-overlay"
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: "rgba(0,0,0,0.8)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 1000,
-          }}
-          onClick={() => setEditingApp(null)}
-        >
-          <div
-            className="dash-card"
-            style={{ maxWidth: "600px", width: "90%", maxHeight: "80vh", overflow: "auto" }}
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className="modal-overlay" style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.8)", display: "flex", justifyContent: "center", alignItems: "center", zIndex: 1000 }} onClick={() => setEditingApp(null)}>
+          <div className="dash-card" style={{ maxWidth: "600px", width: "90%", maxHeight: "80vh", overflow: "auto" }} onClick={(e) => e.stopPropagation()}>
             <h4 style={{ color: "#e8e0d8" }}>Edit {editingApp.name}</h4>
-            <div className="field-group">
-              <label>Description</label>
-              <input
-                className="field-input"
-                value={editingApp.description || ""}
-                onChange={(e) => setEditingApp({ ...editingApp, description: e.target.value })}
-              />
-            </div>
-            <div className="field-group">
-              <label>Cooldown (seconds)</label>
-              <input
-                className="field-input"
-                type="number"
-                value={editingApp.cooldown || 1209600}
-                onChange={(e) => setEditingApp({ ...editingApp, cooldown: parseInt(e.target.value) || 0 })}
-              />
-            </div>
-            <div className="field-group">
-              <label>Questions</label>
+            <div className="field-group"><label>Description</label><input className="field-input" value={editingApp.description || ""} onChange={(e) => setEditingApp({ ...editingApp, description: e.target.value })} /></div>
+            <div className="field-group"><label>Cooldown (seconds)</label><input className="field-input" type="number" value={editingApp.cooldown || 1209600} onChange={(e) => setEditingApp({ ...editingApp, cooldown: parseInt(e.target.value) || 0 })} /></div>
+            <div className="field-group"><label>Questions</label>
               <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem", flexWrap: "wrap" }}>
-                <input
-                  className="field-input"
-                  value={questionText}
-                  placeholder="Question text"
-                  onChange={(e) => setQuestionText(e.target.value)}
-                  style={{ flex: 1, minWidth: "150px" }}
-                />
-                <select
-                  className="field-input"
-                  value={questionType}
-                  onChange={(e) => setQuestionType(e.target.value)}
-                  style={{ width: "150px" }}
-                >
-                  <option value="short_answer">Short</option>
-                  <option value="long_answer">Long</option>
-                  <option value="multiple_choice">Multiple Choice</option>
-                  <option value="dropdown">Dropdown</option>
-                  <option value="numeric">Numeric</option>
-                  <option value="yes_no">Yes/No</option>
-                  <option value="url">URL</option>
+                <input className="field-input" value={questionText} placeholder="Question text" onChange={(e) => setQuestionText(e.target.value)} style={{ flex: 1, minWidth: "150px" }} />
+                <select className="field-input" value={questionType} onChange={(e) => setQuestionType(e.target.value)} style={{ width: "150px" }}>
+                  <option value="short_answer">Short</option><option value="long_answer">Long</option><option value="multiple_choice">Multiple Choice</option><option value="dropdown">Dropdown</option><option value="numeric">Numeric</option><option value="yes_no">Yes/No</option><option value="url">URL</option>
                 </select>
-                <button
-                  className="btn btn-secondary"
-                  onClick={() => {
-                    if (!questionText) return;
-                    setEditingApp({
-                      ...editingApp,
-                      questions: [...(editingApp.questions || []), { text: questionText, type: questionType, options: [], required: true }],
-                    });
-                    setQuestionText("");
-                  }}
-                >
-                  +
-                </button>
+                <button className="btn btn-secondary" onClick={() => { if (!questionText) return; setEditingApp({ ...editingApp, questions: [...(editingApp.questions || []), { text: questionText, type: questionType, options: [], required: true }] }); setQuestionText(""); }}>+</button>
               </div>
               {(editingApp.questions || []).map((q, i) => (
                 <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "0.25rem 0", borderBottom: "1px solid #2b2d31" }}>
                   <span style={{ color: "#e8e0d8" }}>{i+1}. {q.text}</span>
-                  <button
-                    onClick={() => {
-                      const qs = [...(editingApp.questions || [])];
-                      qs.splice(i, 1);
-                      setEditingApp({ ...editingApp, questions: qs });
-                    }}
-                    style={{ background: "none", border: "none", color: "#ed4245", cursor: "pointer" }}
-                  >
-                    ✕
-                  </button>
+                  <button onClick={() => { const qs = [...(editingApp.questions || [])]; qs.splice(i, 1); setEditingApp({ ...editingApp, questions: qs }); }} style={{ background: "none", border: "none", color: "#ed4245", cursor: "pointer" }}>✕</button>
                 </div>
               ))}
             </div>
             <div style={{ display: "flex", gap: "0.5rem", marginTop: "1rem", flexWrap: "wrap" }}>
-              <button className="btn btn-primary" onClick={handleUpdateApp} disabled={savingApp}>
-                {savingApp ? "Saving..." : "Save"}
-              </button>
+              <button className="btn btn-primary" onClick={handleUpdateApp} disabled={savingApp}>{savingApp ? "Saving..." : "Save"}</button>
               <button className="btn btn-secondary" onClick={() => setEditingApp(null)}>Cancel</button>
             </div>
           </div>
@@ -785,7 +473,7 @@ function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channel
   );
 }
 
-// ---------- Main SettingsForm Component ----------
+// ---------- Main SettingsForm ----------
 export default function SettingsForm({ guildId, initial }) {
   const [form, setForm] = useState(initial);
   const [apps, setApps] = useState(initial.applications || {});
@@ -797,9 +485,9 @@ export default function SettingsForm({ guildId, initial }) {
   const menuRef = useRef(null);
 
   const channelOptions = initial.channels || [];
+  const categoryOptions = initial.categories || [];
   const roleOptions = initial.roles || [];
 
-  // Close mobile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -812,7 +500,6 @@ export default function SettingsForm({ guildId, initial }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMobileMenuOpen]);
 
-  // Close menu on window resize to desktop
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 768) setIsMobileMenuOpen(false);
@@ -853,6 +540,7 @@ export default function SettingsForm({ guildId, initial }) {
     }
   }
 
+  // Text channel selector
   const ChannelSelect = ({ value, onChange, allowNone = true }) => (
     <select className="field-input" value={value || ""} onChange={(e) => onChange(e.target.value || null)}>
       {allowNone && <option value="">None</option>}
@@ -862,7 +550,20 @@ export default function SettingsForm({ guildId, initial }) {
     </select>
   );
 
-  // ----- Navigation Items (INCLUDES APPLICATIONS) -----
+  // ✅ Voice channel selector – filters only voice channels (type === 2)
+  const VoiceChannelSelect = ({ value, onChange, allowNone = true }) => {
+    const voiceChannels = channelOptions.filter(c => c.type === 2);
+    return (
+      <select className="field-input" value={value || ""} onChange={(e) => onChange(e.target.value || null)}>
+        {allowNone && <option value="">None</option>}
+        {voiceChannels.map((c) => (
+          <option key={c.id} value={c.id}>🔊 {c.name}</option>
+        ))}
+      </select>
+    );
+  };
+
+  // ----- Navigation Items -----
   const navItems = [
     { icon: "⚙️", label: "General", section: "general" },
     { icon: "👋", label: "Welcome & Goodbye", section: "welcome" },
@@ -879,7 +580,7 @@ export default function SettingsForm({ guildId, initial }) {
     { icon: "🚩", label: "Reports", section: "reports" },
     { icon: "🔒", label: "Forum Lock", section: "forumlock" },
     { icon: "🌐", label: "Auto-Translate", section: "autotranslate" },
-    { icon: "📋", label: "Applications", section: "applications" }, // ✅ INCLUDED
+    { icon: "📋", label: "Applications", section: "applications" },
   ];
 
   // ----- Render Content -----
@@ -905,23 +606,10 @@ export default function SettingsForm({ guildId, initial }) {
     const renderGeneral = () => (
       <>
         <SectionHeader icon="⚙️" title="General Settings" />
-        <div className="field-group">
-          <label>Prefix</label>
-          <input className="field-input" value={form.prefix || ""} maxLength={5} onChange={(e) => set("prefix")(e.target.value)} />
-          <span className="hint">Slash commands always work.</span>
-        </div>
-        <div className="field-group">
-          <label>Moderation Log Channel</label>
-          <ChannelSelect value={form.mod_log_channel} onChange={set("mod_log_channel")} />
-        </div>
-        <div className="field-group">
-          <label>Support Hours Start (UTC)</label>
-          <input className="field-input" value={form.support_start || ""} placeholder="14:00" onChange={(e) => set("support_start")(e.target.value)} />
-        </div>
-        <div className="field-group">
-          <label>Support Hours End (UTC)</label>
-          <input className="field-input" value={form.support_end || ""} placeholder="01:00" onChange={(e) => set("support_end")(e.target.value)} />
-        </div>
+        <div className="field-group"><label>Prefix</label><input className="field-input" value={form.prefix || ""} maxLength={5} onChange={(e) => set("prefix")(e.target.value)} /><span className="hint">Slash commands always work.</span></div>
+        <div className="field-group"><label>Moderation Log Channel</label><ChannelSelect value={form.mod_log_channel} onChange={set("mod_log_channel")} /></div>
+        <div className="field-group"><label>Support Hours Start (UTC)</label><input className="field-input" value={form.support_start || ""} placeholder="14:00" onChange={(e) => set("support_start")(e.target.value)} /></div>
+        <div className="field-group"><label>Support Hours End (UTC)</label><input className="field-input" value={form.support_end || ""} placeholder="01:00" onChange={(e) => set("support_end")(e.target.value)} /></div>
       </>
     );
 
@@ -1020,7 +708,7 @@ export default function SettingsForm({ guildId, initial }) {
     const renderMusic = () => (
       <>
         <SectionHeader icon="🎵" title="Music" />
-        <div className="field-group"><label>Designated Music Voice Channel</label><ChannelSelect value={form.music_vc_channel_id} onChange={set("music_vc_channel_id")} allowNone /></div>
+        <div className="field-group"><label>Designated Music Voice Channel</label><VoiceChannelSelect value={form.music_vc_channel_id} onChange={set("music_vc_channel_id")} allowNone /></div>
         <div className="toggle-row"><div><div className="toggle-label">Drag Users to VC</div><div className="toggle-desc">Automatically move users to the music VC.</div></div><Toggle checked={!!form.music_vc_drag_users} onChange={set("music_vc_drag_users")} /></div>
         <div className="field-group"><label>Default Volume (1-200)</label><input className="field-input" type="number" min="1" max="200" value={form.music_volume || 100} onChange={(e) => set("music_volume")(parseInt(e.target.value) || 100)} /></div>
         <div className="field-group"><label>Default Loop Mode</label><select className="field-input" value={form.music_loop_mode || "off"} onChange={(e) => set("music_loop_mode")(e.target.value)}><option value="off">Off</option><option value="track">Track</option><option value="queue">Queue</option></select></div>
@@ -1065,14 +753,26 @@ export default function SettingsForm({ guildId, initial }) {
       </>
     );
 
-    // ----- JTC -----
+    // ----- JTC (with VoiceChannelSelect for trigger) -----
     const renderJTC = () => (
       <>
         <SectionHeader icon="🔊" title="JTC (Join-to-Create)" />
-        <div className="field-group"><label>Trigger Voice Channel</label><ChannelSelect value={jtc.jtc_channel} onChange={setNested("jtc", "jtc_channel")} /></div>
-        <div className="field-group"><label>Control Panel Channel</label><ChannelSelect value={jtc.control_panel_channel} onChange={setNested("jtc", "control_panel_channel")} /></div>
-        <div className="field-group"><label>Name Template</label><input className="field-input" value={jtc.name_template || "{username}'s Channel"} placeholder="{username}'s Channel" onChange={(e) => setNested("jtc", "name_template")(e.target.value)} /></div>
-        <div className="field-group"><label>Default User Limit (0 = unlimited)</label><input className="field-input" type="number" min="0" value={jtc.user_limit || 0} onChange={(e) => setNested("jtc", "user_limit")(parseInt(e.target.value) || 0)} /></div>
+        <div className="field-group">
+          <label>Trigger Voice Channel</label>
+          <VoiceChannelSelect value={jtc.jtc_channel} onChange={setNested("jtc", "jtc_channel")} />
+        </div>
+        <div className="field-group">
+          <label>Control Panel Channel</label>
+          <ChannelSelect value={jtc.control_panel_channel} onChange={setNested("jtc", "control_panel_channel")} />
+        </div>
+        <div className="field-group">
+          <label>Name Template</label>
+          <input className="field-input" value={jtc.name_template || "{username}'s Channel"} placeholder="{username}'s Channel" onChange={(e) => setNested("jtc", "name_template")(e.target.value)} />
+        </div>
+        <div className="field-group">
+          <label>Default User Limit (0 = unlimited)</label>
+          <input className="field-input" type="number" min="0" value={jtc.user_limit || 0} onChange={(e) => setNested("jtc", "user_limit")(parseInt(e.target.value) || 0)} />
+        </div>
       </>
     );
 
@@ -1087,7 +787,7 @@ export default function SettingsForm({ guildId, initial }) {
         <div className="field-group"><label>Global User Whitelist</label><input className="field-input" value={(antinuke.global_whitelist || []).join(", ")} placeholder="User IDs (comma separated)" onChange={(e) => setNested("antinuke", "global_whitelist")(e.target.value.split(",").map(s => parseInt(s.trim())).filter(n => !isNaN(n)))} /></div>
         <div className="field-group"><label>Global Role Whitelist</label><RoleMultiSelect value={antinuke.global_whitelist_roles || []} onChange={setNested("antinuke", "global_whitelist_roles")} roleOptions={roleOptions} placeholder="Select whitelisted roles..." /></div>
         <div className="field-group"><label>Forbidden Channels</label><ChannelMultiSelect value={antinuke.forbidden_channels || []} onChange={setNested("antinuke", "forbidden_channels")} channelOptions={channelOptions} placeholder="Select forbidden channels..." /></div>
-        <div className="field-group"><label>Forbidden Categories</label><select className="field-input" multiple value={(antinuke.forbidden_categories || []).map(String)} onChange={(e) => { const selected = Array.from(e.target.selectedOptions, opt => Number(opt.value)); setNested("antinuke", "forbidden_categories")(selected); }} style={{ height: "auto", minHeight: "60px" }}>{initial.categories?.map((c) => <option key={c.id} value={c.id}>{c.name}</option>) || []}</select></div>
+        <div className="field-group"><label>Forbidden Categories</label><CategoryMultiSelect value={antinuke.forbidden_categories || []} onChange={setNested("antinuke", "forbidden_categories")} categoryOptions={categoryOptions} placeholder="Select forbidden categories..." /></div>
         <div style={{ marginTop: "1rem" }}><label style={{ display: "block", marginBottom: ".5rem" }}>Event Configurations</label>
           {Object.keys(eventConfig).length === 0 && <p style={{ color: "#aaa" }}>No events configured yet.</p>}
           {Object.entries(eventConfig).map(([event, cfg]) => (
@@ -1177,10 +877,9 @@ export default function SettingsForm({ guildId, initial }) {
     }
   };
 
-  // ---------- Render ----------
   return (
     <div className="dash-layout" style={{ display: "flex", gap: "1.5rem", alignItems: "flex-start", flexWrap: "wrap", position: "relative" }}>
-      {/* ----- DESKTOP SIDEBAR ----- */}
+      {/* DESKTOP SIDEBAR */}
       <div className="desktop-sidebar" style={{
         flex: "0 0 220px",
         position: "sticky",
@@ -1225,8 +924,8 @@ export default function SettingsForm({ guildId, initial }) {
         ))}
       </div>
 
-      {/* ----- MOBILE HEADER & SLIDE-OUT MENU ----- */}
-      <div style={{ flex: 1, minWidth: 0 }}>
+      {/* MOBILE HEADER & SLIDE-OUT MENU */}
+      <div style={{ width: "100%" }}>
         <div className="mobile-dash-header" style={{
           display: "none",
           justifyContent: "space-between",
@@ -1254,72 +953,6 @@ export default function SettingsForm({ guildId, initial }) {
           </button>
         </div>
 
-        <div
-          ref={menuRef}
-          className="mobile-slide-menu"
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "280px",
-            height: "100vh",
-            background: "#1a1a2e",
-            borderRight: "1px solid rgba(255,255,255,.06)",
-            padding: "1.5rem 1rem",
-            transform: isMobileMenuOpen ? "translateX(0)" : "translateX(-100%)",
-            transition: "transform 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
-            zIndex: 1000,
-            overflowY: "auto",
-          }}
-        >
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
-            <h3 style={{ margin: 0, color: "#e8e0d8" }}>Settings</h3>
-            <button
-              onClick={() => setIsMobileMenuOpen(false)}
-              style={{
-                background: "none",
-                border: "none",
-                color: "#a09890",
-                fontSize: "1.5rem",
-                cursor: "pointer",
-              }}
-            >
-              ✕
-            </button>
-          </div>
-          {navItems.map((item) => (
-            <button
-              key={item.section}
-              className={`dash-sidebar-item ${activeSection === item.section ? "active" : ""}`}
-              onClick={() => {
-                setActiveSection(item.section);
-                setIsMobileMenuOpen(false);
-                if (contentRef.current) contentRef.current.scrollTop = 0;
-              }}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.75rem",
-                width: "100%",
-                textAlign: "left",
-                background: "none",
-                border: "none",
-                color: activeSection === item.section ? "#d4af37" : "#a09890",
-                padding: "0.75rem 0.9rem",
-                borderRadius: "10px",
-                fontSize: "0.95rem",
-                fontWeight: activeSection === item.section ? "700" : "400",
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-                fontFamily: "inherit",
-              }}
-            >
-              <span style={{ fontSize: "1.2rem" }}>{item.icon}</span>
-              <span>{item.label}</span>
-            </button>
-          ))}
-        </div>
-
         {isMobileMenuOpen && (
           <div
             style={{
@@ -1327,9 +960,78 @@ export default function SettingsForm({ guildId, initial }) {
               inset: 0,
               background: "rgba(0,0,0,0.6)",
               zIndex: 999,
+              animation: "fadeIn 0.2s ease",
             }}
             onClick={() => setIsMobileMenuOpen(false)}
           />
+        )}
+
+        {isMobileMenuOpen && (
+          <div
+            ref={menuRef}
+            className="mobile-slide-menu open"
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "280px",
+              height: "100vh",
+              background: "#1a1a2e",
+              borderRight: "1px solid rgba(255,255,255,.06)",
+              padding: "1.5rem 1rem",
+              transform: "translateX(0)",
+              transition: "transform 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
+              zIndex: 1000,
+              overflowY: "auto",
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+              <h3 style={{ margin: 0, color: "#e8e0d8" }}>Settings</h3>
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "#a09890",
+                  fontSize: "1.5rem",
+                  cursor: "pointer",
+                }}
+              >
+                ✕
+              </button>
+            </div>
+            {navItems.map((item) => (
+              <button
+                key={item.section}
+                className={`dash-sidebar-item ${activeSection === item.section ? "active" : ""}`}
+                onClick={() => {
+                  setActiveSection(item.section);
+                  setIsMobileMenuOpen(false);
+                  if (contentRef.current) contentRef.current.scrollTop = 0;
+                }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.75rem",
+                  width: "100%",
+                  textAlign: "left",
+                  background: "none",
+                  border: "none",
+                  color: activeSection === item.section ? "#d4af37" : "#a09890",
+                  padding: "0.75rem 0.9rem",
+                  borderRadius: "10px",
+                  fontSize: "0.95rem",
+                  fontWeight: activeSection === item.section ? "700" : "400",
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                  fontFamily: "inherit",
+                }}
+              >
+                <span style={{ fontSize: "1.2rem" }}>{item.icon}</span>
+                <span>{item.label}</span>
+              </button>
+            ))}
+          </div>
         )}
 
         <div ref={contentRef} className="dash-content" style={{ flex: 1, minWidth: 0 }}>
