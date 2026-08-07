@@ -488,32 +488,42 @@ export default function SettingsForm({ guildId, initial }) {
   const [allRoles, setAllRoles] = useState(initial.roles || []);
   const [channelsLoaded, setChannelsLoaded] = useState(false);
 
+  // ---------- Fetch all channels (including voice) from Discord via server proxy ----------
   useEffect(() => {
-    // Fetch all channels (including voice) from the bot API
     const fetchChannels = async () => {
       try {
-        const res = await fetch(`/api/guilds/${guildId}/channels`);
+        // Use our server-side API route that proxies to Discord with bot token
+        const res = await fetch(`/api/discord/guilds/${guildId}/channels`);
         if (res.ok) {
           const data = await res.json();
-          setAllChannels(data);
+          if (data && data.length) {
+            setAllChannels(data);
+            setChannelsLoaded(true);
+            return;
+          }
         }
-      } catch (e) {
-        console.warn("Failed to fetch channels from API, using fallback:", e);
-        // fallback to initial.channels if API fails
+        // Fallback to initial channels (might only contain text channels)
         setAllChannels(initial.channels || []);
-      } finally {
+        setChannelsLoaded(true);
+      } catch (e) {
+        console.warn("Failed to fetch channels from Discord API, using fallback:", e);
+        setAllChannels(initial.channels || []);
         setChannelsLoaded(true);
       }
     };
     const fetchRoles = async () => {
       try {
-        const res = await fetch(`/api/guilds/${guildId}/roles`);
+        const res = await fetch(`/api/discord/guilds/${guildId}/roles`);
         if (res.ok) {
           const data = await res.json();
-          setAllRoles(data);
+          if (data && data.length) {
+            setAllRoles(data);
+            return;
+          }
         }
+        setAllRoles(initial.roles || []);
       } catch (e) {
-        console.warn("Failed to fetch roles from API, using fallback:", e);
+        console.warn("Failed to fetch roles from Discord API, using fallback:", e);
         setAllRoles(initial.roles || []);
       }
     };
@@ -578,7 +588,7 @@ export default function SettingsForm({ guildId, initial }) {
     }
   }
 
-  // Text channel selector (uses effectiveChannels)
+  // Text channel selector
   const ChannelSelect = ({ value, onChange, allowNone = true }) => (
     <select className="field-input" value={value || ""} onChange={(e) => onChange(e.target.value || null)}>
       {allowNone && <option value="">None</option>}
