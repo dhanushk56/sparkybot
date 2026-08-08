@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 export default function CommandsTable() {
   const [commands, setCommands] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   const [module, setModule] = useState("all");
   const [search, setSearch] = useState("");
 
@@ -11,7 +12,8 @@ export default function CommandsTable() {
     fetch("/api/commands")
       .then((r) => r.json())
       .then((data) => setCommands(data.commands || []))
-      .catch(() => setCommands([]));
+      .catch(() => setCommands([]))
+      .finally(() => setLoaded(true));
   }, []);
 
   const modules = useMemo(() => {
@@ -28,44 +30,57 @@ export default function CommandsTable() {
 
   return (
     <>
-      <div className="filter-bar">
-        <select value={module} onChange={(e) => setModule(e.target.value)}>
-          {modules.map((m) => (
-            <option key={m} value={m}>{m === "all" ? "All Modules" : m}</option>
-          ))}
-        </select>
+      <div className="commands-search-wrap">
         <input
           type="text"
-          placeholder="Search commands by name or description..."
+          className="field-input"
+          style={{ width: "100%" }}
+          placeholder="🔍 Search commands by name or description..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
 
-      {filtered.length > 0 ? (
-        <div className="commands-table-wrap">
-          <table className="commands-table">
-            <thead>
-              <tr>
-                <th>Command</th>
-                <th>Description</th>
-                <th style={{ textAlign: "right" }}>Module</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((c) => (
-                <tr key={c.name}>
-                  <td className="cmd-name">{c.name}</td>
-                  <td className="cmd-desc">{c.description}</td>
-                  <td style={{ textAlign: "right" }}><span className="cmd-module">{c.module}</span></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <div className="commands-module-pills">
+        {modules.map((m) => (
+          <button
+            key={m}
+            type="button"
+            className={`pill ${module === m ? "pill-active" : "pill-inactive"}`}
+            onClick={() => setModule(m)}
+          >
+            {m === "all" ? "All Modules" : m}
+          </button>
+        ))}
+      </div>
+
+      {!loaded ? (
+        <div className="commands-grid">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="dash-card" style={{ height: "88px", opacity: 0.5 }} />
+          ))}
         </div>
+      ) : filtered.length > 0 ? (
+        <>
+          <p className="commands-count">
+            {filtered.length} command{filtered.length === 1 ? "" : "s"}
+            {module !== "all" ? ` in ${module}` : ""}
+          </p>
+          <div className="commands-grid">
+            {filtered.map((c, i) => (
+              <div key={c.name} className="command-card" style={{ animationDelay: `${Math.min(i, 12) * 30}ms` }}>
+                <div className="command-card-top">
+                  <span className="cmd-name">{c.name}</span>
+                  <span className="cmd-module">{c.module}</span>
+                </div>
+                <p className="cmd-desc" style={{ margin: 0 }}>{c.description}</p>
+              </div>
+            ))}
+          </div>
+        </>
       ) : (
         <div style={{ textAlign: "center", color: "#808098", fontSize: "1.1rem", padding: "3rem 0" }}>
-          No commands found.
+          No commands found{search ? ` for "${search}"` : ""}.
         </div>
       )}
     </>
