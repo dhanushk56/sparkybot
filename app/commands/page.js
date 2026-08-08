@@ -1,4 +1,3 @@
-import Footer from "@/components/Footer";
 import CommandsTable from "@/components/CommandsTable";
 import { getCurrentUser } from "@/lib/currentUser";
 
@@ -15,7 +14,6 @@ export default async function CommandsPage() {
         </div>
         <CommandsTable />
       </main>
-      <Footer />
     </>
   );
 }
