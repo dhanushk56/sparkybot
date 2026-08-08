@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/currentUser";
 import { getMutualGuildIds } from "@/lib/botApi";
 import { guildIconUrl } from "@/lib/discord";
@@ -12,20 +13,7 @@ export default async function DashboardPage() {
   const user = await getCurrentUser();
 
   if (!user) {
-    return (
-      <>
-        <main className="main">
-          <div className="hero">
-            <div className="badge">🔐 Members only</div>
-            <h1>Manage your servers</h1>
-            <p>Log in with Discord to configure SparkyBot for the servers you manage.</p>
-            <div className="hero-buttons">
-              <a href="/api/auth/login" className="btn btn-primary">Login with Discord</a>
-            </div>
-          </div>
-        </main>
-      </>
-    );
+    redirect("/login");
   }
 
   let mutualIds = [];
