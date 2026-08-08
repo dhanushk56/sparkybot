@@ -6,7 +6,6 @@ export default function Footer() {
       <div className="absolute inset-0 bg-gradient-to-r from-gold-primary/5 via-transparent to-gold-secondary/5"></div>
       <div className="container mx-auto px-4 py-12 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-          {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold-primary to-gold-secondary flex items-center justify-center text-black font-orbitron font-black text-lg">
@@ -21,28 +20,25 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Quick Links */}
           <div className="space-y-4">
             <h4 className="font-orbitron font-bold text-lg text-gold-primary">Quick Links</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link className="text-gray-400 hover:text-gold-primary transition" href="/dashboard"><i className="fas fa-desktop mr-2"></i>Dashboard</Link></li>
-              <li><Link className="text-gray-400 hover:text-gold-primary transition" href="/invite"><i className="fab fa-discord mr-2"></i>Add Bot</Link></li>
-              <li><Link className="text-gray-400 hover:text-gold-primary transition" href="/commands"><i className="fas fa-terminal mr-2"></i>Commands</Link></li>
-              <li><Link className="text-gray-400 hover:text-gold-primary transition" href="/support"><i className="fab fa-discord mr-2"></i>Support Server</Link></li>
+              <li><Link className="text-gray-400 hover:text-gold-primary transition" href="/dashboard">Dashboard</Link></li>
+              <li><Link className="text-gray-400 hover:text-gold-primary transition" href="/invite">Add Bot</Link></li>
+              <li><Link className="text-gray-400 hover:text-gold-primary transition" href="/commands">Commands</Link></li>
+              <li><Link className="text-gray-400 hover:text-gold-primary transition" href="/support">Support Server</Link></li>
             </ul>
           </div>
 
-          {/* Legal */}
           <div className="space-y-4">
             <h4 className="font-orbitron font-bold text-lg text-gold-primary">Legal</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link className="text-gray-400 hover:text-gold-primary transition" href="/terms"><i className="fas fa-file-contract mr-2"></i>Terms of Use</Link></li>
-              <li><Link className="text-gray-400 hover:text-gold-primary transition" href="/privacy"><i className="fas fa-shield-alt mr-2"></i>Privacy Policy</Link></li>
-              <li><Link className="text-gray-400 hover:text-gold-primary transition" href="/contact"><i className="fas fa-envelope mr-2"></i>Contact Us</Link></li>
+              <li><Link className="text-gray-400 hover:text-gold-primary transition" href="/terms">Terms of Use</Link></li>
+              <li><Link className="text-gray-400 hover:text-gold-primary transition" href="/privacy">Privacy Policy</Link></li>
+              <li><Link className="text-gray-400 hover:text-gold-primary transition" href="/contact">Contact Us</Link></li>
             </ul>
           </div>
 
-          {/* Stats */}
           <div className="space-y-4">
             <h4 className="font-orbitron font-bold text-lg text-gold-primary">Statistics</h4>
             <div className="space-y-2 text-sm">
@@ -55,8 +51,8 @@ export default function Footer() {
 
         <div className="border-t border-dark-border pt-8 text-center">
           <p className="text-gray-400 text-sm">
-            © 2026 <span className="font-orbitron font-bold text-gold-primary">SparkyBot</span> Development. All rights reserved. 
-            | <Link className="text-gray-400 hover:text-gold-primary transition" href="/terms">Terms</Link> 
+            © 2026 <span className="font-orbitron font-bold text-gold-primary">SparkyBot</span> Development. All rights reserved.
+            | <Link className="text-gray-400 hover:text-gold-primary transition" href="/terms">Terms</Link>
             | <Link className="text-gray-400 hover:text-gold-primary transition" href="/privacy">Privacy</Link>
           </p>
         </div>
