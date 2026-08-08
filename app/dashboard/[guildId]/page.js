@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/currentUser";
 import { getGuildSettings } from "@/lib/botApi";
 import SettingsForm from "@/components/SettingsForm";
@@ -5,8 +6,7 @@ import SettingsForm from "@/components/SettingsForm";
 export default async function DashboardPage({ params }) {
   const user = await getCurrentUser();
   if (!user) {
-    // Handle unauthenticated user (redirect or show login)
-    return <div>Please log in.</div>;
+    redirect("/login");
   }
 
   const guildId = params.guildId;
