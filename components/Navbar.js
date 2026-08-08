@@ -12,7 +12,6 @@ export default function Navbar() {
         <div className="relative rounded-[26px] glass-nav">
           <div className="pointer-events-none absolute inset-0 rounded-[26px] bg-[radial-gradient(circle_at_15%_10%,rgba(255,215,0,0.15),transparent_44%),radial-gradient(circle_at_86%_120%,rgba(255,140,0,0.1),transparent_52%)]"></div>
           <div className="relative h-[66px] px-4 sm:px-6 flex items-center justify-between">
-            {/* Logo */}
             <Link className="flex items-center gap-2.5 min-w-0" href="/">
               <div className="h-[34px] w-[34px] rounded-full bg-gradient-to-br from-gold-primary to-gold-secondary flex items-center justify-center text-black font-orbitron font-black text-lg">
                 S
@@ -22,7 +21,6 @@ export default function Navbar() {
               </span>
             </Link>
 
-            {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-1.5">
               <Link className="px-4 py-2 rounded-xl text-sm font-semibold transition bg-white/12 text-white" href="/">
                 Home
@@ -38,7 +36,6 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Right side: Login & Mobile menu */}
             <div className="flex items-center gap-2 sm:gap-3">
               <Link
                 className="hidden lg:inline-flex items-center justify-center rounded-xl bg-gold-primary px-5 py-2.5 text-sm font-semibold text-black shadow-[0_8px_24px_rgba(255,215,0,0.4)] hover:bg-[#FFC700] transition"
@@ -62,7 +59,6 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Mobile Menu */}
           {mobileMenuOpen && (
             <div className="lg:hidden absolute top-full left-0 right-0 mt-2 rounded-[26px] glass-nav p-4 flex flex-col gap-2">
               <Link className="px-4 py-2 rounded-xl text-sm font-semibold hover:bg-white/8 transition" href="/">
