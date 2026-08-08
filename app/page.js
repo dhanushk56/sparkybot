@@ -75,12 +75,23 @@ export default function HomePage() {
               </div>
             </div>
             <div className="hero-image flex justify-center lg:justify-end">
-              <div className="floating-container-clean">
-                <img
-                  src="/img/dashboard-preview.png"
-                  alt="SparkyBot Dashboard Preview"
-                  className="w-full max-w-lg h-auto drop-shadow-2xl rounded-3xl border border-white/10"
-                />
+              <div className="floating-container-clean w-full max-w-lg rounded-3xl border border-white/10 bg-black/40 backdrop-blur-2xl p-5 drop-shadow-2xl">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="w-3 h-3 rounded-full bg-red-400/70"></span>
+                  <span className="w-3 h-3 rounded-full bg-yellow-400/70"></span>
+                  <span className="w-3 h-3 rounded-full bg-green-400/70"></span>
+                  <span className="ml-auto text-xs text-gray-500 font-mono">sparkybot.app/dashboard</span>
+                </div>
+                <div className="space-y-3">
+                  {["Moderation", "Economy & Leveling", "Auto Moderation", "Welcome & Auto-role"].map((row, i) => (
+                    <div key={i} className="flex items-center justify-between rounded-xl border border-gold-primary/10 bg-white/[0.03] px-4 py-3">
+                      <span className="text-sm text-gray-300">{row}</span>
+                      <span className="h-5 w-9 rounded-full bg-gold-primary/80 relative">
+                        <span className="absolute top-0.5 right-0.5 h-4 w-4 rounded-full bg-black"></span>
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -126,6 +137,33 @@ export default function HomePage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== CONTROL CENTER ==================== */}
+      <section className="py-24 relative overflow-hidden bg-black border-t border-white/[0.02]">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl lg:text-6xl font-orbitron font-black text-white mb-6">
+              A Control Center Designed for <span className="gradient-text">Power &amp; Simplicity</span>
+            </h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+              Ditch the clunky commands. Every part of SparkyBot is manageable through our fast, intuitive web dashboard.
+            </p>
+          </div>
+          <div className="relative max-w-4xl mx-auto">
+            <div className="absolute -inset-1 bg-gradient-to-r from-gold-primary to-gold-secondary rounded-[2rem] blur-2xl opacity-10"></div>
+            <div className="relative rounded-[2rem] border border-gold-primary/20 bg-black/60 backdrop-blur-2xl p-6 md:p-10">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {["General", "Automod", "Welcome", "Economy", "Tickets", "Logging"].map((tab, i) => (
+                  <div key={i} className={`rounded-xl border px-4 py-3 text-sm font-semibold ${i === 0 ? "border-gold-primary/50 bg-gold-primary/10 text-gold-primary" : "border-white/10 text-gray-400"}`}>
+                    {tab}
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 text-center text-sm text-gray-500 font-mono">sparkybot.app/dashboard</div>
+            </div>
           </div>
         </div>
       </section>
@@ -191,6 +229,46 @@ export default function HomePage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== WHY CHOOSE ==================== */}
+      <section className="py-24 relative bg-black border-t border-white/[0.02]">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-primary/10 border border-gold-primary/20 text-gold-primary font-mono text-sm mb-6 uppercase tracking-widest">
+              <i className="fas fa-star"></i> The SparkyBot Advantage
+            </div>
+            <h2 className="text-4xl lg:text-6xl font-orbitron font-black text-white mb-6">
+              Why Choose <span className="gradient-text">SparkyBot?</span>
+            </h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+              The ultimate infrastructure for standard-setting communities — no premium tier, no guesswork.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { icon: "🖥️", title: "Dashboard Control", desc: "Configure every module visually through an intuitive real-time control panel." },
+              { icon: "🛡️", title: "Multi-Layer Protection", desc: "Anti-nuke, automod, and logging operate together seamlessly." },
+              { icon: "🤖", title: "Intelligent Moderation", desc: "Automated systems, custom filters, and detailed logs keep your server clean." },
+              { icon: "⚙️", title: "Effortless Automation", desc: "Welcomes, auto-roles, and reaction roles configured easily from the dashboard." },
+              { icon: "🧰", title: "Powerful Utilities", desc: "Comprehensive tools for economy, tickets, music, and server management." },
+              { icon: "⚡", title: "Setup in Minutes", desc: "Deploy SparkyBot with production-ready defaults, no complex setup required." },
+            ].map((item, i) => (
+              <div key={i} className="relative group">
+                <div className="relative bg-black/40 backdrop-blur-2xl border border-gold-primary/20 rounded-[2rem] p-8 transition-all duration-500 group-hover:border-gold-primary/40 group-hover:-translate-y-1">
+                  <div className="text-4xl mb-4">{item.icon}</div>
+                  <h3 className="text-xl font-orbitron font-bold text-white mb-3">{item.title}</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-14">
+            <Link href="/commands" className="btn-secondary inline-flex items-center gap-2 px-8 py-4">
+              <i className="fas fa-terminal"></i> Explore All Commands
+            </Link>
           </div>
         </div>
       </section>
