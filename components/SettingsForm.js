@@ -1094,7 +1094,6 @@ export default function SettingsForm({ guildId, initial }) {
               </button>
             ))}
           </div>
-        )}
 
         {/* Main content */}
         <div ref={contentRef} className="dash-content" style={{ flex: 1, minWidth: 0 }}>
