@@ -1,5 +1,3 @@
-import Footer from "@/components/Footer";
-
 export const metadata = { title: "Terms of Service — SparkyBot" };
 
 export default async function TermsPage() {
@@ -22,7 +20,6 @@ export default async function TermsPage() {
           <p>By using SparkyBot, you acknowledge that you have read and understood these Terms of Service.</p>
         </div>
       </main>
-      <Footer />
     </>
   );
 }
