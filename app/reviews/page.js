@@ -2,10 +2,6 @@
 
 import { useState, useEffect } from "react";
 
-const DISCORD_CLIENT_ID = "1528780547411804382";
-const REDIRECT_URI = "https://sparkybot.bond/reviews";
-const DISCORD_OAUTH_URL = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=identify`;
-
 function StarRating({ rating, onRatingChange, readonly = false, size = 28 }) {
   return (
     <div style={{ display: "flex", gap: "4px" }}>
@@ -134,7 +130,7 @@ function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) 
 
 export default function ReviewsPage() {
   const [user, setUser] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
+  const [userLoading, setUserLoading] = useState(true);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [migrating, setMigrating] = useState(false);
@@ -145,50 +141,21 @@ export default function ReviewsPage() {
   const [newText, setNewText] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  // ----- Discord Login -----
+  // ----- Site-wide session login -----
+  // Reviews use the same Discord login as the rest of the site (cookie-based
+  // session), so there's no separate Discord popup/token flow here anymore.
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash && hash.includes("access_token")) {
-      const params = new URLSearchParams(hash.substring(1));
-      const token = params.get("access_token");
-      if (token) {
-        fetch("https://discord.com/api/users/@me", {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            const userData = {
-              id: data.id,
-              username: data.username,
-              avatar: data.avatar ? `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.png` : null,
-            };
-            setUser(userData);
-            setAccessToken(token);
-            localStorage.setItem("review_token", token);
-            migrateLocalReviews(userData, token);
-            window.history.replaceState({}, document.title, window.location.pathname);
-          })
-          .catch(console.error);
-      }
-    }
-    const savedUser = localStorage.getItem("review_user");
-    const savedToken = localStorage.getItem("review_token");
-    if (savedUser && savedToken && !user) {
-      try {
-        const parsed = JSON.parse(savedUser);
-        setUser(parsed);
-        setAccessToken(savedToken);
-        migrateLocalReviews(parsed, savedToken);
-      } catch {}
-    }
+    fetch("/api/auth/me")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.user) {
+          setUser(data.user);
+          migrateLocalReviews(data.user);
+        }
+      })
+      .catch(() => {})
+      .finally(() => setUserLoading(false));
   }, []);
-
-  useEffect(() => {
-    if (user) localStorage.setItem("review_user", JSON.stringify(user));
-    else localStorage.removeItem("review_user");
-    if (accessToken) localStorage.setItem("review_token", accessToken);
-    else localStorage.removeItem("review_token");
-  }, [user, accessToken]);
 
   // ----- Load reviews -----
   const loadReviews = async () => {
@@ -210,7 +177,10 @@ export default function ReviewsPage() {
   }, []);
 
   // ----- Migration -----
-  const migrateLocalReviews = async (userData, token) => {
+  // Some visitors may still have reviews saved locally from before the
+  // shared backend existed; fold those into their account the first time
+  // they're recognized as logged in.
+  const migrateLocalReviews = async (userData) => {
     const localData = localStorage.getItem("reviews_data");
     if (!localData) return;
 
@@ -227,7 +197,7 @@ export default function ReviewsPage() {
 
         const res = await fetch("/api/reviews", {
           method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             rating: r.rating,
             text: r.text || "",
@@ -237,7 +207,10 @@ export default function ReviewsPage() {
         if (res.ok) migrated++;
       }
 
-      if (migrated > 0) await loadReviews();
+      if (migrated > 0) {
+        localStorage.removeItem("reviews_data");
+        await loadReviews();
+      }
     } catch (e) {
       console.error("Migration error:", e);
     } finally {
@@ -255,7 +228,7 @@ export default function ReviewsPage() {
     try {
       const res = await fetch("/api/reviews", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ rating: newRating, text: newText.trim() }),
       });
       if (res.ok) {
@@ -278,7 +251,7 @@ export default function ReviewsPage() {
     try {
       const res = await fetch("/api/reviews", {
         method: "PATCH",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ reviewId, action: isLiked ? "unlike" : "like" }),
       });
       if (res.ok) {
@@ -295,7 +268,7 @@ export default function ReviewsPage() {
     try {
       const res = await fetch(`/api/reviews/reply?reviewId=${reviewId}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: text.trim() }),
       });
 
@@ -325,7 +298,7 @@ export default function ReviewsPage() {
     try {
       const res = await fetch("/api/reviews", {
         method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ reviewId, rating, text }),
       });
       if (res.ok) {
@@ -340,7 +313,6 @@ export default function ReviewsPage() {
     try {
       const res = await fetch(`/api/reviews?id=${reviewId}`, {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${accessToken}` },
       });
       if (res.ok) {
         setReviews(reviews.filter(r => r.id !== reviewId));
@@ -380,16 +352,17 @@ export default function ReviewsPage() {
   return (
     <div style={{ maxWidth: "900px", margin: "0 auto", padding: "2rem 1rem", color: "#e8e0d8" }}>
       <style jsx>{`
-        .btn { padding: 0.4rem 1rem; border: none; border-radius: 0.3rem; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: background 0.15s; }
+        .btn { padding: 0.4rem 1rem; border: none; border-radius: 0.3rem; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: background 0.25s cubic-bezier(0.22,1,0.36,1), transform 0.25s cubic-bezier(0.22,1,0.36,1); }
+        .btn:active { transform: scale(0.97); }
         .btn-primary { background: #5865F2; color: white; }
         .btn-primary:hover { background: #4752c4; }
         .btn-secondary { background: #2b2d31; color: #e8e0d8; }
         .btn-secondary:hover { background: #3b3d41; }
         .btn-danger { background: #ed4245; color: white; }
         .btn-danger:hover { background: #c03537; }
-        .field-input { background: #1e1f22; border: 1px solid #2b2d31; border-radius: 0.3rem; padding: 0.5rem; color: #e8e0d8; font-size: 0.9rem; outline: none; width: 100%; box-sizing: border-box; }
+        .field-input { background: #1e1f22; border: 1px solid #2b2d31; border-radius: 0.3rem; padding: 0.5rem; color: #e8e0d8; font-size: 0.9rem; outline: none; width: 100%; box-sizing: border-box; transition: border-color 0.25s cubic-bezier(0.22,1,0.36,1); }
         .field-input:focus { border-color: #5865F2; }
-        .select-input { background: #1e1f22; border: 1px solid #2b2d31; border-radius: 0.3rem; padding: 0.4rem 0.8rem; color: #e8e0d8; font-size: 0.9rem; outline: none; }
+        .select-input { background: #1e1f22; border: 1px solid #2b2d31; border-radius: 0.3rem; padding: 0.4rem 0.8rem; color: #e8e0d8; font-size: 0.9rem; outline: none; transition: border-color 0.25s cubic-bezier(0.22,1,0.36,1); }
         @media (max-width: 500px) {
           .btn { padding: 0.5rem 1rem; font-size: 0.95rem; width: 100%; }
           .field-input { font-size: 1rem !important; }
@@ -401,14 +374,16 @@ export default function ReviewsPage() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.75rem", marginBottom: "1.5rem" }}>
         <div><h1 style={{ margin: 0, fontSize: "1.8rem" }}>⭐ Reviews</h1><p style={{ color: "#949ba4", margin: "0.25rem 0 0 0", fontSize: "0.9rem" }}>Share your experience</p></div>
         <div>
-          {user ? (
+          {userLoading ? (
+            <div style={{ width: "90px", height: "34px", borderRadius: "0.3rem", background: "#1e1f22" }} />
+          ) : user ? (
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
               <img src={user.avatar || "https://cdn.discordapp.com/embed/avatars/0.png"} alt="avatar" style={{ width: "32px", height: "32px", borderRadius: "50%" }} />
               <span style={{ fontSize: "0.9rem" }}>{user.username}</span>
-              <button className="btn btn-secondary" onClick={() => { setUser(null); setAccessToken(null); localStorage.removeItem("review_user"); localStorage.removeItem("review_token"); }} style={{ fontSize: "0.8rem" }}>Logout</button>
+              <a className="btn btn-secondary" href="/api/auth/logout" style={{ fontSize: "0.8rem", textDecoration: "none" }}>Logout</a>
             </div>
           ) : (
-            <button className="btn btn-primary" onClick={() => window.location.href = DISCORD_OAUTH_URL}>🔒 Login</button>
+            <a className="btn btn-primary" href="/login" style={{ textDecoration: "none", display: "inline-block" }}>🔒 Login</a>
           )}
         </div>
       </div>
@@ -424,9 +399,11 @@ export default function ReviewsPage() {
           <button className="btn btn-primary" onClick={() => setShowSubmitForm(!showSubmitForm)} style={{ padding: "0.6rem 1.5rem", fontSize: "1rem" }}>
             {showSubmitForm ? "Cancel" : "✍️ Write a Review"}
           </button>
-        ) : (
-          <p style={{ color: "#949ba4", fontSize: "0.9rem" }}>Please log in with Discord to submit a review.</p>
-        )}
+        ) : !userLoading ? (
+          <p style={{ color: "#949ba4", fontSize: "0.9rem" }}>
+            <a href="/login" style={{ color: "#5865F2", fontWeight: 600 }}>Log in with Discord</a> to submit a review.
+          </p>
+        ) : null}
       </div>
 
       {showSubmitForm && user && (
