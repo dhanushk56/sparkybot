@@ -1,30 +1,29 @@
 import { NextResponse } from "next/server";
-
-const BOT_START_TIME = Date.now() - 10 * 24 * 60 * 60 * 1000;
+import { getBotStatus } from "@/lib/botApi";
 
 export async function GET() {
   try {
-    const uptime = Math.floor((Date.now() - BOT_START_TIME) / 1000);
-
+    const data = await getBotStatus();
     return NextResponse.json({
-      status: "online",
-      online: true,          // ← added (boolean StatusWidget checks)
-      uptime: uptime,
-      startTime: BOT_START_TIME,
-      servers: "--",         // ← added
-      users: "--",           // ← added
+      status: data.status ?? "offline",
+      online: !!data.online,
+      uptime: data.uptime ?? "0s",
+      uptime_seconds: data.uptime_seconds ?? 0,
+      servers: data.servers ?? 0,
+      users: data.users ?? 0,
     });
   } catch (error) {
     return NextResponse.json(
       {
         status: "offline",
         online: false,
-        uptime: 0,
-        servers: "--",
-        users: "--",
+        uptime: "0s",
+        uptime_seconds: 0,
+        servers: 0,
+        users: 0,
         error: error.message,
       },
-      { status: 500 }
+      { status: 200 }
     );
   }
 }
