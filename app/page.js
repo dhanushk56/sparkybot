@@ -59,7 +59,7 @@ export default function HomePage() {
                   </h1>
                 </div>
                 <h2 className="text-2xl lg:text-3xl font-semibold font-orbitron text-gold-primary mb-6 text-center lg:text-left">
-                  The Swiss Army Knife for Discord
+                  An all-in-one bot bot
                 </h2>
                 <p className="text-xl lg:text-2xl text-gray-300 leading-relaxed text-center lg:text-left">
                   A feature-rich multipurpose bot with economy, moderation, fun, and automation – all managed via an intuitive dashboard.
