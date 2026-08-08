@@ -1,9 +1,7 @@
-/* ========== TAILWIND DIRECTIVES ========== */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ========== BASE STYLES ========== */
 @layer base {
   body {
     font-family: 'Inter', sans-serif;
@@ -15,7 +13,6 @@
   }
 }
 
-/* ========== COMPONENTS ========== */
 @layer components {
   .glass-nav {
     background: rgba(12, 18, 38, 0.72);
@@ -73,7 +70,6 @@
   }
 }
 
-/* ========== UTILITIES ========== */
 @layer utilities {
   .animation-delay-1000 { animation-delay: 1000ms; }
   .animation-delay-2000 { animation-delay: 2000ms; }
@@ -87,7 +83,6 @@
   }
 }
 
-/* ========== CUSTOM SCROLLBAR ========== */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: #0a0a0a; }
 ::-webkit-scrollbar-thumb { background: #FFD700; border-radius: 4px; }
