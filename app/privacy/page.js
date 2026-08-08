@@ -1,5 +1,3 @@
-import Footer from "@/components/Footer";
-
 export const metadata = { title: "Privacy Policy — SparkyBot" };
 
 export default async function PrivacyPage() {
@@ -23,7 +21,6 @@ export default async function PrivacyPage() {
           <p>By using SparkyBot, you consent to the collection and use of your data as described in this Privacy Policy.</p>
         </div>
       </main>
-      <Footer />
     </>
   );
 }
