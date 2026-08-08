@@ -80,7 +80,7 @@ export default function HomePage() {
                   <span className="w-3 h-3 rounded-full bg-red-400/70"></span>
                   <span className="w-3 h-3 rounded-full bg-yellow-400/70"></span>
                   <span className="w-3 h-3 rounded-full bg-green-400/70"></span>
-                  <span className="ml-auto text-xs text-gray-500 font-mono">sparkybot.app/dashboard</span>
+                  <span className="ml-auto text-xs text-gray-500 font-mono">sparkybot.bond/dashboard</span>
                 </div>
                 <div className="space-y-3">
                   {["Moderation", "Economy & Leveling", "Auto Moderation", "Welcome & Auto-role"].map((row, i) => (
@@ -162,7 +162,7 @@ export default function HomePage() {
                   </div>
                 ))}
               </div>
-              <div className="mt-6 text-center text-sm text-gray-500 font-mono">sparkybot.app/dashboard</div>
+              <div className="mt-6 text-center text-sm text-gray-500 font-mono">sparkybot.bond/dashboard</div>
             </div>
           </div>
         </div>
