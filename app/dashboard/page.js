@@ -1,4 +1,3 @@
-import Footer from "@/components/Footer";
 import { getCurrentUser } from "@/lib/currentUser";
 import { getMutualGuildIds } from "@/lib/botApi";
 import { guildIconUrl } from "@/lib/discord";
@@ -25,7 +24,6 @@ export default async function DashboardPage() {
             </div>
           </div>
         </main>
-        <Footer />
       </>
     );
   }
@@ -105,7 +103,6 @@ export default async function DashboardPage() {
           </div>
         )}
       </main>
-      <Footer />
     </>
   );
 }
