@@ -61,7 +61,7 @@ function RoleMultiSelect({ value, onChange, placeholder = "Select roles...", rol
         <span style={{ marginLeft: "auto", color: "#949ba4", fontSize: "0.7rem" }}>{isOpen ? "▲" : "▼"}</span>
       </div>
       {isOpen && (
-        <div style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, backgroundColor: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "0.5rem", maxHeight: "220px", overflowY: "auto", zIndex: 100, boxShadow: "0 8px 24px rgba(0,0,0,0.5)" }}>
+        <div className="dropdown-panel" style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, backgroundColor: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "0.5rem", maxHeight: "220px", overflowY: "auto", zIndex: 100, boxShadow: "0 8px 24px rgba(0,0,0,0.5)" }}>
           <div style={{ padding: "0.5rem", borderBottom: "1px solid #2b2d31", position: "sticky", top: 0, backgroundColor: "#1e1f22", zIndex: 1 }}>
             <input type="text" placeholder="Search roles..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onClick={(e) => e.stopPropagation()} style={{ width: "100%", padding: "0.5rem", backgroundColor: "#2b2d31", border: "1px solid #3b3d41", borderRadius: "0.25rem", color: "#e8e0d8", fontSize: "0.9rem", outline: "none" }} />
           </div>
@@ -128,7 +128,7 @@ function ChannelMultiSelect({ value, onChange, placeholder = "Select channels...
         <span style={{ marginLeft: "auto", color: "#949ba4", fontSize: "0.7rem" }}>{isOpen ? "▲" : "▼"}</span>
       </div>
       {isOpen && (
-        <div style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, backgroundColor: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "0.5rem", maxHeight: "220px", overflowY: "auto", zIndex: 100, boxShadow: "0 8px 24px rgba(0,0,0,0.5)" }}>
+        <div className="dropdown-panel" style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, backgroundColor: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "0.5rem", maxHeight: "220px", overflowY: "auto", zIndex: 100, boxShadow: "0 8px 24px rgba(0,0,0,0.5)" }}>
           <div style={{ padding: "0.5rem", borderBottom: "1px solid #2b2d31", position: "sticky", top: 0, backgroundColor: "#1e1f22", zIndex: 1 }}>
             <input type="text" placeholder="Search channels..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onClick={(e) => e.stopPropagation()} style={{ width: "100%", padding: "0.5rem", backgroundColor: "#2b2d31", border: "1px solid #3b3d41", borderRadius: "0.25rem", color: "#e8e0d8", fontSize: "0.9rem", outline: "none" }} />
           </div>
@@ -195,7 +195,7 @@ function CategoryMultiSelect({ value, onChange, placeholder = "Select categories
         <span style={{ marginLeft: "auto", color: "#949ba4", fontSize: "0.7rem" }}>{isOpen ? "▲" : "▼"}</span>
       </div>
       {isOpen && (
-        <div style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, backgroundColor: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "0.5rem", maxHeight: "220px", overflowY: "auto", zIndex: 100, boxShadow: "0 8px 24px rgba(0,0,0,0.5)" }}>
+        <div className="dropdown-panel" style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, backgroundColor: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "0.5rem", maxHeight: "220px", overflowY: "auto", zIndex: 100, boxShadow: "0 8px 24px rgba(0,0,0,0.5)" }}>
           <div style={{ padding: "0.5rem", borderBottom: "1px solid #2b2d31", position: "sticky", top: 0, backgroundColor: "#1e1f22", zIndex: 1 }}>
             <input type="text" placeholder="Search categories..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onClick={(e) => e.stopPropagation()} style={{ width: "100%", padding: "0.5rem", backgroundColor: "#2b2d31", border: "1px solid #3b3d41", borderRadius: "0.25rem", color: "#e8e0d8", fontSize: "0.9rem", outline: "none" }} />
           </div>
@@ -717,7 +717,7 @@ export default function SettingsForm({ guildId, initial }) {
         <div className="field-group"><label>Log Channel</label><ChannelSelect value={logging.channel} onChange={setNested("logging", "channel")} /></div>
         <div style={{ marginTop: "1rem" }}>
           <label style={{ display: "block", marginBottom: ".5rem" }}>Events to Log</label>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: ".5rem" }}>
+          <div className="log-events-grid">
             {["message_delete","message_edit","member_join","member_leave","member_ban","member_unban","role_create","role_delete","role_update","channel_create","channel_delete","channel_update","voice_join","voice_leave","voice_move","nickname_change","member_role_update","invite_create","invite_delete"].map((ev) => (
               <div key={ev} className="toggle-row" style={{ padding: ".25rem 0" }}>
                 <div><div className="toggle-label" style={{ fontSize: ".85rem" }}>{ev.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())}</div></div>
@@ -1014,24 +1014,23 @@ export default function SettingsForm({ guildId, initial }) {
           </button>
         </div>
 
-        {/* Slide-out menu (mobile) */}
-        {isMobileMenuOpen && (
-          <div
-            style={{
-              position: "fixed",
-              inset: 0,
-              background: "rgba(0,0,0,0.6)",
-              zIndex: 999,
-              animation: "fadeIn 0.2s ease",
-            }}
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
-        )}
+        {/* Slide-out menu (mobile) — always mounted so open/close actually animates */}
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.6)",
+            zIndex: 999,
+            opacity: isMobileMenuOpen ? 1 : 0,
+            pointerEvents: isMobileMenuOpen ? "auto" : "none",
+            transition: "opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1)",
+          }}
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
 
-        {isMobileMenuOpen && (
-          <div
+        <div
             ref={menuRef}
-            className="mobile-slide-menu open"
+            className="mobile-slide-menu"
             style={{
               position: "fixed",
               top: 0,
@@ -1041,10 +1040,11 @@ export default function SettingsForm({ guildId, initial }) {
               background: "#1a1a2e",
               borderRight: "1px solid rgba(255,255,255,.06)",
               padding: "1.5rem 1rem",
-              transform: "translateX(0)",
+              transform: isMobileMenuOpen ? "translateX(0)" : "translateX(-100%)",
               transition: "transform 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
               zIndex: 1000,
               overflowY: "auto",
+              pointerEvents: isMobileMenuOpen ? "auto" : "none",
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
