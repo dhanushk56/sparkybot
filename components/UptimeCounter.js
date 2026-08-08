@@ -21,7 +21,7 @@ export default function UptimeCounter() {
     fetch("/api/status")
       .then((res) => res.json())
       .then((data) => {
-        const start = Date.now() - data.uptime * 1000;
+        const start = Date.now() - (data.uptime_seconds ?? 0) * 1000;
         setStartTimestamp(start);
       })
       .catch(() => {
