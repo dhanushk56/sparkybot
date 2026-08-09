@@ -31,14 +31,17 @@ export default function CommandsTable() {
   return (
     <>
       <div className="commands-search-wrap">
-        <input
-          type="text"
-          className="field-input"
-          style={{ width: "100%" }}
-          placeholder="🔍 Search commands by name or description..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <div style={{ position: "relative" }}>
+          <i className="fas fa-magnifying-glass" style={{ position: "absolute", left: "0.9rem", top: "50%", transform: "translateY(-50%)", color: "var(--db-faint)", fontSize: "0.85rem" }}></i>
+          <input
+            type="text"
+            className="field-input"
+            style={{ width: "100%", paddingLeft: "2.2rem" }}
+            placeholder="Search commands by name or description..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
       </div>
 
       <div className="commands-module-pills">
