@@ -18,7 +18,7 @@ export default function InvitePage() {
   return (
     <main className="main" style={{ textAlign: "center", paddingTop: "4rem" }}>
       <div className="hero">
-        <h1>🚀 Invite SparkyBot</h1>
+        <h1>Invite SparkyBot</h1>
         <p style={{ maxWidth: "500px", margin: "0 auto 2rem" }}>
           Click the button below to invite SparkyBot to your server. You'll be redirected to Discord.
         </p>
