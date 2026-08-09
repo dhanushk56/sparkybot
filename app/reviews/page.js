@@ -372,7 +372,7 @@ export default function ReviewsPage() {
       `}</style>
 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.75rem", marginBottom: "1.5rem" }}>
-        <div><h1 style={{ margin: 0, fontSize: "1.8rem" }}>⭐ Reviews</h1><p style={{ color: "#949ba4", margin: "0.25rem 0 0 0", fontSize: "0.9rem" }}>Share your experience</p></div>
+        <div><h1 style={{ margin: 0, fontSize: "1.8rem" }}>Reviews</h1><p style={{ color: "#949ba4", margin: "0.25rem 0 0 0", fontSize: "0.9rem" }}>Share your experience</p></div>
         <div>
           {userLoading ? (
             <div style={{ width: "90px", height: "34px", borderRadius: "0.3rem", background: "#1e1f22" }} />
@@ -383,21 +383,21 @@ export default function ReviewsPage() {
               <a className="btn btn-secondary" href="/api/auth/logout" style={{ fontSize: "0.8rem", textDecoration: "none" }}>Logout</a>
             </div>
           ) : (
-            <a className="btn btn-primary" href="/login" style={{ textDecoration: "none", display: "inline-block" }}>🔒 Login</a>
+            <a className="btn btn-primary" href="/login" style={{ textDecoration: "none", display: "inline-block" }}>Login</a>
           )}
         </div>
       </div>
 
       {migrating && (
         <div style={{ background: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "8px", padding: "0.75rem", marginBottom: "1rem", textAlign: "center", color: "#d4af37" }}>
-          ⏳ Migrating your old reviews to the new system...
+          Migrating your old reviews to the new system...
         </div>
       )}
 
       <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
         {user ? (
           <button className="btn btn-primary" onClick={() => setShowSubmitForm(!showSubmitForm)} style={{ padding: "0.6rem 1.5rem", fontSize: "1rem" }}>
-            {showSubmitForm ? "Cancel" : "✍️ Write a Review"}
+            {showSubmitForm ? "Cancel" : "Write a Review"}
           </button>
         ) : !userLoading ? (
           <p style={{ color: "#949ba4", fontSize: "0.9rem" }}>
@@ -461,7 +461,7 @@ export default function ReviewsPage() {
 
       {highlights.length > 0 && (
         <div style={{ marginTop: "2.5rem", borderTop: "1px solid #2b2d31", paddingTop: "2rem" }}>
-          <h2 style={{ textAlign: "center", marginBottom: "1rem", fontSize: "1.4rem" }}>🏆 Top Reviews</h2>
+          <h2 style={{ textAlign: "center", marginBottom: "1rem", fontSize: "1.4rem" }}>Top Reviews</h2>
           {highlights.map((review) => (
             <ReviewItem key={review.id} review={review} currentUser={user} onLike={handleLike} onReply={handleReply} onEdit={handleEdit} onDelete={handleDelete} />
           ))}
