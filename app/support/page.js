@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 // Replace with your actual support server invite
-const SUPPORT_SERVER = "https://discord.gg/your-invite";
+const SUPPORT_SERVER = "https://support.sparkybot.bond";
 const EMAIL = "support@sparkybot.com";
 
 export default function SupportPage() {
