@@ -13,14 +13,14 @@ export default async function LoginPage({ searchParams }) {
     <main className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#050507] px-4">
       <div className="absolute inset-0 bg-gradient-to-br from-gold-primary/10 via-dark-bg to-gold-secondary/5"></div>
       <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
-      <div className="absolute top-20 -right-20 w-96 h-96 bg-gold-primary/20 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-20 -left-20 w-80 h-80 bg-gold-secondary/15 rounded-full blur-3xl animate-pulse animation-delay-1000"></div>
+      <div className="absolute top-20 -right-20 w-96 h-96 bg-gold-primary/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-20 -left-20 w-80 h-80 bg-gold-secondary/[0.06] rounded-full blur-3xl"></div>
 
       <div
         className="relative z-10 w-full max-w-[420px] glass-card rounded-[2rem] p-8 sm:p-10 text-center transition-all duration-500"
         style={{ animation: "cardIn 0.5s var(--ease-smooth)" }}
       >
-        <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-gold-primary to-gold-secondary flex items-center justify-center text-black font-orbitron font-black text-3xl drop-shadow-[0_0_20px_rgba(255,215,0,0.5)]">
+        <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-gold-primary to-gold-secondary flex items-center justify-center text-black font-orbitron font-bold text-2xl">
           S
         </div>
         <h1 className="font-orbitron font-bold text-2xl sm:text-3xl text-white mb-2">
