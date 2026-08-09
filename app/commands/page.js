@@ -9,7 +9,7 @@ export default async function CommandsPage() {
     <>
       <main className="main">
         <div className="commands-header">
-          <h1>📋 All Commands</h1>
+          <h1>All Commands</h1>
           <p>Default prefix: <code>//</code> — slash commands also available. Search or filter by module below.</p>
         </div>
         <CommandsTable />
