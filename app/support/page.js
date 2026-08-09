@@ -8,15 +8,15 @@ export default function SupportPage() {
   return (
     <main className="main" style={{ maxWidth: "700px", margin: "0 auto" }}>
       <div className="hero" style={{ padding: "2rem 0" }}>
-        <h1>💬 Support</h1>
+        <h1>Support</h1>
         <p style={{ color: "#a09890" }}>
-          Need help? We're here for you. Choose an option below.
+          Have a question or need help? Choose an option below.
         </p>
       </div>
 
       <div className="dash-card" style={{ marginBottom: "1.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "0.75rem" }}>
-          <span style={{ fontSize: "2rem" }}>🛡️</span>
+          <i className="fas fa-shield-halved" style={{ fontSize: "1.5rem", color: "var(--db-gold)" }}></i>
           <div>
             <h3 style={{ color: "#e8e0d8", margin: 0 }}>Join our Discord Server</h3>
             <p style={{ color: "#808098", margin: "0.25rem 0 0 0", fontSize: "0.9rem" }}>
@@ -31,7 +31,7 @@ export default function SupportPage() {
 
       <div className="dash-card" style={{ marginBottom: "1.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "0.75rem" }}>
-          <span style={{ fontSize: "2rem" }}>📧</span>
+          <i className="fas fa-envelope" style={{ fontSize: "1.5rem", color: "var(--db-gold)" }}></i>
           <div>
             <h3 style={{ color: "#e8e0d8", margin: 0 }}>Email Us</h3>
             <p style={{ color: "#808098", margin: "0.25rem 0 0 0", fontSize: "0.9rem" }}>
@@ -46,7 +46,7 @@ export default function SupportPage() {
 
       <div className="dash-card">
         <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "0.75rem" }}>
-          <span style={{ fontSize: "2rem" }}>📖</span>
+          <i className="fas fa-book" style={{ fontSize: "1.5rem", color: "var(--db-gold)" }}></i>
           <div>
             <h3 style={{ color: "#e8e0d8", margin: 0 }}>Documentation</h3>
             <p style={{ color: "#808098", margin: "0.25rem 0 0 0", fontSize: "0.9rem" }}>
