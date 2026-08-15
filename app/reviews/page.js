@@ -52,13 +52,13 @@ function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) 
   };
 
   return (
-    <div style={{ background: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "8px", padding: "1rem", marginBottom: "1rem" }}>
+    <div className="dash-card" style={{ padding: "1rem", marginBottom: "1rem" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "0.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
           <img src={review.userAvatar || "https://cdn.discordapp.com/embed/avatars/0.png"} alt={review.username} style={{ width: "32px", height: "32px", borderRadius: "50%" }} />
           <div>
-            <strong style={{ color: "#e8e0d8" }}>{review.username}</strong>
-            <span style={{ color: "#949ba4", fontSize: "0.75rem", marginLeft: "0.5rem" }}>
+            <strong style={{ color: "var(--db-text)" }}>{review.username}</strong>
+            <span style={{ color: "var(--db-muted)", fontSize: "0.75rem", marginLeft: "0.5rem" }}>
               {new Date(review.createdAt).toLocaleDateString()}
             </span>
           </div>
@@ -66,7 +66,7 @@ function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) 
         <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", flexWrap: "wrap" }}>
           <span
             style={{
-              color: isLiked ? "#ed4245" : "#949ba4",
+              color: isLiked ? "#ed4245" : "var(--db-muted)",
               fontSize: "0.85rem",
               cursor: currentUser ? "pointer" : "default",
             }}
@@ -74,7 +74,7 @@ function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) 
           >
             {isLiked ? "❤️" : "🤍"} {review.likes || 0}
           </span>
-          <span style={{ color: "#949ba4", fontSize: "0.85rem", cursor: "pointer" }} onClick={() => setShowReplyForm(!showReplyForm)}>
+          <span style={{ color: "var(--db-muted)", fontSize: "0.85rem", cursor: "pointer" }} onClick={() => setShowReplyForm(!showReplyForm)}>
             💬 {review.replies?.length || 0}
           </span>
           {currentUser && currentUser.id === review.userId && canEdit && !isEditing && (
@@ -96,16 +96,16 @@ function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) 
           </div>
         </div>
       ) : (
-        review.text && <div style={{ marginTop: "0.5rem", color: "#e8e0d8", whiteSpace: "pre-wrap" }}>{review.text}</div>
+        review.text && <div style={{ marginTop: "0.5rem", color: "var(--db-text)", whiteSpace: "pre-wrap" }}>{review.text}</div>
       )}
       {(review.replies || []).length > 0 && (
-        <div style={{ marginTop: "0.75rem", paddingLeft: "1rem", borderLeft: "2px solid #2b2d31" }}>
+        <div style={{ marginTop: "0.75rem", paddingLeft: "1rem", borderLeft: "2px solid var(--db-card-border)" }}>
           {review.replies.map((reply) => (
             <div key={reply.id} style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem", alignItems: "flex-start" }}>
               <img src={reply.userAvatar || "https://cdn.discordapp.com/embed/avatars/0.png"} alt="" style={{ width: "20px", height: "20px", borderRadius: "50%" }} />
               <div>
-                <strong style={{ color: "#e8e0d8", fontSize: "0.85rem" }}>{reply.username}</strong>
-                <span style={{ color: "#949ba4", fontSize: "0.7rem", marginLeft: "0.25rem" }}>{new Date(reply.createdAt).toLocaleDateString()}</span>
+                <strong style={{ color: "var(--db-text)", fontSize: "0.85rem" }}>{reply.username}</strong>
+                <span style={{ color: "var(--db-muted)", fontSize: "0.7rem", marginLeft: "0.25rem" }}>{new Date(reply.createdAt).toLocaleDateString()}</span>
                 <div style={{ color: "#c8c8c8", fontSize: "0.85rem" }}>{reply.text}</div>
               </div>
             </div>
@@ -347,35 +347,22 @@ export default function ReviewsPage() {
     .sort((a, b) => b.score - a.score)
     .slice(0, 3);
 
-  if (loading) return <div style={{ padding: "2rem", textAlign: "center", color: "#949ba4" }}>Loading reviews...</div>;
+  if (loading) return <div style={{ padding: "2rem", textAlign: "center", color: "var(--db-muted)" }}>Loading reviews...</div>;
 
   return (
-    <div style={{ maxWidth: "900px", margin: "0 auto", padding: "2rem 1rem", color: "#e8e0d8" }}>
+    <div style={{ maxWidth: "900px", margin: "0 auto", padding: "2rem 1rem", color: "var(--db-text)" }}>
       <style jsx>{`
-        .btn { padding: 0.4rem 1rem; border: none; border-radius: 0.3rem; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: background 0.25s cubic-bezier(0.22,1,0.36,1), transform 0.25s cubic-bezier(0.22,1,0.36,1); }
-        .btn:active { transform: scale(0.97); }
-        .btn-primary { background: #5865F2; color: white; }
-        .btn-primary:hover { background: #4752c4; }
-        .btn-secondary { background: #2b2d31; color: #e8e0d8; }
-        .btn-secondary:hover { background: #3b3d41; }
-        .btn-danger { background: #ed4245; color: white; }
-        .btn-danger:hover { background: #c03537; }
-        .field-input { background: #1e1f22; border: 1px solid #2b2d31; border-radius: 0.3rem; padding: 0.5rem; color: #e8e0d8; font-size: 0.9rem; outline: none; width: 100%; box-sizing: border-box; transition: border-color 0.25s cubic-bezier(0.22,1,0.36,1); }
-        .field-input:focus { border-color: #5865F2; }
-        .select-input { background: #1e1f22; border: 1px solid #2b2d31; border-radius: 0.3rem; padding: 0.4rem 0.8rem; color: #e8e0d8; font-size: 0.9rem; outline: none; transition: border-color 0.25s cubic-bezier(0.22,1,0.36,1); }
         @media (max-width: 500px) {
-          .btn { padding: 0.5rem 1rem; font-size: 0.95rem; width: 100%; }
-          .field-input { font-size: 1rem !important; }
-          .select-input { font-size: 1rem !important; }
+          .btn { width: 100%; }
           .filter-group > div { flex: 1 1 100%; }
         }
       `}</style>
 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.75rem", marginBottom: "1.5rem" }}>
-        <div><h1 style={{ margin: 0, fontSize: "1.8rem" }}>Reviews</h1><p style={{ color: "#949ba4", margin: "0.25rem 0 0 0", fontSize: "0.9rem" }}>Share your experience</p></div>
+        <div><h1 style={{ margin: 0, fontSize: "1.8rem" }}>Reviews</h1><p style={{ color: "var(--db-muted)", margin: "0.25rem 0 0 0", fontSize: "0.9rem" }}>Share your experience</p></div>
         <div>
           {userLoading ? (
-            <div style={{ width: "90px", height: "34px", borderRadius: "0.3rem", background: "#1e1f22" }} />
+            <div style={{ width: "90px", height: "34px", borderRadius: "0.3rem", background: "rgba(255,255,255,0.06)" }} />
           ) : user ? (
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
               <img src={user.avatar || "https://cdn.discordapp.com/embed/avatars/0.png"} alt="avatar" style={{ width: "32px", height: "32px", borderRadius: "50%" }} />
@@ -389,7 +376,7 @@ export default function ReviewsPage() {
       </div>
 
       {migrating && (
-        <div style={{ background: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "8px", padding: "0.75rem", marginBottom: "1rem", textAlign: "center", color: "#d4af37" }}>
+        <div className="dash-card" style={{ padding: "0.75rem", marginBottom: "1rem", textAlign: "center", color: "#FFD700" }}>
           Migrating your old reviews to the new system...
         </div>
       )}
@@ -400,14 +387,14 @@ export default function ReviewsPage() {
             {showSubmitForm ? "Cancel" : "Write a Review"}
           </button>
         ) : !userLoading ? (
-          <p style={{ color: "#949ba4", fontSize: "0.9rem" }}>
+          <p style={{ color: "var(--db-muted)", fontSize: "0.9rem" }}>
             <a href="/login" style={{ color: "#5865F2", fontWeight: 600 }}>Log in with Discord</a> to submit a review.
           </p>
         ) : null}
       </div>
 
       {showSubmitForm && user && (
-        <div style={{ background: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "8px", padding: "1rem", marginBottom: "1.5rem" }}>
+        <div className="dash-card" style={{ padding: "1rem", marginBottom: "1.5rem" }}>
           <div style={{ marginBottom: "0.75rem" }}>
             <label style={{ display: "block", marginBottom: "0.25rem", fontSize: "0.9rem" }}>Your Rating</label>
             <StarRating rating={newRating} onRatingChange={setNewRating} size={32} />
@@ -427,7 +414,7 @@ export default function ReviewsPage() {
 
       <div className="filter-group" style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.5rem" }}>
         <div style={{ flex: 1, minWidth: "120px" }}>
-          <label style={{ display: "block", marginBottom: "0.25rem", color: "#949ba4", fontSize: "0.85rem" }}>Sort</label>
+          <label style={{ display: "block", marginBottom: "0.25rem", color: "var(--db-muted)", fontSize: "0.85rem" }}>Sort</label>
           <select className="select-input" value={sortBy} onChange={(e) => setSortBy(e.target.value)} style={{ width: "100%" }}>
             <option value="latest">Latest</option>
             <option value="oldest">Oldest</option>
@@ -435,7 +422,7 @@ export default function ReviewsPage() {
           </select>
         </div>
         <div style={{ flex: 1, minWidth: "120px" }}>
-          <label style={{ display: "block", marginBottom: "0.25rem", color: "#949ba4", fontSize: "0.85rem" }}>Filter</label>
+          <label style={{ display: "block", marginBottom: "0.25rem", color: "var(--db-muted)", fontSize: "0.85rem" }}>Filter</label>
           <select className="select-input" value={filterBy} onChange={(e) => setFilterBy(e.target.value)} style={{ width: "100%" }}>
             <option value="all">All</option>
             <option value="withText">With Text</option>
@@ -447,12 +434,12 @@ export default function ReviewsPage() {
           </select>
         </div>
         <div style={{ flex: "0 0 auto", display: "flex", alignItems: "flex-end" }}>
-          <span style={{ color: "#949ba4", fontSize: "0.85rem" }}>{processedReviews.length} reviews</span>
+          <span style={{ color: "var(--db-muted)", fontSize: "0.85rem" }}>{processedReviews.length} reviews</span>
         </div>
       </div>
 
       {processedReviews.length === 0 ? (
-        <p style={{ color: "#949ba4", textAlign: "center", padding: "2rem 0" }}>No reviews yet. Be the first!</p>
+        <p style={{ color: "var(--db-muted)", textAlign: "center", padding: "2rem 0" }}>No reviews yet. Be the first!</p>
       ) : (
         processedReviews.map((review) => (
           <ReviewItem key={review.id} review={review} currentUser={user} onLike={handleLike} onReply={handleReply} onEdit={handleEdit} onDelete={handleDelete} />
@@ -460,7 +447,7 @@ export default function ReviewsPage() {
       )}
 
       {highlights.length > 0 && (
-        <div style={{ marginTop: "2.5rem", borderTop: "1px solid #2b2d31", paddingTop: "2rem" }}>
+        <div style={{ marginTop: "2.5rem", borderTop: "1px solid var(--db-card-border)", paddingTop: "2rem" }}>
           <h2 style={{ textAlign: "center", marginBottom: "1rem", fontSize: "1.4rem" }}>Top Reviews</h2>
           {highlights.map((review) => (
             <ReviewItem key={review.id} review={review} currentUser={user} onLike={handleLike} onReply={handleReply} onEdit={handleEdit} onDelete={handleDelete} />
