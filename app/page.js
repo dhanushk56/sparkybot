@@ -210,11 +210,10 @@ export default function HomePage() {
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">Free your staff from repetitive tasks. SparkyBot handles the heavy lifting.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {[
               { icon: "fa-robot", title: "Auto Moderation", desc: "Enable automated rule enforcement to block spam, abuse, and unsafe content in real time." },
               { icon: "fa-masks-theater", title: "Autorole", desc: "Assign join-time roles automatically for faster server setup and seamless member onboarding." },
-              { icon: "fa-comments", title: "Auto Responder", desc: "Automatically reply or react to triggers with saved responses to improve channel interactions." },
               { icon: "fa-door-open", title: "Welcomer", desc: "Personalize welcome messages with custom configuration, built-in and reusable templates." },
             ].map((item, i) => (
               <div key={i} className="relative group">
