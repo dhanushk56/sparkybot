@@ -49,27 +49,27 @@ function RoleMultiSelect({ value, onChange, placeholder = "Select roles...", rol
     <div ref={dropdownRef} style={{ position: "relative", width: "100%" }}>
       <div className="field-input" style={{ display: "flex", flexWrap: "wrap", gap: "0.25rem", padding: "0.25rem", minHeight: "44px", cursor: "pointer", alignItems: "center", transition: "border-color 0.15s", borderColor: isOpen ? "#5865F2" : undefined }} onClick={() => setIsOpen(!isOpen)}>
         {selectedRoles.length === 0 ? (
-          <span style={{ color: "#949ba4", padding: "0.25rem", fontSize: "0.9rem" }}>{placeholder}</span>
+          <span style={{ color: "var(--db-muted)", padding: "0.25rem", fontSize: "0.9rem" }}>{placeholder}</span>
         ) : (
           selectedRoles.map((role) => (
-            <span key={role.id} style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem", backgroundColor: "rgba(88, 101, 242, 0.25)", color: "#e8e0d8", padding: "0.15rem 0.5rem", borderRadius: "0.25rem", fontSize: "0.85rem", border: "1px solid rgba(88, 101, 242, 0.35)" }}>
+            <span key={role.id} style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem", backgroundColor: "rgba(88, 101, 242, 0.25)", color: "var(--db-text)", padding: "0.15rem 0.5rem", borderRadius: "0.25rem", fontSize: "0.85rem", border: "1px solid rgba(88, 101, 242, 0.35)" }}>
               @{role.name}
               <span onClick={(e) => { e.stopPropagation(); handleRemoveRole(role.id); }} style={{ cursor: "pointer", color: "#ed4245", fontSize: "0.7rem", marginLeft: "0.15rem", opacity: 0.7 }}>✕</span>
             </span>
           ))
         )}
-        <span style={{ marginLeft: "auto", color: "#949ba4", fontSize: "0.7rem" }}>{isOpen ? "▲" : "▼"}</span>
+        <span style={{ marginLeft: "auto", color: "var(--db-muted)", fontSize: "0.7rem" }}>{isOpen ? "▲" : "▼"}</span>
       </div>
       {isOpen && (
-        <div className="dropdown-panel" style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, backgroundColor: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "0.5rem", maxHeight: "220px", overflowY: "auto", zIndex: 100, boxShadow: "0 8px 24px rgba(0,0,0,0.5)" }}>
-          <div style={{ padding: "0.5rem", borderBottom: "1px solid #2b2d31", position: "sticky", top: 0, backgroundColor: "#1e1f22", zIndex: 1 }}>
-            <input type="text" placeholder="Search roles..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onClick={(e) => e.stopPropagation()} style={{ width: "100%", padding: "0.5rem", backgroundColor: "#2b2d31", border: "1px solid #3b3d41", borderRadius: "0.25rem", color: "#e8e0d8", fontSize: "0.9rem", outline: "none" }} />
+        <div className="dropdown-panel" style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, backgroundColor: "rgba(10,10,10,0.75)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", border: "1px solid var(--db-card-border)", borderRadius: "0.5rem", maxHeight: "220px", overflowY: "auto", zIndex: 100, boxShadow: "0 8px 24px rgba(0,0,0,0.5)" }}>
+          <div style={{ padding: "0.5rem", borderBottom: "1px solid var(--db-card-border)", position: "sticky", top: 0, backgroundColor: "rgba(10,10,10,0.6)", zIndex: 1 }}>
+            <input type="text" placeholder="Search roles..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onClick={(e) => e.stopPropagation()} style={{ width: "100%", padding: "0.5rem", backgroundColor: "var(--db-card-border)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "0.25rem", color: "var(--db-text)", fontSize: "0.9rem", outline: "none" }} />
           </div>
           {filteredAvailable.length === 0 ? (
-            <div style={{ padding: "0.75rem", color: "#949ba4", textAlign: "center", fontSize: "0.9rem" }}>{searchTerm ? "No roles match your search" : "All roles selected"}</div>
+            <div style={{ padding: "0.75rem", color: "var(--db-muted)", textAlign: "center", fontSize: "0.9rem" }}>{searchTerm ? "No roles match your search" : "All roles selected"}</div>
           ) : (
             filteredAvailable.map((role) => (
-              <div key={role.id} onClick={() => handleAddRole(role.id)} style={{ padding: "0.5rem 0.75rem", cursor: "pointer", color: "#e8e0d8", fontSize: "0.9rem", transition: "background 0.15s", borderBottom: "1px solid #2b2d31", display: "flex", alignItems: "center", justifyContent: "space-between" }} onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"} onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}>
+              <div key={role.id} onClick={() => handleAddRole(role.id)} style={{ padding: "0.5rem 0.75rem", cursor: "pointer", color: "var(--db-text)", fontSize: "0.9rem", transition: "background 0.15s", borderBottom: "1px solid var(--db-card-border)", display: "flex", alignItems: "center", justifyContent: "space-between" }} onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"} onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}>
                 <span>@{role.name}</span>
                 <span style={{ color: "#5865F2", fontSize: "0.75rem" }}>+ Add</span>
               </div>
@@ -116,27 +116,27 @@ function ChannelMultiSelect({ value, onChange, placeholder = "Select channels...
     <div ref={dropdownRef} style={{ position: "relative", width: "100%" }}>
       <div className="field-input" style={{ display: "flex", flexWrap: "wrap", gap: "0.25rem", padding: "0.25rem", minHeight: "44px", cursor: "pointer", alignItems: "center", transition: "border-color 0.15s", borderColor: isOpen ? "#5865F2" : undefined }} onClick={() => setIsOpen(!isOpen)}>
         {selectedChannels.length === 0 ? (
-          <span style={{ color: "#949ba4", padding: "0.25rem", fontSize: "0.9rem" }}>{placeholder}</span>
+          <span style={{ color: "var(--db-muted)", padding: "0.25rem", fontSize: "0.9rem" }}>{placeholder}</span>
         ) : (
           selectedChannels.map((channel) => (
-            <span key={channel.id} style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem", backgroundColor: "rgba(88, 101, 242, 0.25)", color: "#e8e0d8", padding: "0.15rem 0.5rem", borderRadius: "0.25rem", fontSize: "0.85rem", border: "1px solid rgba(88, 101, 242, 0.35)" }}>
+            <span key={channel.id} style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem", backgroundColor: "rgba(88, 101, 242, 0.25)", color: "var(--db-text)", padding: "0.15rem 0.5rem", borderRadius: "0.25rem", fontSize: "0.85rem", border: "1px solid rgba(88, 101, 242, 0.35)" }}>
               #{channel.name}
               <span onClick={(e) => { e.stopPropagation(); handleRemoveChannel(channel.id); }} style={{ cursor: "pointer", color: "#ed4245", fontSize: "0.7rem", marginLeft: "0.15rem", opacity: 0.7 }}>✕</span>
             </span>
           ))
         )}
-        <span style={{ marginLeft: "auto", color: "#949ba4", fontSize: "0.7rem" }}>{isOpen ? "▲" : "▼"}</span>
+        <span style={{ marginLeft: "auto", color: "var(--db-muted)", fontSize: "0.7rem" }}>{isOpen ? "▲" : "▼"}</span>
       </div>
       {isOpen && (
-        <div className="dropdown-panel" style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, backgroundColor: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "0.5rem", maxHeight: "220px", overflowY: "auto", zIndex: 100, boxShadow: "0 8px 24px rgba(0,0,0,0.5)" }}>
-          <div style={{ padding: "0.5rem", borderBottom: "1px solid #2b2d31", position: "sticky", top: 0, backgroundColor: "#1e1f22", zIndex: 1 }}>
-            <input type="text" placeholder="Search channels..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onClick={(e) => e.stopPropagation()} style={{ width: "100%", padding: "0.5rem", backgroundColor: "#2b2d31", border: "1px solid #3b3d41", borderRadius: "0.25rem", color: "#e8e0d8", fontSize: "0.9rem", outline: "none" }} />
+        <div className="dropdown-panel" style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, backgroundColor: "rgba(10,10,10,0.75)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", border: "1px solid var(--db-card-border)", borderRadius: "0.5rem", maxHeight: "220px", overflowY: "auto", zIndex: 100, boxShadow: "0 8px 24px rgba(0,0,0,0.5)" }}>
+          <div style={{ padding: "0.5rem", borderBottom: "1px solid var(--db-card-border)", position: "sticky", top: 0, backgroundColor: "rgba(10,10,10,0.6)", zIndex: 1 }}>
+            <input type="text" placeholder="Search channels..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onClick={(e) => e.stopPropagation()} style={{ width: "100%", padding: "0.5rem", backgroundColor: "var(--db-card-border)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "0.25rem", color: "var(--db-text)", fontSize: "0.9rem", outline: "none" }} />
           </div>
           {filteredAvailable.length === 0 ? (
-            <div style={{ padding: "0.75rem", color: "#949ba4", textAlign: "center", fontSize: "0.9rem" }}>{searchTerm ? "No channels match your search" : "All channels selected"}</div>
+            <div style={{ padding: "0.75rem", color: "var(--db-muted)", textAlign: "center", fontSize: "0.9rem" }}>{searchTerm ? "No channels match your search" : "All channels selected"}</div>
           ) : (
             filteredAvailable.map((channel) => (
-              <div key={channel.id} onClick={() => handleAddChannel(channel.id)} style={{ padding: "0.5rem 0.75rem", cursor: "pointer", color: "#e8e0d8", fontSize: "0.9rem", transition: "background 0.15s", borderBottom: "1px solid #2b2d31", display: "flex", alignItems: "center", justifyContent: "space-between" }} onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"} onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}>
+              <div key={channel.id} onClick={() => handleAddChannel(channel.id)} style={{ padding: "0.5rem 0.75rem", cursor: "pointer", color: "var(--db-text)", fontSize: "0.9rem", transition: "background 0.15s", borderBottom: "1px solid var(--db-card-border)", display: "flex", alignItems: "center", justifyContent: "space-between" }} onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"} onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}>
                 <span>#{channel.name}</span>
                 <span style={{ color: "#5865F2", fontSize: "0.75rem" }}>+ Add</span>
               </div>
@@ -183,27 +183,27 @@ function CategoryMultiSelect({ value, onChange, placeholder = "Select categories
     <div ref={dropdownRef} style={{ position: "relative", width: "100%" }}>
       <div className="field-input" style={{ display: "flex", flexWrap: "wrap", gap: "0.25rem", padding: "0.25rem", minHeight: "44px", cursor: "pointer", alignItems: "center", transition: "border-color 0.15s", borderColor: isOpen ? "#5865F2" : undefined }} onClick={() => setIsOpen(!isOpen)}>
         {selectedCategories.length === 0 ? (
-          <span style={{ color: "#949ba4", padding: "0.25rem", fontSize: "0.9rem" }}>{placeholder}</span>
+          <span style={{ color: "var(--db-muted)", padding: "0.25rem", fontSize: "0.9rem" }}>{placeholder}</span>
         ) : (
           selectedCategories.map((category) => (
-            <span key={category.id} style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem", backgroundColor: "rgba(88, 101, 242, 0.25)", color: "#e8e0d8", padding: "0.15rem 0.5rem", borderRadius: "0.25rem", fontSize: "0.85rem", border: "1px solid rgba(88, 101, 242, 0.35)" }}>
+            <span key={category.id} style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem", backgroundColor: "rgba(88, 101, 242, 0.25)", color: "var(--db-text)", padding: "0.15rem 0.5rem", borderRadius: "0.25rem", fontSize: "0.85rem", border: "1px solid rgba(88, 101, 242, 0.35)" }}>
               {category.name}
               <span onClick={(e) => { e.stopPropagation(); handleRemoveCategory(category.id); }} style={{ cursor: "pointer", color: "#ed4245", fontSize: "0.7rem", marginLeft: "0.15rem", opacity: 0.7 }}>✕</span>
             </span>
           ))
         )}
-        <span style={{ marginLeft: "auto", color: "#949ba4", fontSize: "0.7rem" }}>{isOpen ? "▲" : "▼"}</span>
+        <span style={{ marginLeft: "auto", color: "var(--db-muted)", fontSize: "0.7rem" }}>{isOpen ? "▲" : "▼"}</span>
       </div>
       {isOpen && (
-        <div className="dropdown-panel" style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, backgroundColor: "#1e1f22", border: "1px solid #2b2d31", borderRadius: "0.5rem", maxHeight: "220px", overflowY: "auto", zIndex: 100, boxShadow: "0 8px 24px rgba(0,0,0,0.5)" }}>
-          <div style={{ padding: "0.5rem", borderBottom: "1px solid #2b2d31", position: "sticky", top: 0, backgroundColor: "#1e1f22", zIndex: 1 }}>
-            <input type="text" placeholder="Search categories..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onClick={(e) => e.stopPropagation()} style={{ width: "100%", padding: "0.5rem", backgroundColor: "#2b2d31", border: "1px solid #3b3d41", borderRadius: "0.25rem", color: "#e8e0d8", fontSize: "0.9rem", outline: "none" }} />
+        <div className="dropdown-panel" style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, backgroundColor: "rgba(10,10,10,0.75)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", border: "1px solid var(--db-card-border)", borderRadius: "0.5rem", maxHeight: "220px", overflowY: "auto", zIndex: 100, boxShadow: "0 8px 24px rgba(0,0,0,0.5)" }}>
+          <div style={{ padding: "0.5rem", borderBottom: "1px solid var(--db-card-border)", position: "sticky", top: 0, backgroundColor: "rgba(10,10,10,0.6)", zIndex: 1 }}>
+            <input type="text" placeholder="Search categories..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onClick={(e) => e.stopPropagation()} style={{ width: "100%", padding: "0.5rem", backgroundColor: "var(--db-card-border)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "0.25rem", color: "var(--db-text)", fontSize: "0.9rem", outline: "none" }} />
           </div>
           {filteredAvailable.length === 0 ? (
-            <div style={{ padding: "0.75rem", color: "#949ba4", textAlign: "center", fontSize: "0.9rem" }}>{searchTerm ? "No categories match your search" : "All categories selected"}</div>
+            <div style={{ padding: "0.75rem", color: "var(--db-muted)", textAlign: "center", fontSize: "0.9rem" }}>{searchTerm ? "No categories match your search" : "All categories selected"}</div>
           ) : (
             filteredAvailable.map((category) => (
-              <div key={category.id} onClick={() => handleAddCategory(category.id)} style={{ padding: "0.5rem 0.75rem", cursor: "pointer", color: "#e8e0d8", fontSize: "0.9rem", transition: "background 0.15s", borderBottom: "1px solid #2b2d31", display: "flex", alignItems: "center", justifyContent: "space-between" }} onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"} onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}>
+              <div key={category.id} onClick={() => handleAddCategory(category.id)} style={{ padding: "0.5rem 0.75rem", cursor: "pointer", color: "var(--db-text)", fontSize: "0.9rem", transition: "background 0.15s", borderBottom: "1px solid var(--db-card-border)", display: "flex", alignItems: "center", justifyContent: "space-between" }} onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.05)"} onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}>
                 <span>{category.name}</span>
                 <span style={{ color: "#5865F2", fontSize: "0.75rem" }}>+ Add</span>
               </div>
@@ -392,7 +392,7 @@ function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channel
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-        <h4 style={{ color: "#e8e0d8", margin: 0 }}>Applications</h4>
+        <h4 style={{ color: "var(--db-text)", margin: 0 }}>Applications</h4>
         <button className="btn btn-primary" onClick={() => setIsCreating(!isCreating)} style={{ padding: "0.3rem 1rem", fontSize: "0.85rem" }}>{isCreating ? "Cancel" : "+ Create"}</button>
       </div>
 
@@ -414,8 +414,8 @@ function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channel
             {(newApp.questions || []).length > 0 && (
               <div style={{ maxHeight: "150px", overflow: "auto" }}>
                 {(newApp.questions || []).map((q, i) => (
-                  <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "0.25rem 0", borderBottom: "1px solid #2b2d31" }}>
-                    <span style={{ color: "#e8e0d8" }}>{i+1}. {q.text}</span>
+                  <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "0.25rem 0", borderBottom: "1px solid var(--db-card-border)" }}>
+                    <span style={{ color: "var(--db-text)" }}>{i+1}. {q.text}</span>
                     <button onClick={() => removeQuestion(i)} style={{ background: "none", border: "none", color: "#ed4245", cursor: "pointer" }}>✕</button>
                   </div>
                 ))}
@@ -431,7 +431,7 @@ function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channel
       {Object.entries(appList).map(([name, app]) => (
         <div key={name} className="dash-card" style={{ padding: "0.75rem 1rem", marginBottom: "0.5rem" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
-            <div><strong style={{ color: "#e8e0d8" }}>{name}</strong><span style={{ color: "#aaa", marginLeft: "0.5rem", fontSize: "0.85rem" }}>{app.questions?.length || 0} questions • {app.open ? "🟢 Open" : "🔴 Closed"}</span></div>
+            <div><strong style={{ color: "var(--db-text)" }}>{name}</strong><span style={{ color: "#aaa", marginLeft: "0.5rem", fontSize: "0.85rem" }}>{app.questions?.length || 0} questions • {app.open ? "🟢 Open" : "🔴 Closed"}</span></div>
             <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
               <button className="btn btn-secondary" style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }} onClick={() => handleToggleApp(name, !app.open)}>{app.open ? "Close" : "Open"}</button>
               <button className="btn btn-secondary" style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }} onClick={() => setEditingApp(app)}>Edit</button>
@@ -444,7 +444,7 @@ function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channel
       {editingApp && (
         <div className="modal-overlay" style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.8)", display: "flex", justifyContent: "center", alignItems: "center", zIndex: 1000 }} onClick={() => setEditingApp(null)}>
           <div className="dash-card" style={{ maxWidth: "600px", width: "90%", maxHeight: "80vh", overflow: "auto" }} onClick={(e) => e.stopPropagation()}>
-            <h4 style={{ color: "#e8e0d8" }}>Edit {editingApp.name}</h4>
+            <h4 style={{ color: "var(--db-text)" }}>Edit {editingApp.name}</h4>
             <div className="field-group"><label>Description</label><input className="field-input" value={editingApp.description || ""} onChange={(e) => setEditingApp({ ...editingApp, description: e.target.value })} /></div>
             <div className="field-group"><label>Cooldown (seconds)</label><input className="field-input" type="number" value={editingApp.cooldown || 1209600} onChange={(e) => setEditingApp({ ...editingApp, cooldown: parseInt(e.target.value) || 0 })} /></div>
             <div className="field-group"><label>Questions</label>
@@ -456,8 +456,8 @@ function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channel
                 <button className="btn btn-secondary" onClick={() => { if (!questionText) return; setEditingApp({ ...editingApp, questions: [...(editingApp.questions || []), { text: questionText, type: questionType, options: [], required: true }] }); setQuestionText(""); }}>+</button>
               </div>
               {(editingApp.questions || []).map((q, i) => (
-                <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "0.25rem 0", borderBottom: "1px solid #2b2d31" }}>
-                  <span style={{ color: "#e8e0d8" }}>{i+1}. {q.text}</span>
+                <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "0.25rem 0", borderBottom: "1px solid var(--db-card-border)" }}>
+                  <span style={{ color: "var(--db-text)" }}>{i+1}. {q.text}</span>
                   <button onClick={() => { const qs = [...(editingApp.questions || [])]; qs.splice(i, 1); setEditingApp({ ...editingApp, questions: qs }); }} style={{ background: "none", border: "none", color: "#ed4245", cursor: "pointer" }}>✕</button>
                 </div>
               ))}
@@ -655,9 +655,9 @@ export default function SettingsForm({ guildId, initial }) {
     const autotranslate = form.autotranslate || {};
 
     const SectionHeader = ({ icon, title }) => (
-      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.5rem 0", borderBottom: "1px solid #2b2d31", marginBottom: "1rem" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.5rem 0", borderBottom: "1px solid var(--db-card-border)", marginBottom: "1rem" }}>
         <span style={{ fontSize: "1.3rem" }}>{icon}</span>
-        <h3 style={{ margin: 0, color: "#e8e0d8" }}>{title}</h3>
+        <h3 style={{ margin: 0, color: "var(--db-text)" }}>{title}</h3>
       </div>
     );
 
@@ -850,7 +850,7 @@ export default function SettingsForm({ guildId, initial }) {
         <div style={{ marginTop: "1rem" }}><label style={{ display: "block", marginBottom: ".5rem" }}>Event Configurations</label>
           {Object.keys(eventConfig).length === 0 && <p style={{ color: "#aaa" }}>No events configured yet.</p>}
           {Object.entries(eventConfig).map(([event, cfg]) => (
-            <div key={event} style={{ borderBottom: "1px solid #2b2d31", padding: "0.5rem 0" }}>
+            <div key={event} style={{ borderBottom: "1px solid var(--db-card-border)", padding: "0.5rem 0" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
                 <span style={{ minWidth: "150px", fontWeight: "bold" }}>{event.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())}</span>
                 <Toggle checked={!!cfg.enabled} onChange={(v) => setForm(f => ({ ...f, antinuke: { ...f.antinuke, event_config: { ...f.antinuke?.event_config, [event]: { ...f.antinuke?.event_config?.[event], enabled: v } } } }))} />
@@ -963,7 +963,7 @@ export default function SettingsForm({ guildId, initial }) {
               textAlign: "left",
               background: "none",
               border: "none",
-              color: activeSection === item.section ? "#d4af37" : "#a09890",
+              color: activeSection === item.section ? "#FFD700" : "var(--db-muted)",
               padding: "0.65rem 0.9rem",
               borderRadius: "10px",
               fontSize: "0.88rem",
@@ -997,14 +997,14 @@ export default function SettingsForm({ guildId, initial }) {
           marginBottom: "1rem",
           borderRadius: "14px",
         }}>
-          <h2 style={{ margin: 0, fontSize: "1.2rem", color: "#e8e0d8" }}>Settings</h2>
+          <h2 style={{ margin: 0, fontSize: "1.2rem", color: "var(--db-text)" }}>Settings</h2>
           <button
             className="mobile-hamburger-btn"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             style={{
               background: "none",
               border: "none",
-              color: "#e8e0d8",
+              color: "var(--db-text)",
               fontSize: "1.8rem",
               cursor: "pointer",
               padding: "0.2rem 0.5rem",
@@ -1037,7 +1037,7 @@ export default function SettingsForm({ guildId, initial }) {
               left: 0,
               width: "280px",
               height: "100vh",
-              background: "#1a1a2e",
+              background: "rgba(10,10,10,0.6)",
               borderRight: "1px solid rgba(255,255,255,.06)",
               padding: "1.5rem 1rem",
               transform: isMobileMenuOpen ? "translateX(0)" : "translateX(-100%)",
@@ -1048,13 +1048,13 @@ export default function SettingsForm({ guildId, initial }) {
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
-              <h3 style={{ margin: 0, color: "#e8e0d8" }}>Settings</h3>
+              <h3 style={{ margin: 0, color: "var(--db-text)" }}>Settings</h3>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
                 style={{
                   background: "none",
                   border: "none",
-                  color: "#a09890",
+                  color: "var(--db-muted)",
                   fontSize: "1.5rem",
                   cursor: "pointer",
                 }}
@@ -1079,7 +1079,7 @@ export default function SettingsForm({ guildId, initial }) {
                   textAlign: "left",
                   background: "none",
                   border: "none",
-                  color: activeSection === item.section ? "#d4af37" : "#a09890",
+                  color: activeSection === item.section ? "#FFD700" : "var(--db-muted)",
                   padding: "0.75rem 0.9rem",
                   borderRadius: "10px",
                   fontSize: "0.95rem",
@@ -1129,8 +1129,8 @@ export default function SettingsForm({ guildId, initial }) {
           left: "50%",
           transform: "translateX(-50%)",
           background: "rgba(10,10,20,.95)",
-          border: "1px solid rgba(212,175,55,.3)",
-          color: "#e8e0d8",
+          border: "1px solid rgba(255,215,0,.3)",
+          color: "var(--db-text)",
           padding: ".8rem 1.4rem",
           borderRadius: "12px",
           fontSize: ".9rem",
