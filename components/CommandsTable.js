@@ -82,7 +82,7 @@ export default function CommandsTable() {
           </div>
         </>
       ) : (
-        <div style={{ textAlign: "center", color: "#808098", fontSize: "1.1rem", padding: "3rem 0" }}>
+        <div style={{ textAlign: "center", color: "var(--db-muted)", fontSize: "1.1rem", padding: "3rem 0" }}>
           No commands found{search ? ` for "${search}"` : ""}.
         </div>
       )}
