@@ -86,23 +86,43 @@
 
 /* ========================================================================
    DASHBOARD / ACCOUNT-PAGE SYSTEM
-   These classes are referenced across the dashboard, settings form, support,
-   commands, and legal pages but had no stylesheet in the project — restored
-   here using the SparkyBot palette defined in lib/theme.js.
+   Unified with the landing page's glass + gold aesthetic: translucent
+   black cards, gold-tinted borders, backdrop blur, and the same hover
+   lift/glow used across app/page.js — so every page.js in the app shares
+   one consistent look.
    ======================================================================== */
 :root {
-  --db-bg: #0a0a14;
-  --db-text: #e8e0d8;
-  --db-muted: #a09890;
-  --db-faint: #606070;
-  --db-gold: #d4af37;
-  --db-gold-light: #e8c84a;
-  --db-card: rgba(255,255,255,0.03);
-  --db-card-border: rgba(255,255,255,0.08);
-  --db-card-hover: rgba(255,255,255,0.05);
+  --db-bg: #050507;
+  --db-text: #f2ede6;
+  --db-muted: #a3a3ad;
+  --db-faint: #6b6b76;
+  --db-gold: #FFD700;
+  --db-gold-light: #FFA500;
+  --db-card: rgba(0, 0, 0, 0.4);
+  --db-card-border: rgba(255, 215, 0, 0.2);
+  --db-card-hover: rgba(10, 10, 10, 0.6);
   --db-ok: #4ade80;
   --db-err: #f87171;
   --db-warn: #fbbf24;
+  --db-blur: blur(20px);
+}
+
+/* Ambient hero-style backdrop (grid + soft gold glows) applied sitewide,
+   fixed behind all content so every page.js shares the landing page's
+   atmosphere, not just the homepage. */
+body { position: relative; }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(255, 215, 0, 0.07), transparent 42%),
+    radial-gradient(circle at 88% 92%, rgba(255, 140, 0, 0.06), transparent 46%),
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: auto, auto, 40px 40px, 40px 40px;
 }
 
 .main { max-width: 1080px; margin: 0 auto; padding: 6.5rem 1.25rem 4rem; }
@@ -112,21 +132,22 @@
 .hero-buttons { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem; }
 .badge {
   display: inline-flex; align-items: center; gap: 0.4rem;
-  background: rgba(212,175,55,0.1); border: 1px solid rgba(212,175,55,0.25);
+  background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.25);
+  backdrop-filter: var(--db-blur); -webkit-backdrop-filter: var(--db-blur);
   color: var(--db-gold); font-size: 0.8rem; font-weight: 600;
   padding: 0.4rem 0.9rem; border-radius: 999px; letter-spacing: 0.03em;
 }
 
+/* Shared base for every button. Gold/glass fills (.btn-primary / .btn-secondary)
+   come from the @layer components rules above so buttons look identical
+   whether they're built with Tailwind classes (landing) or plain classes
+   (dashboard, support, invite, etc). */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-  padding: 0.7rem 1.5rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.9rem;
-  border: none; cursor: pointer; transition: all 0.2s ease; text-decoration: none;
+  border-radius: 9999px; font-weight: 700; font-size: 0.9rem;
+  border: none; cursor: pointer; text-decoration: none;
 }
-.btn-primary { background: linear-gradient(135deg, var(--db-gold), var(--db-gold-light)); color: #0a0a0a; }
-.btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
-.btn-secondary { background: var(--db-card); border: 1px solid var(--db-card-border); color: var(--db-text); }
-.btn-secondary:hover { background: var(--db-card-hover); border-color: rgba(212,175,55,0.4); }
-.btn-danger { background: rgba(248,113,113,0.12); border: 1px solid rgba(248,113,113,0.35); color: var(--db-err); }
+.btn-danger { background: rgba(248,113,113,0.12); border: 1px solid rgba(248,113,113,0.35); backdrop-filter: var(--db-blur); -webkit-backdrop-filter: var(--db-blur); color: var(--db-err); }
 .btn-danger:hover { background: rgba(248,113,113,0.2); }
 
 .dash-layout { display: flex; min-height: 100vh; padding-top: 66px; }
@@ -134,19 +155,22 @@
 .dash-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; }
 .dash-card {
   background: var(--db-card); border: 1px solid var(--db-card-border); border-radius: 1rem;
-  padding: 1.5rem; transition: border-color 0.2s ease, background 0.2s ease;
+  backdrop-filter: var(--db-blur); -webkit-backdrop-filter: var(--db-blur);
+  padding: 1.5rem; transition: all 0.5s var(--ease-smooth, ease);
 }
-.dash-card:hover { border-color: rgba(212,175,55,0.3); background: var(--db-card-hover); }
+.dash-card:hover { border-color: rgba(255,215,0,0.4); background: rgba(10,10,10,0.55); transform: translateY(-2px); }
 .desktop-sidebar {
   width: 240px; flex-shrink: 0; padding: 2rem 1rem; border-right: 1px solid var(--db-card-border);
 }
 .mobile-dash-header { display: none; }
 .mobile-hamburger-btn {
   background: var(--db-card); border: 1px solid var(--db-card-border); border-radius: 0.6rem;
+  backdrop-filter: var(--db-blur); -webkit-backdrop-filter: var(--db-blur);
   width: 40px; height: 40px; color: var(--db-text); cursor: pointer;
 }
 .mobile-slide-menu {
-  position: fixed; inset: 0; z-index: 80; background: rgba(10,10,20,0.97);
+  position: fixed; inset: 0; z-index: 80; background: rgba(5,5,7,0.97);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
   transform: translateX(-100%); transition: transform 0.25s ease; padding: 5rem 1.5rem 2rem;
 }
 .mobile-slide-menu.open { transform: translateX(0); }
@@ -157,10 +181,11 @@
 
 .guild-card {
   display: flex; align-items: center; gap: 1rem; background: var(--db-card);
-  border: 1px solid var(--db-card-border); border-radius: 1rem; padding: 1.1rem;
-  text-decoration: none; transition: all 0.2s ease;
+  border: 1px solid var(--db-card-border); border-radius: 1rem;
+  backdrop-filter: var(--db-blur); -webkit-backdrop-filter: var(--db-blur);
+  padding: 1.1rem; text-decoration: none; transition: all 0.5s var(--ease-smooth, ease);
 }
-.guild-card:hover { border-color: rgba(212,175,55,0.4); background: var(--db-card-hover); transform: translateY(-2px); }
+.guild-card:hover { border-color: rgba(255,215,0,0.4); background: rgba(10,10,10,0.55); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
 .guild-avatar { width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0; object-fit: cover; }
 .guild-name { color: var(--db-text); font-weight: 700; }
 .guild-status { font-size: 0.8rem; color: var(--db-muted); }
@@ -190,11 +215,14 @@
 }
 .field-input {
   background: rgba(255,255,255,0.04); border: 1px solid var(--db-card-border); border-radius: 0.6rem;
-  padding: 0.6rem 0.8rem; color: var(--db-text); font-size: 0.9rem; outline: none; transition: border-color 0.15s;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  padding: 0.6rem 0.8rem; color: var(--db-text); font-size: 0.9rem; outline: none;
+  transition: border-color 0.25s var(--ease-smooth, ease), box-shadow 0.25s var(--ease-smooth, ease);
 }
-.field-input:focus { border-color: var(--db-gold); }
+.field-input:focus { border-color: var(--db-gold); box-shadow: 0 0 0 3px rgba(255,215,0,0.12); }
 .select-input {
   background: rgba(255,255,255,0.04); border: 1px solid var(--db-card-border); border-radius: 0.6rem;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   padding: 0.6rem 0.8rem; color: var(--db-text); font-size: 0.9rem; outline: none; transition: border-color 0.15s;
 }
 select.field-input, .select-input { appearance: none; cursor: pointer; }
@@ -203,23 +231,30 @@ select.field-input, .select-input { appearance: none; cursor: pointer; }
 .pill {
   display: inline-flex; align-items: center; padding: 0.35rem 0.85rem; border-radius: 999px;
   font-size: 0.78rem; font-weight: 600; cursor: pointer; border: 1px solid var(--db-card-border);
-  background: var(--db-card); color: var(--db-muted); transition: all 0.15s;
+  background: var(--db-card); backdrop-filter: var(--db-blur); -webkit-backdrop-filter: var(--db-blur);
+  color: var(--db-muted); transition: all 0.25s var(--ease-smooth, ease);
 }
-.pill-active { background: rgba(212,175,55,0.15); border-color: rgba(212,175,55,0.4); color: var(--db-gold); }
-.pill-inactive:hover { border-color: rgba(255,255,255,0.2); }
+.pill-active { background: rgba(255,215,0,0.15); border-color: rgba(255,215,0,0.4); color: var(--db-gold); }
+.pill-inactive:hover { border-color: rgba(255,215,0,0.3); color: var(--db-text); }
 
 .save-bar {
   position: sticky; bottom: 0; display: flex; justify-content: flex-end; gap: 0.75rem;
-  padding: 1rem; margin-top: 1.5rem; background: rgba(10,10,20,0.9); backdrop-filter: blur(12px);
+  padding: 1rem; margin-top: 1.5rem; background: rgba(5,5,7,0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid var(--db-card-border); border-radius: 0.75rem;
 }
 .toast {
-  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200; background: #14141f;
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200; background: rgba(10,10,10,0.75);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--db-card-border); border-left: 3px solid var(--db-gold);
   color: var(--db-text); padding: 0.9rem 1.25rem; border-radius: 0.6rem;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  animation: toastSlideIn 0.3s var(--ease-smooth, ease);
 }
-.modal-overlay { backdrop-filter: blur(4px); }
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.modal-overlay { backdrop-filter: blur(6px); background: rgba(0,0,0,0.6); }
 
 .filter-bar { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.25rem; }
 .filter-group { display: flex; gap: 0.4rem; flex-wrap: wrap; }
@@ -231,17 +266,20 @@ select.field-input, .select-input { appearance: none; cursor: pointer; }
 .commands-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
 .command-card {
   background: var(--db-card); border: 1px solid var(--db-card-border); border-radius: 1rem;
+  backdrop-filter: var(--db-blur); -webkit-backdrop-filter: var(--db-blur);
   padding: 1.1rem 1.2rem; animation: cardIn 0.35s var(--ease-smooth) backwards;
+  transition: all 0.5s var(--ease-smooth, ease);
 }
-.command-card:hover { border-color: rgba(212,175,55,0.35); background: var(--db-card-hover); transform: translateY(-2px); }
+.command-card:hover { border-color: rgba(255,215,0,0.4); background: rgba(10,10,10,0.55); transform: translateY(-2px); }
 .command-card-top { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.4rem; }
 
 .commands-table-wrap {
   border: 1px solid var(--db-card-border); border-radius: 1rem; overflow: hidden; overflow-x: auto;
+  background: var(--db-card); backdrop-filter: var(--db-blur); -webkit-backdrop-filter: var(--db-blur);
 }
 .commands-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
 .commands-table th {
-  text-align: left; padding: 0.8rem 1rem; color: var(--db-gold); background: rgba(212,175,55,0.06);
+  text-align: left; padding: 0.8rem 1rem; color: var(--db-gold); background: rgba(255,215,0,0.06);
   font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em;
 }
 .commands-table td { padding: 0.8rem 1rem; border-top: 1px solid var(--db-card-border); color: var(--db-text); }
@@ -260,9 +298,17 @@ select.field-input, .select-input { appearance: none; cursor: pointer; }
   .save-bar .btn { width: 100%; }
 }
 
-.policy-content { color: var(--db-muted); line-height: 1.75; }
+.policy-content {
+  color: var(--db-muted); line-height: 1.75;
+  background: var(--db-card); border: 1px solid var(--db-card-border); border-radius: 1.25rem;
+  backdrop-filter: var(--db-blur); -webkit-backdrop-filter: var(--db-blur);
+  padding: 2rem clamp(1.25rem, 4vw, 3rem);
+}
 .policy-content h2 { color: var(--db-text); font-family: 'Orbitron', sans-serif; margin: 2rem 0 0.75rem; font-size: 1.4rem; }
+.policy-content h2:first-child { margin-top: 0; }
 .policy-content p { margin-bottom: 1rem; }
+.policy-content li { margin-bottom: 0.5rem; }
+.policy-content li strong { color: var(--db-gold-light); }
 
 /* ========================================================================
    SMOOTH MOTION SYSTEM
@@ -307,7 +353,7 @@ a, button, input, select, textarea,
 .dropdown-panel { animation: dropdownIn 0.18s var(--ease-smooth); transform-origin: top center; }
 
 .dash-sidebar-item:hover { background: rgba(255,255,255,0.06) !important; }
-.dash-sidebar-item.active { background: rgba(212,175,55,0.1); }
+.dash-sidebar-item.active { background: rgba(255,215,0,0.1); }
 
 /* Native <select> dropdown popups render with a browser-controlled (usually
    white) background regardless of our dark theme, so the light text color
