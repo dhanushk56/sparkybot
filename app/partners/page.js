@@ -7,7 +7,7 @@ const partners = [
     name: "Elysia Cloud",
     tag: "Featured Partner",
     banner:
-      "https://kommodo.ai/i/2NjpoQZ6ayaljr8Dm5vu",
+      "https://cdn.phototourl.com/free/2026-08-16-f59e91c5-fbe0-45cb-bbee-795a205cad53.png",
     description:
       "Elysia Cloud is a fast, affordable, and reliable cloud hosting provider. They deliver high-performance hosting solutions designed for all consumers, combining powerful infrastructure, dependable service, and competitive pricing — built to make quality cloud hosting accessible without compromising on speed or reliability.",
     website: "https://www.elysiacloud.com/",
