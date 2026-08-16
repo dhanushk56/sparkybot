@@ -7,7 +7,7 @@ const partners = [
     name: "Elysia Cloud",
     tag: "Featured Partner",
     banner:
-      "https://cdn.discordapp.com/attachments/1532517760826081340/1537115152988639413/file_0000000098e8822f9429a6ac1b9c301e.png?ex=6a80808a&is=6a7f2f0a&hm=6c6263e0c46e5dcc8b0cb24a2f42cd421411e8003b42de84868b6fc78966366b&",
+      "https://kommodo.ai/i/2NjpoQZ6ayaljr8Dm5vu",
     description:
       "Elysia Cloud is a fast, affordable, and reliable cloud hosting provider. They deliver high-performance hosting solutions designed for all consumers, combining powerful infrastructure, dependable service, and competitive pricing — built to make quality cloud hosting accessible without compromising on speed or reliability.",
     website: "https://www.elysiacloud.com/",
