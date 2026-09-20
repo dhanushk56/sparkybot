@@ -7,7 +7,7 @@ const CLIENT_ID = "1541574404717285417";
 // Keep this permission integer in sync with INVITE_BASE in app/dashboard/page.js —
 // both links invite the same bot and should request the same scoped permission
 // set, not a blanket Administrator grant.
-const INVITE_URL = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&permissions=1099800112246&scope=bot%20applications.commands`;
+const INVITE_URL = `https://invite.sparkybot.bond`;
 
 export default function InvitePage() {
   // Optional: auto-redirect after 2 seconds
