@@ -453,6 +453,24 @@ a, button, input, select, textarea,
 }
 .btn-primary:active { transform: scale(0.97); }
 
+/* ------------------------------------------------------------------------
+   Scroll-reveal for homepage feature cards (see components/ScrollReveal.js).
+   Cards start slightly lower and transparent, then ease in once the
+   IntersectionObserver adds .visible as they scroll into view.
+   ------------------------------------------------------------------------ */
+.feature-card {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s var(--ease-smooth, ease), transform 0.6s var(--ease-smooth, ease);
+}
+.feature-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .feature-card { opacity: 1; transform: none; }
+}
+
 /* Mobile slide menu: fade the scrim in alongside the slide instead of it
    just appearing instantly at full opacity. */
 .mobile-slide-menu {
