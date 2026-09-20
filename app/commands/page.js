@@ -11,37 +11,37 @@ export const ALL_COMMANDS = [
   },
   {
     "name": "//8ball",
-    "description": "No description set.",
+    "description": "Ask an 8ball question",
     "module": "Community"
   },
   {
     "name": "//cflip",
-    "description": "No description set.",
+    "description": "Flip a coin",
     "module": "Community"
   },
   {
     "name": "//checkers",
-    "description": "No description set.",
+    "description": "Start a game of checkers with another server member(@user to send them a request)",
     "module": "Community"
   },
   {
     "name": "//chess",
-    "description": "No description set.",
+    "description": "Play chess by another server member (@user to send them a request)",
     "module": "Community"
   },
   {
     "name": "//chs",
-    "description": "No description set.",
+    "description": "Make the bot choose between two or more options",
     "module": "Community"
   },
   {
     "name": "//cmpl",
-    "description": "No description set.",
+    "description": "Make the bot give a compliment to a member.",
     "module": "Community"
   },
   {
     "name": "//dice",
-    "description": "No description set.",
+    "description": "Roll a die for fun",
     "module": "Community"
   },
   {
@@ -51,12 +51,12 @@ export const ALL_COMMANDS = [
   },
   {
     "name": "//fact",
-    "description": "No description set.",
+    "description": "Make the bot send plain text using emojis",
     "module": "Community"
   },
   {
     "name": "//gedit",
-    "description": "No description set.",
+    "description": "Edit an existing giveaway",
     "module": "Community"
   },
   {
@@ -66,82 +66,82 @@ export const ALL_COMMANDS = [
   },
   {
     "name": "//ginfo",
-    "description": "No description set.",
+    "description": "End an existing giveaway",
     "module": "Community"
   },
   {
     "name": "//glist",
-    "description": "No description set.",
+    "description": "List all open giveaways",
     "module": "Community"
   },
   {
     "name": "//grrl",
-    "description": "No description set.",
+    "description": "Re-roll a new winner to an ended giveaway",
     "module": "Community"
   },
   {
     "name": "//gwy",
-    "description": "No description set.",
+    "description": "Start a giveaway",
     "module": "Community"
   },
   {
     "name": "//ludo",
-    "description": "No description set.",
+    "description": "Start a game of ludo",
     "module": "Community"
   },
   {
     "name": "//lv",
-    "description": "No description set.",
+    "description": "Check your's or another member's rank",
     "module": "Community"
   },
   {
     "name": "//lvbl",
-    "description": "No description set.",
+    "description": "Blacklist a command to prevent XP gain",
     "module": "Community"
   },
   {
     "name": "//lvblrl",
-    "description": "No description set.",
+    "description": "Blacklist a role to prevent XP gain",
     "module": "Community"
   },
   {
     "name": "//lvblrls",
-    "description": "No description set.",
+    "description": "List all blacklisted roles",
     "module": "Community"
   },
   {
     "name": "//lvdisp",
-    "description": "No description set.",
+    "description": "Change the display method of the level-up message (both, embed, plain)",
     "module": "Community"
   },
   {
     "name": "//lvlb",
-    "description": "No description set.",
+    "description": "Get the leaderboard for the levels",
     "module": "Community"
   },
   {
     "name": "//lvprev",
-    "description": "No description set.",
+    "description": "Get a preview of the level-up message",
     "module": "Community"
   },
   {
     "name": "//lvrlv",
-    "description": "No description set.",
+    "description": "Remove a level-up role",
     "module": "Community"
   },
   {
     "name": "//lvrole",
-    "description": "No description set.",
+    "description": "Assign a level-up role",
     "module": "Community"
   },
   {
     "name": "//lvroles",
-    "description": "No description set.",
+    "description": "List all level up roles",
     "module": "Community"
   },
   {
     "name": "//lvrst",
-    "description": "No description set.",
+    "description": "Reset a user's level (owner-only)",
     "module": "Community"
   },
   {
@@ -151,67 +151,67 @@ export const ALL_COMMANDS = [
   },
   {
     "name": "//lvset",
-    "description": "No description set.",
+    "description": "Set the level-up message channel",
     "module": "Community"
   },
   {
     "name": "//lvsxp",
-    "description": "No description set.",
+    "description": "Manully set a user's XP",
     "module": "Community"
   },
   {
     "name": "//lvtgl",
-    "description": "No description set.",
+    "description": "Toggle on and off the leveling system",
     "module": "Community"
   },
   {
     "name": "//lvtxt",
-    "description": "No description set.",
+    "description": "Set the custom text for level-up messages",
     "module": "Community"
   },
   {
     "name": "//mock",
-    "description": "No description set.",
+    "description": "Make the bot mock whatever you say",
     "module": "Community"
   },
   {
     "name": "//rate",
-    "description": "No description set.",
+    "description": "Make the bot give a rating",
     "module": "Community"
   },
   {
     "name": "//rev",
-    "description": "No description set.",
+    "description": "Reverse a text",
     "module": "Community"
   },
   {
     "name": "//roast",
-    "description": "No description set.",
+    "description": "Make the bot roast a member of the server",
     "module": "Community"
   },
   {
     "name": "//rps",
-    "description": "No description set.",
+    "description": "Play Rock-Papar-Scissors with the bot",
     "module": "Community"
   },
   {
     "name": "//ship",
-    "description": "No description set.",
+    "description": "Ship two people on the server",
     "module": "Community"
   },
   {
     "name": "//tictactoe",
-    "description": "Starts a Tic‑Tac‑Toe game. Usage: {prefix}ttt @friend → PvP {prefix}ttt --bot → vs bot (default X, medium) {prefix}ttt --bot --side O → vs bot, you play O {prefix}ttt --bot --side O --easy → vs bot, O, easy difficulty",
+    "description": "Starts a Tic‑Tac‑Toe game (use --bot to play with the bot)",
     "module": "Community"
   },
   {
     "name": "//triv",
-    "description": "No description set.",
+    "description": "Get a random trivia question",
     "module": "Community"
   },
   {
     "name": "//unscramble",
-    "description": "No description set.",
+    "description": "Unscramble a given word (easy|medium|hard to choose the difficulty)",
     "module": "Community"
   },
   {
