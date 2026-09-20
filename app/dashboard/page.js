@@ -7,7 +7,7 @@ import Link from "next/link";
 export const metadata = { title: "Dashboard — SparkyBot" };
 
 const INVITE_BASE =
-  "https://discord.com/oauth2/authorize?client_id=1528780547411804382&scope=bot+applications.commands&permissions=1099800112246";
+  "https://discord.com/oauth2/authorize?client_id=1541574404717285417&scope=bot+applications.commands&permissions=1099800112246";
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
