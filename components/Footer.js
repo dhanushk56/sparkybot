@@ -1,6 +1,29 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Footer() {
+  const [stats, setStats] = useState({ servers: 0, users: 0, uptime: "99.9%" });
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/status", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled) return;
+        setStats({
+          servers: data.servers ?? 0,
+          users: data.users ?? 0,
+          uptime: data.online ? "99.9%" : "Offline",
+        });
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <footer className="bg-gradient-to-r from-dark-card via-dark-bg to-dark-card border-t border-dark-border overflow-hidden relative">
       <div className="absolute inset-0 bg-gradient-to-r from-gold-primary/5 via-transparent to-gold-secondary/5"></div>
@@ -44,9 +67,9 @@ export default function Footer() {
           <div className="space-y-4">
             <h4 className="font-orbitron font-bold text-lg text-gold-primary">Statistics</h4>
             <div className="space-y-2 text-sm">
-              <div className="flex justify-between"><span className="text-gray-400">Servers:</span><span className="font-semibold">0</span></div>
-              <div className="flex justify-between"><span className="text-gray-400">Users:</span><span className="font-semibold">0</span></div>
-              <div className="flex justify-between"><span className="text-gray-400">Uptime:</span><span className="font-semibold text-green-400">99.9%</span></div>
+              <div className="flex justify-between"><span className="text-gray-400">Servers:</span><span className="font-semibold">{stats.servers}</span></div>
+              <div className="flex justify-between"><span className="text-gray-400">Users:</span><span className="font-semibold">{stats.users}</span></div>
+              <div className="flex justify-between"><span className="text-gray-400">Uptime:</span><span className="font-semibold text-green-400">{stats.uptime}</span></div>
             </div>
           </div>
         </div>
