@@ -347,10 +347,61 @@ a, button, input, select, textarea,
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 @keyframes cardIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 .dropdown-panel { animation: dropdownIn 0.18s var(--ease-smooth); transform-origin: top center; }
+
+/* ------------------------------------------------------------------------
+   Page-level entrance. Every route renders its content inside .main, so
+   this one rule gives every page.js a single, consistent soft fade+rise
+   on load/navigation instead of content just popping in.
+   ------------------------------------------------------------------------ */
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.main { animation: pageIn 0.45s var(--ease-smooth) backwards; }
+
+/* ------------------------------------------------------------------------
+   Staggered grid entrances. Cards in any grid fade+rise in one at a time
+   rather than all at once -- applies automatically via nth-child, no JS
+   needed (command-card already sets its own inline delay for longer lists;
+   this covers dash-grid/guild-card and anything else built the same way).
+   ------------------------------------------------------------------------ */
+.dash-grid > *, .commands-grid > * {
+  animation: cardIn 0.4s var(--ease-smooth) backwards;
+}
+.dash-grid > *:nth-child(1)  { animation-delay: 0ms; }
+.dash-grid > *:nth-child(2)  { animation-delay: 40ms; }
+.dash-grid > *:nth-child(3)  { animation-delay: 80ms; }
+.dash-grid > *:nth-child(4)  { animation-delay: 120ms; }
+.dash-grid > *:nth-child(5)  { animation-delay: 160ms; }
+.dash-grid > *:nth-child(6)  { animation-delay: 200ms; }
+.dash-grid > *:nth-child(n+7) { animation-delay: 240ms; }
+
+/* ------------------------------------------------------------------------
+   Refined hover/press physics -- a touch more lift and glow on hover,
+   plus a tactile little "settle" on press, applied consistently across
+   every interactive surface sitewide.
+   ------------------------------------------------------------------------ */
+.dash-card:hover, .command-card:hover, .guild-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 215, 0, 0.08);
+}
+.btn:active, .pill:active, .dash-card:active, .command-card:active, .guild-card:active {
+  transform: scale(0.985);
+  transition-duration: 0.12s;
+}
+.btn-primary:active { transform: scale(0.97); }
+
+/* Mobile slide menu: fade the scrim in alongside the slide instead of it
+   just appearing instantly at full opacity. */
+.mobile-slide-menu {
+  opacity: 0;
+  transition: transform 0.3s var(--ease-smooth), opacity 0.3s var(--ease-smooth);
+}
+.mobile-slide-menu.open { opacity: 1; }
 
 .dash-sidebar-item:hover { background: rgba(255,255,255,0.06) !important; }
 .dash-sidebar-item.active { background: rgba(255,215,0,0.1); }
