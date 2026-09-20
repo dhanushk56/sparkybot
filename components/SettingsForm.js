@@ -484,56 +484,12 @@ export default function SettingsForm({ guildId, initial }) {
   const contentRef = useRef(null);
   const menuRef = useRef(null);
 
-  const [allChannels, setAllChannels] = useState(initial.channels || []);
-  const [allRoles, setAllRoles] = useState(initial.roles || []);
-  const [channelsLoaded, setChannelsLoaded] = useState(false);
-
-  // ---------- Fetch all channels (including voice) from Discord via server proxy ----------
-  useEffect(() => {
-    const fetchChannels = async () => {
-      try {
-        // Use our server-side API route that proxies to Discord with bot token
-        const res = await fetch(`/api/discord/guilds/${guildId}/channels`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.length) {
-            setAllChannels(data);
-            setChannelsLoaded(true);
-            return;
-          }
-        }
-        // Fallback to initial channels (might only contain text channels)
-        setAllChannels(initial.channels || []);
-        setChannelsLoaded(true);
-      } catch (e) {
-        console.warn("Failed to fetch channels from Discord API, using fallback:", e);
-        setAllChannels(initial.channels || []);
-        setChannelsLoaded(true);
-      }
-    };
-    const fetchRoles = async () => {
-      try {
-        const res = await fetch(`/api/discord/guilds/${guildId}/roles`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.length) {
-            setAllRoles(data);
-            return;
-          }
-        }
-        setAllRoles(initial.roles || []);
-      } catch (e) {
-        console.warn("Failed to fetch roles from Discord API, using fallback:", e);
-        setAllRoles(initial.roles || []);
-      }
-    };
-    fetchChannels();
-    fetchRoles();
-  }, [guildId]);
-
-  // Use allChannels for all channel selectors, but fallback to initial.channels if empty
-  const effectiveChannels = allChannels.length ? allChannels : (initial.channels || []);
-  const effectiveRoles = allRoles.length ? allRoles : (initial.roles || []);
+  // Channels/roles come from the bot's settings payload (`initial`). There is
+  // no `/api/discord/guilds/[guildId]/channels|roles` route in this app, so an
+  // earlier version's attempt to "refresh" these from Discord always 404'd and
+  // silently fell back to `initial` anyway — removed in favor of using it directly.
+  const effectiveChannels = initial.channels || [];
+  const effectiveRoles = initial.roles || [];
 
   // Close mobile menu when clicking outside
   useEffect(() => {
