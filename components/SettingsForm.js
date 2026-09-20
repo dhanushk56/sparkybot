@@ -215,6 +215,139 @@ function CategoryMultiSelect({ value, onChange, placeholder = "Select categories
   );
 }
 
+// ---------- Reaction Role Panel Manager ----------
+function ReactionRolesManager({ guildId, panels, onPanelsChange, roleOptions, channelOptions }) {
+  const [editingKey, setEditingKey] = useState(null);
+  const [editingEmbed, setEditingEmbed] = useState(null);
+  const [saving, setSaving] = useState(false);
+
+  const panelList = panels || {};
+  const roleName = (id) => (roleOptions || []).find((r) => r.id === String(id))?.name || `deleted role (${id})`;
+  const channelName = (id) => (channelOptions || []).find((c) => c.id === String(id))?.name || `deleted channel`;
+
+  const hexFromColor = (color) =>
+    color === null || color === undefined ? "" : `#${Number(color).toString(16).padStart(6, "0")}`;
+
+  const startEdit = (key, panel) => {
+    setEditingKey(key);
+    setEditingEmbed({
+      title: panel.embed?.title || "",
+      description: panel.embed?.description || "",
+      color: hexFromColor(panel.embed?.color),
+      footer: panel.embed?.footer || "",
+      image: panel.embed?.image || "",
+    });
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editingKey) return;
+    setSaving(true);
+    try {
+      const res = await fetch(`/api/guilds/${guildId}/reaction-roles/${encodeURIComponent(editingKey)}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(editingEmbed),
+      });
+      if (!res.ok) {
+        const error = await res.text();
+        throw new Error(error || "Failed to update panel");
+      }
+      onPanelsChange({
+        ...panelList,
+        [editingKey]: { ...panelList[editingKey], embed: { ...panelList[editingKey].embed, ...editingEmbed, color: editingEmbed.color ? parseInt(editingEmbed.color.replace("#", ""), 16) : null } },
+      });
+      setEditingKey(null);
+      setEditingEmbed(null);
+    } catch (e) {
+      alert(`❌ Failed to save panel: ${e.message}`);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDelete = async (key) => {
+    if (!confirm("Remove this role panel's data? The original message (if any) will stay in Discord but will no longer hand out roles.")) return;
+    try {
+      const res = await fetch(`/api/guilds/${guildId}/reaction-roles/${encodeURIComponent(key)}`, { method: "DELETE" });
+      if (!res.ok) {
+        const error = await res.text();
+        throw new Error(error || "Failed to delete panel");
+      }
+      const next = { ...panelList };
+      delete next[key];
+      onPanelsChange(next);
+    } catch (e) {
+      alert(`❌ Failed to delete panel: ${e.message}`);
+    }
+  };
+
+  const entries = Object.entries(panelList);
+
+  return (
+    <div>
+      <p className="hint" style={{ marginBottom: "1rem" }}>
+        Panels are created with <code>/rr panel</code> or <code>/br panel</code> and roles are attached with
+        <code> /rr add</code> / <code>/br add</code> — those need a live message to react to, so they still happen in
+        Discord. Everything after that (appearance, and removing a panel) can be managed right here.
+      </p>
+
+      {entries.length === 0 && <p style={{ color: "#aaa" }}>No role panels yet. Use <code>/rr panel</code> or <code>/br panel</code> in Discord to create one — it'll show up here.</p>}
+
+      {entries.map(([key, panel]) => (
+        <div key={key} className="dash-card" style={{ padding: "0.9rem 1.1rem", marginBottom: "0.6rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "0.75rem" }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.25rem" }}>
+                <span className="cmd-module">{panel.kind === "button" ? "Button Roles" : "Reaction Roles"}</span>
+                {panel.exclusive && <span className="pill pill-active" style={{ cursor: "default", padding: "0.1rem 0.6rem", fontSize: "0.7rem" }}>Exclusive</span>}
+              </div>
+              <strong style={{ color: "var(--db-text)" }}>{panel.embed?.title || "Untitled panel"}</strong>
+              <div style={{ color: "var(--db-muted)", fontSize: "0.85rem", marginTop: "0.2rem" }}>
+                in #{channelName(panel.channel_id)} · message {key}
+              </div>
+              <div style={{ marginTop: "0.5rem", display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
+                {panel.kind === "button"
+                  ? Object.entries(panel.roles || {}).map(([roleId, meta]) => (
+                      <span key={roleId} style={{ fontSize: "0.8rem", padding: "0.15rem 0.55rem", borderRadius: "0.4rem", background: "rgba(255,255,255,0.05)", color: "var(--db-text)" }}>
+                        {meta.emoji ? `${meta.emoji} ` : ""}{meta.label} → @{roleName(roleId)}
+                      </span>
+                    ))
+                  : Object.entries(panel.roles || {}).map(([emoji, roleId]) => (
+                      <span key={emoji} style={{ fontSize: "0.8rem", padding: "0.15rem 0.55rem", borderRadius: "0.4rem", background: "rgba(255,255,255,0.05)", color: "var(--db-text)" }}>
+                        {emoji} → @{roleName(roleId)}
+                      </span>
+                    ))}
+                {Object.keys(panel.roles || {}).length === 0 && <span style={{ color: "var(--db-muted)", fontSize: "0.8rem" }}>No roles attached yet</span>}
+              </div>
+            </div>
+            <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+              <button className="btn btn-secondary" style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }} onClick={() => startEdit(key, panel)}>Edit Appearance</button>
+              <button className="btn btn-danger" style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }} onClick={() => handleDelete(key)}>Delete</button>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {editingKey && editingEmbed && (
+        <div className="modal-overlay" style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.8)", display: "flex", justifyContent: "center", alignItems: "center", zIndex: 1000 }} onClick={() => setEditingKey(null)}>
+          <div className="dash-card" style={{ maxWidth: "480px", width: "90%", maxHeight: "80vh", overflow: "auto" }} onClick={(e) => e.stopPropagation()}>
+            <h4 style={{ color: "var(--db-text)" }}>Edit Panel Appearance</h4>
+            <div className="field-group"><label>Title</label><input className="field-input" value={editingEmbed.title} onChange={(e) => setEditingEmbed({ ...editingEmbed, title: e.target.value })} /></div>
+            <div className="field-group"><label>Description</label><textarea className="field-input" rows={3} value={editingEmbed.description} onChange={(e) => setEditingEmbed({ ...editingEmbed, description: e.target.value })} /></div>
+            <div className="field-group"><label>Color (hex)</label><input className="field-input" placeholder="#5865F2" value={editingEmbed.color} onChange={(e) => setEditingEmbed({ ...editingEmbed, color: e.target.value })} /></div>
+            <div className="field-group"><label>Footer</label><input className="field-input" value={editingEmbed.footer} onChange={(e) => setEditingEmbed({ ...editingEmbed, footer: e.target.value })} /></div>
+            <div className="field-group"><label>Image URL</label><input className="field-input" value={editingEmbed.image} onChange={(e) => setEditingEmbed({ ...editingEmbed, image: e.target.value })} /></div>
+            <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
+              <button className="btn btn-primary" onClick={handleSaveEdit} disabled={saving}>{saving ? "Saving..." : "Save"}</button>
+              <button className="btn btn-secondary" onClick={() => setEditingKey(null)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ---------- Application Manager ----------
 function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channelOptions }) {
   const [editingApp, setEditingApp] = useState(null);
@@ -477,6 +610,11 @@ function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channel
 export default function SettingsForm({ guildId, initial }) {
   const [form, setForm] = useState(initial);
   const [apps, setApps] = useState(initial.applications || {});
+  const [reactionRolePanels, setReactionRolePanels] = useState(initial.reaction_roles || {});
+  const shopRoleItems = initial.shop_roles || []; // read-only metadata: item_key, role_key, label, price
+  const [shopRoles, setShopRoles] = useState(() =>
+    Object.fromEntries(shopRoleItems.map((it) => [it.role_key, it.role_id]))
+  );
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState(null);
   const [activeSection, setActiveSection] = useState("general");
@@ -527,6 +665,8 @@ export default function SettingsForm({ guildId, initial }) {
       delete payload.channels;
       delete payload.roles;
       delete payload.categories;
+      delete payload.reaction_roles;
+      payload.shop_roles = shopRoles;
 
       const res = await fetch(`/api/guilds/${guildId}/settings`, {
         method: "POST",
@@ -596,6 +736,8 @@ export default function SettingsForm({ guildId, initial }) {
     { icon: "🔒", label: "Forum Lock", section: "forumlock" },
     { icon: "🌐", label: "Auto-Translate", section: "autotranslate" },
     { icon: "📋", label: "Applications", section: "applications" },
+    { icon: "💰", label: "Economy", section: "economy" },
+    { icon: "🎭", label: "Reaction Roles", section: "reactionroles" },
   ];
 
   // ----- Render Content -----
@@ -871,6 +1013,58 @@ export default function SettingsForm({ guildId, initial }) {
       </>
     );
 
+    // ----- Economy -----
+    const renderEconomy = () => {
+      const badgeItems = shopRoleItems.filter((it) => !it.item_key.startsWith("color_"));
+      const colorItems = shopRoleItems.filter((it) => it.item_key.startsWith("color_"));
+      const RoleItemRow = ({ item }) => (
+        <div className="field-group" key={item.role_key}>
+          <label>{item.label} <span style={{ color: "var(--db-faint)", fontWeight: 400 }}>· {item.price?.toLocaleString()} coins</span></label>
+          <select
+            className="field-input"
+            value={shopRoles[item.role_key] || ""}
+            onChange={(e) => setShopRoles((s) => ({ ...s, [item.role_key]: e.target.value || null }))}
+          >
+            <option value="">Not for sale (no role assigned)</option>
+            {effectiveRoles.map((r) => (
+              <option key={r.id} value={r.id}>@{r.name}</option>
+            ))}
+          </select>
+        </div>
+      );
+      return (
+        <>
+          <SectionHeader icon="💰" title="Economy — Shop Roles" />
+          <p className="hint" style={{ marginBottom: "1rem" }}>
+            Assign a role to each purchasable shop item. Members buy these with <code>//shop</code> / <code>/shop</code>
+            — an item with no role selected stays hidden from the shop. Prices are set per item and shown for reference.
+          </p>
+          <div style={{ marginBottom: "1.5rem" }}>
+            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: 600, color: "var(--db-text)" }}>Badge Roles</label>
+            {badgeItems.map((item) => <RoleItemRow item={item} key={item.role_key} />)}
+          </div>
+          <div>
+            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: 600, color: "var(--db-text)" }}>Color Roles</label>
+            {colorItems.map((item) => <RoleItemRow item={item} key={item.role_key} />)}
+          </div>
+        </>
+      );
+    };
+
+    // ----- Reaction Roles -----
+    const renderReactionRoles = () => (
+      <>
+        <SectionHeader icon="🎭" title="Reaction Roles" />
+        <ReactionRolesManager
+          guildId={guildId}
+          panels={reactionRolePanels}
+          onPanelsChange={setReactionRolePanels}
+          roleOptions={effectiveRoles}
+          channelOptions={effectiveChannels}
+        />
+      </>
+    );
+
     switch (activeSection) {
       case "general": return renderGeneral();
       case "welcome": return renderWelcome();
@@ -888,6 +1082,8 @@ export default function SettingsForm({ guildId, initial }) {
       case "forumlock": return renderForumLock();
       case "autotranslate": return renderAutoTranslate();
       case "applications": return renderApplications();
+      case "economy": return renderEconomy();
+      case "reactionroles": return renderReactionRoles();
       default: return renderGeneral();
     }
   };
