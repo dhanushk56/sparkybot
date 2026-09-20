@@ -6,7 +6,7 @@
 export const ALL_COMMANDS = [
   {
     "name": "//2048",
-    "description": "No description set.",
+    "description": "Start a game of 2048.",
     "module": "Community"
   },
   {
