@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function HomePage() {
   const [stats, setStats] = useState({ servers: 0, users: 0 });
@@ -39,6 +40,7 @@ export default function HomePage() {
 
   return (
     <div className="landing-root">
+      <ScrollReveal />
       {/* ==================== HERO ==================== */}
       <section className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#050507]">
         <div className="absolute inset-0 bg-gradient-to-br from-gold-primary/5 via-dark-bg to-gold-secondary/[0.03]"></div>
@@ -123,7 +125,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.slice(0, 9).map((feature, index) => (
-              <div key={index} className="relative group [perspective:1000px] h-full">
+              <div key={index} className="relative group [perspective:1000px] h-full feature-card" style={{ transitionDelay: `${(index % 3) * 90}ms` }}>
                                 <div className="relative h-full overflow-hidden bg-black/40 backdrop-blur-2xl border border-gold-primary/20 rounded-2xl p-8 transition-all duration-500 group-hover:bg-[#0a0a0a]/80 group-hover:border-gold-primary/40 group-hover:-translate-y-1 hover:scale-[1.02]">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gold-primary/10 rounded-full blur-[50px] pointer-events-none group-hover:bg-gold-primary/20 transition-all duration-500"></div>
                   <div className="w-11 h-11 rounded-xl bg-gold-primary/10 border border-gold-primary/20 flex items-center justify-center mb-4"><i className={`fas ${feature.icon} text-gold-primary text-lg`}></i></div>
