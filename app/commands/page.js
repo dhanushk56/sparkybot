@@ -46,7 +46,7 @@ export const ALL_COMMANDS = [
   },
   {
     "name": "//emjfy",
-    "description": "No description set.",
+    "description": "Convert text into emoji-style letters.",
     "module": "Community"
   },
   {
@@ -61,7 +61,7 @@ export const ALL_COMMANDS = [
   },
   {
     "name": "//gend",
-    "description": "No description set.",
+    "description": "End an active giveaway.",
     "module": "Community"
   },
   {
@@ -531,132 +531,132 @@ export const ALL_COMMANDS = [
   },
   {
     "name": "//addmn",
-    "description": "No description set.",
+    "description": "Add money to a member's balance.",
     "module": "Economy"
   },
   {
     "name": "//bank",
-    "description": "No description set.",
+    "description": "Check your bank balance and account details.",
     "module": "Economy"
   },
   {
     "name": "//buy",
-    "description": "No description set.",
+    "description": "Buy an item from the economy shop.",
     "module": "Economy"
   },
   {
     "name": "//daily",
-    "description": "No description set.",
+    "description": "Claim your daily economy reward.",
     "module": "Economy"
   },
   {
     "name": "//dep",
-    "description": "No description set.",
+    "description": "Deposit money into your bank.",
     "module": "Economy"
   },
   {
     "name": "//eco",
-    "description": "No description set.",
+    "description": "View the economy menu and available commands.",
     "module": "Economy"
   },
   {
     "name": "//gmbl",
-    "description": "No description set.",
+    "description": "Gamble your money for a chance to win more.",
     "module": "Economy"
   },
   {
     "name": "//inv",
-    "description": "No description set.",
+    "description": "View your economy inventory.",
     "module": "Economy"
   },
   {
     "name": "//job",
-    "description": "No description set.",
+    "description": "Choose or view your current job.",
     "module": "Economy"
   },
   {
     "name": "//loan",
-    "description": "No description set.",
+    "description": "Apply for or manage an economy loan.",
     "module": "Economy"
   },
   {
     "name": "//pay",
-    "description": "No description set.",
+    "description": "Pay another member from your wallet.",
     "module": "Economy"
   },
   {
     "name": "//rich",
-    "description": "No description set.",
+    "description": "Show the richest members in this server.",
     "module": "Economy"
   },
   {
     "name": "//richgl",
-    "description": "No description set.",
+    "description": "Show the richest members across all servers.",
     "module": "Economy"
   },
   {
     "name": "//rlitcfg",
-    "description": "No description set.",
+    "description": "View or configure the role-list economy settings.",
     "module": "Economy"
   },
   {
     "name": "//rmrli",
-    "description": "No description set.",
+    "description": "Remove an item from the role-list economy.",
     "module": "Economy"
   },
   {
     "name": "//rmrlia",
-    "description": "No description set.",
+    "description": "Remove all role-list economy items.",
     "module": "Economy"
   },
   {
     "name": "//rob",
-    "description": "No description set.",
+    "description": "Attempt to rob another member's wallet.",
     "module": "Economy"
   },
   {
     "name": "//rsgn",
-    "description": "No description set.",
+    "description": "Resign from your current job.",
     "module": "Economy"
   },
   {
     "name": "//sell",
-    "description": "No description set.",
+    "description": "Sell an item from your inventory.",
     "module": "Economy"
   },
   {
     "name": "//shop",
-    "description": "No description set.",
+    "description": "View the economy item shop.",
     "module": "Economy"
   },
   {
     "name": "//slots",
-    "description": "No description set.",
+    "description": "Play the slot machine.",
     "module": "Economy"
   },
   {
     "name": "//srlrl",
-    "description": "No description set.",
+    "description": "View or manage the server role-list economy.",
     "module": "Economy"
   },
   {
     "name": "//thist",
-    "description": "No description set.",
+    "description": "View your recent transaction history.",
     "module": "Economy"
   },
   {
     "name": "//use",
-    "description": "No description set.",
+    "description": "Use an item from your inventory.",
     "module": "Economy"
   },
   {
     "name": "//with",
-    "description": "No description set.",
+    "description": "Withdraw money from your bank.",
     "module": "Economy"
   },
   {
     "name": "//work",
-    "description": "No description set.",
+    "description": "Work your current job to earn money.",
     "module": "Economy"
   },
   {
@@ -766,7 +766,7 @@ export const ALL_COMMANDS = [
   },
   {
     "name": "//help",
-    "description": "No description set.",
+    "description": "Open the Sparky help menu.",
     "module": "Help"
   },
   {
@@ -776,277 +776,277 @@ export const ALL_COMMANDS = [
   },
   {
     "name": "//247",
-    "description": "No description set.",
+    "description": "Enable 24/7 music mode.",
     "module": "Media & Utility"
   },
   {
     "name": "//247status",
-    "description": "No description set.",
+    "description": "Check the current 24/7 music status.",
     "module": "Media & Utility"
   },
   {
     "name": "//afk",
-    "description": "No description set.",
+    "description": "Set yourself as AFK with an optional reason.",
     "module": "Media & Utility"
   },
   {
     "name": "//ai",
-    "description": "No description set.",
+    "description": "Ask Sparky's AI a question.",
     "module": "Media & Utility"
   },
   {
     "name": "//atr",
-    "description": "No description set.",
+    "description": "Enable or configure automatic translation.",
     "module": "Media & Utility"
   },
   {
     "name": "//ats",
-    "description": "No description set.",
+    "description": "Set or manage automatic translation settings.",
     "module": "Media & Utility"
   },
   {
     "name": "//avt",
-    "description": "No description set.",
+    "description": "Show a member's avatar.",
     "module": "Media & Utility"
   },
   {
     "name": "//bnr",
-    "description": "No description set.",
+    "description": "Show a member's banner.",
     "module": "Media & Utility"
   },
   {
     "name": "//chinf",
-    "description": "No description set.",
+    "description": "Show information about a channel.",
     "module": "Media & Utility"
   },
   {
     "name": "//clear",
-    "description": "No description set.",
+    "description": "Delete messages from the current channel.",
     "module": "Media & Utility"
   },
   {
     "name": "//det",
-    "description": "No description set.",
+    "description": "Detect information from the provided content.",
     "module": "Media & Utility"
   },
   {
     "name": "//disconnect",
-    "description": "No description set.",
+    "description": "Disconnect the bot from the voice channel.",
     "module": "Media & Utility"
   },
   {
     "name": "//emjs",
-    "description": "No description set.",
+    "description": "List or manage the server's custom emojis.",
     "module": "Media & Utility"
   },
   {
     "name": "//filter",
-    "description": "No description set.",
+    "description": "Apply an audio filter to music playback.",
     "module": "Media & Utility"
   },
   {
     "name": "//filters",
-    "description": "No description set.",
+    "description": "List available music audio filters.",
     "module": "Media & Utility"
   },
   {
     "name": "//imagine",
-    "description": "No description set.",
+    "description": "Generate an image with AI.",
     "module": "Media & Utility"
   },
   {
     "name": "//invt",
-    "description": "No description set.",
+    "description": "Get or manage the bot invite link.",
     "module": "Media & Utility"
   },
   {
     "name": "//join",
-    "description": "No description set.",
+    "description": "Make the bot join your current voice channel.",
     "module": "Media & Utility"
   },
   {
     "name": "//langs",
-    "description": "No description set.",
+    "description": "List supported languages.",
     "module": "Media & Utility"
   },
   {
     "name": "//livelyrics",
-    "description": "No description set.",
+    "description": "Show live, time-synced lyrics for the current song.",
     "module": "Media & Utility"
   },
   {
     "name": "//loop",
-    "description": "No description set.",
+    "description": "Toggle music loop mode.",
     "module": "Media & Utility"
   },
   {
     "name": "//lyrics",
-    "description": "No description set.",
+    "description": "Fetch lyrics for the current song.",
     "module": "Media & Utility"
   },
   {
     "name": "//mcnt",
-    "description": "No description set.",
+    "description": "Show the server member count.",
     "module": "Media & Utility"
   },
   {
     "name": "//music",
-    "description": "No description set.",
+    "description": "Open or control the music system.",
     "module": "Media & Utility"
   },
   {
     "name": "//nowplaying",
-    "description": "No description set.",
+    "description": "Show the currently playing song.",
     "module": "Media & Utility"
   },
   {
     "name": "//panel",
-    "description": "No description set.",
+    "description": "Send or manage the music control panel.",
     "module": "Media & Utility"
   },
   {
     "name": "//pause",
-    "description": "No description set.",
+    "description": "Pause the current song.",
     "module": "Media & Utility"
   },
   {
     "name": "//ping",
-    "description": "No description set.",
+    "description": "Check the bot's latency.",
     "module": "Media & Utility"
   },
   {
     "name": "//play",
-    "description": "No description set.",
+    "description": "Play a song or add it to the queue.",
     "module": "Media & Utility"
   },
   {
     "name": "//poll",
-    "description": "No description set.",
+    "description": "Create a poll.",
     "module": "Media & Utility"
   },
   {
     "name": "//queue",
-    "description": "No description set.",
+    "description": "View the current music queue.",
     "module": "Media & Utility"
   },
   {
     "name": "//remove",
-    "description": "No description set.",
+    "description": "Remove a song from the music queue.",
     "module": "Media & Utility"
   },
   {
     "name": "//removepanel",
-    "description": "No description set.",
+    "description": "Remove the persistent music control panel.",
     "module": "Media & Utility"
   },
   {
     "name": "//removevc",
-    "description": "No description set.",
+    "description": "Remove the designated music voice channel.",
     "module": "Media & Utility"
   },
   {
     "name": "//resume",
-    "description": "No description set.",
+    "description": "Resume the paused song.",
     "module": "Media & Utility"
   },
   {
     "name": "//rlinf",
-    "description": "No description set.",
+    "description": "Show information about the current role or role settings.",
     "module": "Media & Utility"
   },
   {
     "name": "//rmd",
-    "description": "No description set.",
+    "description": "Remove or manage a configured item.",
     "module": "Media & Utility"
   },
   {
     "name": "//shuffle",
-    "description": "No description set.",
+    "description": "Shuffle the music queue.",
     "module": "Media & Utility"
   },
   {
     "name": "//skip",
-    "description": "No description set.",
+    "description": "Skip the current song.",
     "module": "Media & Utility"
   },
   {
     "name": "//srvinf",
-    "description": "No description set.",
+    "description": "Show information about the server.",
     "module": "Media & Utility"
   },
   {
     "name": "//stats",
-    "description": "No description set.",
+    "description": "Show bot and system statistics.",
     "module": "Media & Utility"
   },
   {
     "name": "//status",
-    "description": "No description set.",
+    "description": "Check the current bot or server status.",
     "module": "Media & Utility"
   },
   {
     "name": "//stop",
-    "description": "No description set.",
+    "description": "Stop music playback and clear the queue.",
     "module": "Media & Utility"
   },
   {
     "name": "//tlscr",
-    "description": "No description set.",
+    "description": "Show or manage the ticket transcript.",
     "module": "Media & Utility"
   },
   {
     "name": "//tr",
-    "description": "No description set.",
+    "description": "Translate text.",
     "module": "Media & Utility"
   },
   {
     "name": "//trall",
-    "description": "No description set.",
+    "description": "Translate all applicable server content.",
     "module": "Media & Utility"
   },
   {
     "name": "//trch",
-    "description": "No description set.",
+    "description": "Translate content in a channel.",
     "module": "Media & Utility"
   },
   {
     "name": "//trlit",
-    "description": "No description set.",
+    "description": "Transliterate text into another script.",
     "module": "Media & Utility"
   },
   {
     "name": "//tstamp",
-    "description": "No description set.",
+    "description": "Generate a Unix timestamp.",
     "module": "Media & Utility"
   },
   {
     "name": "//uinf",
-    "description": "No description set.",
+    "description": "Show detailed information about a user.",
     "module": "Media & Utility"
   },
   {
     "name": "//unshuffle",
-    "description": "No description set.",
+    "description": "Restore the music queue to its original order.",
     "module": "Media & Utility"
   },
   {
     "name": "//vc",
-    "description": "No description set.",
+    "description": "Configure or manage the music voice channel.",
     "module": "Media & Utility"
   },
   {
     "name": "//vcinfo",
-    "description": "No description set.",
+    "description": "Show the current music voice-channel configuration.",
     "module": "Media & Utility"
   },
   {
     "name": "//volume",
-    "description": "No description set.",
+    "description": "Set the music playback volume.",
     "module": "Media & Utility"
   },
   {
     "name": "//yt",
-    "description": "No description set.",
+    "description": "Manage YouTube tracking and notifications.",
     "module": "Media & Utility"
   },
   {
@@ -1416,52 +1416,52 @@ export const ALL_COMMANDS = [
   },
   {
     "name": "//gann",
-    "description": "No description set.",
+    "description": "Send a global announcement to all servers.",
     "module": "Owner"
   },
   {
     "name": "//gpoll",
-    "description": "No description set.",
+    "description": "Create a global poll for all servers.",
     "module": "Owner"
   },
   {
     "name": "//lsrv",
-    "description": "No description set.",
+    "description": "Leave a specified server.",
     "module": "Owner"
   },
   {
     "name": "//lsrvs",
-    "description": "No description set.",
+    "description": "List the servers the bot is currently in.",
     "module": "Owner"
   },
   {
     "name": "//ormlog",
-    "description": "No description set.",
+    "description": "Remove the owner log channel.",
     "module": "Owner"
   },
   {
     "name": "//oslog",
-    "description": "No description set.",
+    "description": "Set or configure the owner log channel.",
     "module": "Owner"
   },
   {
     "name": "//rld",
-    "description": "No description set.",
+    "description": "Reload a bot module or cog.",
     "module": "Owner"
   },
   {
     "name": "//rst",
-    "description": "No description set.",
+    "description": "Restart the bot.",
     "module": "Owner"
   },
   {
     "name": "//shtdn",
-    "description": "No description set.",
+    "description": "Shut down the bot.",
     "module": "Owner"
   },
   {
     "name": "//srvst",
-    "description": "No description set.",
+    "description": "Show bot server statistics.",
     "module": "Owner"
   },
   {
@@ -1571,32 +1571,32 @@ export const ALL_COMMANDS = [
   },
   {
     "name": "//prem",
-    "description": "No description set.",
+    "description": "View the server's premium status.",
     "module": "Premium"
   },
   {
     "name": "//premavt",
-    "description": "No description set.",
+    "description": "Set a custom premium bot avatar for this server.",
     "module": "Premium"
   },
   {
     "name": "//prembio",
-    "description": "No description set.",
+    "description": "Set a custom premium bot bio for this server.",
     "module": "Premium"
   },
   {
     "name": "//prembnr",
-    "description": "No description set.",
+    "description": "Set a custom premium bot banner for this server.",
     "module": "Premium"
   },
   {
     "name": "//premgr",
-    "description": "No description set.",
+    "description": "Grant premium access to a server.",
     "module": "Premium"
   },
   {
     "name": "//premrv",
-    "description": "No description set.",
+    "description": "Revoke premium access from a server.",
     "module": "Premium"
   },
   {
@@ -1631,232 +1631,232 @@ export const ALL_COMMANDS = [
   },
   {
     "name": "//anuk",
-    "description": "No description set.",
+    "description": "Configure Anti-Nuke protection.",
     "module": "Security"
   },
   {
     "name": "//anukclr",
-    "description": "No description set.",
+    "description": "Clear Anti-Nuke configuration or data.",
     "module": "Security"
   },
   {
     "name": "//anukevt",
-    "description": "No description set.",
+    "description": "Configure Anti-Nuke event protection.",
     "module": "Security"
   },
   {
     "name": "//anukfcat",
-    "description": "No description set.",
+    "description": "Configure Anti-Nuke filtered categories.",
     "module": "Security"
   },
   {
     "name": "//anukfch",
-    "description": "No description set.",
+    "description": "Configure Anti-Nuke filtered channels.",
     "module": "Security"
   },
   {
     "name": "//anuklog",
-    "description": "No description set.",
+    "description": "Configure Anti-Nuke logging.",
     "module": "Security"
   },
   {
     "name": "//anukpun",
-    "description": "No description set.",
+    "description": "Configure Anti-Nuke punishments.",
     "module": "Security"
   },
   {
     "name": "//anukvio",
-    "description": "No description set.",
+    "description": "View Anti-Nuke violations.",
     "module": "Security"
   },
   {
     "name": "//ban",
-    "description": "No description set.",
+    "description": "Ban a member from the server.",
     "module": "Security"
   },
   {
     "name": "//bug",
-    "description": "No description set.",
+    "description": "Report a bug.",
     "module": "Security"
   },
   {
     "name": "//buglst",
-    "description": "No description set.",
+    "description": "List submitted bug reports.",
     "module": "Security"
   },
   {
     "name": "//bugst",
-    "description": "No description set.",
+    "description": "View or update a bug report's status.",
     "module": "Security"
   },
   {
     "name": "//clrwrn",
-    "description": "No description set.",
+    "description": "Clear a member's warnings.",
     "module": "Security"
   },
   {
     "name": "//jail",
-    "description": "No description set.",
+    "description": "Jail a member.",
     "module": "Security"
   },
   {
     "name": "//jaill",
-    "description": "No description set.",
+    "description": "List jailed members.",
     "module": "Security"
   },
   {
     "name": "//kick",
-    "description": "No description set.",
+    "description": "Kick a member from the server.",
     "module": "Security"
   },
   {
     "name": "//lock",
-    "description": "No description set.",
+    "description": "Lock a channel.",
     "module": "Security"
   },
   {
     "name": "//logcfg",
-    "description": "No description set.",
+    "description": "Configure the server logging system.",
     "module": "Security"
   },
   {
     "name": "//logtgl",
-    "description": "No description set.",
+    "description": "Toggle server logging.",
     "module": "Security"
   },
   {
     "name": "//mute",
-    "description": "No description set.",
+    "description": "Mute a member.",
     "module": "Security"
   },
   {
     "name": "//nick",
-    "description": "No description set.",
+    "description": "Change a member's nickname.",
     "module": "Security"
   },
   {
     "name": "//prg",
-    "description": "No description set.",
+    "description": "Purge messages from a channel.",
     "module": "Security"
   },
   {
     "name": "//role",
-    "description": "No description set.",
+    "description": "Manage a member's roles.",
     "module": "Security"
   },
   {
     "name": "//rp",
-    "description": "No description set.",
+    "description": "Report or manage a report.",
     "module": "Security"
   },
   {
     "name": "//rplst",
-    "description": "No description set.",
+    "description": "List reports.",
     "module": "Security"
   },
   {
     "name": "//rpset",
-    "description": "No description set.",
+    "description": "Configure the reporting system.",
     "module": "Security"
   },
   {
     "name": "//sjailrl",
-    "description": "No description set.",
+    "description": "Set the role used for jailed members.",
     "module": "Security"
   },
   {
     "name": "//slogch",
-    "description": "No description set.",
+    "description": "Set the server logging channel.",
     "module": "Security"
   },
   {
     "name": "//slwmd",
-    "description": "No description set.",
+    "description": "Set moderation logging options.",
     "module": "Security"
   },
   {
     "name": "//smodlog",
-    "description": "No description set.",
+    "description": "Configure moderation logs.",
     "module": "Security"
   },
   {
     "name": "//sug",
-    "description": "No description set.",
+    "description": "Submit a suggestion.",
     "module": "Security"
   },
   {
     "name": "//suglst",
-    "description": "No description set.",
+    "description": "List submitted suggestions.",
     "module": "Security"
   },
   {
     "name": "//sugst",
-    "description": "No description set.",
+    "description": "View or update a suggestion's status.",
     "module": "Security"
   },
   {
     "name": "//unban",
-    "description": "No description set.",
+    "description": "Unban a member from the server.",
     "module": "Security"
   },
   {
     "name": "//unjl",
-    "description": "No description set.",
+    "description": "Release a member from jail.",
     "module": "Security"
   },
   {
     "name": "//unlk",
-    "description": "No description set.",
+    "description": "Unlock a channel.",
     "module": "Security"
   },
   {
     "name": "//unmt",
-    "description": "No description set.",
+    "description": "Unmute a member.",
     "module": "Security"
   },
   {
     "name": "//unvfy",
-    "description": "No description set.",
+    "description": "Remove verification from a member.",
     "module": "Security"
   },
   {
     "name": "//vfy",
-    "description": "No description set.",
+    "description": "Verify a member.",
     "module": "Security"
   },
   {
     "name": "//vfycl",
-    "description": "No description set.",
+    "description": "Clear verification data.",
     "module": "Security"
   },
   {
     "name": "//vfypnl",
-    "description": "No description set.",
+    "description": "Show or manage the verification panel.",
     "module": "Security"
   },
   {
     "name": "//vfyrst",
-    "description": "No description set.",
+    "description": "Reset verification settings.",
     "module": "Security"
   },
   {
     "name": "//vfyst",
-    "description": "No description set.",
+    "description": "View verification status.",
     "module": "Security"
   },
   {
     "name": "//vfyusr",
-    "description": "No description set.",
+    "description": "Verify or manage verification for a user.",
     "module": "Security"
   },
   {
     "name": "//warn",
-    "description": "No description set.",
+    "description": "Warn a member.",
     "module": "Security"
   },
   {
     "name": "//warns",
-    "description": "No description set.",
+    "description": "View a member's warnings.",
     "module": "Security"
   },
   {
@@ -2301,307 +2301,307 @@ export const ALL_COMMANDS = [
   },
   {
     "name": "//adrst",
-    "description": "No description set.",
+    "description": "Reset server setup settings.",
     "module": "Server Setup"
   },
   {
     "name": "//ann",
-    "description": "No description set.",
+    "description": "Manage server announcements.",
     "module": "Server Setup"
   },
   {
     "name": "//app",
-    "description": "No description set.",
+    "description": "Open or manage the applications system.",
     "module": "Server Setup"
   },
   {
     "name": "//appaddq",
-    "description": "No description set.",
+    "description": "Add an application question.",
     "module": "Server Setup"
   },
   {
     "name": "//appchk",
-    "description": "No description set.",
+    "description": "Check an application.",
     "module": "Server Setup"
   },
   {
     "name": "//appeditq",
-    "description": "No description set.",
+    "description": "Edit an application question.",
     "module": "Server Setup"
   },
   {
     "name": "//appmgr",
-    "description": "No description set.",
+    "description": "Manage application settings.",
     "module": "Server Setup"
   },
   {
     "name": "//apppost",
-    "description": "No description set.",
+    "description": "Post the application panel.",
     "module": "Server Setup"
   },
   {
     "name": "//appreord",
-    "description": "No description set.",
+    "description": "Reorder application questions.",
     "module": "Server Setup"
   },
   {
     "name": "//apprmq",
-    "description": "No description set.",
+    "description": "Remove an application question.",
     "module": "Server Setup"
   },
   {
     "name": "//apprstcd",
-    "description": "No description set.",
+    "description": "Reset application cooldowns.",
     "module": "Server Setup"
   },
   {
     "name": "//appsetcd",
-    "description": "No description set.",
+    "description": "Set the application cooldown.",
     "module": "Server Setup"
   },
   {
     "name": "//appsetlog",
-    "description": "No description set.",
+    "description": "Set the application log channel.",
     "module": "Server Setup"
   },
   {
     "name": "//appsetrl",
-    "description": "No description set.",
+    "description": "Set the application review role.",
     "module": "Server Setup"
   },
   {
     "name": "//arole",
-    "description": "No description set.",
+    "description": "Assign or manage an automatic role.",
     "module": "Server Setup"
   },
   {
     "name": "//aroles",
-    "description": "No description set.",
+    "description": "List configured automatic roles.",
     "module": "Server Setup"
   },
   {
     "name": "//botnk",
-    "description": "No description set.",
+    "description": "Configure bot nickname settings.",
     "module": "Server Setup"
   },
   {
     "name": "//bperm",
-    "description": "No description set.",
+    "description": "Configure bot permissions.",
     "module": "Server Setup"
   },
   {
     "name": "//bradd",
-    "description": "No description set.",
+    "description": "Add a bot role or permission rule.",
     "module": "Server Setup"
   },
   {
     "name": "//brclr",
-    "description": "No description set.",
+    "description": "Clear bot role or permission rules.",
     "module": "Server Setup"
   },
   {
     "name": "//brpnl",
-    "description": "No description set.",
+    "description": "Show the bot role or permission panel.",
     "module": "Server Setup"
   },
   {
     "name": "//brrm",
-    "description": "No description set.",
+    "description": "Remove a bot role or permission rule.",
     "module": "Server Setup"
   },
   {
     "name": "//chdly",
-    "description": "No description set.",
+    "description": "Set a channel delay.",
     "module": "Server Setup"
   },
   {
     "name": "//emb",
-    "description": "No description set.",
+    "description": "Create or manage an embed.",
     "module": "Server Setup"
   },
   {
     "name": "//flock",
-    "description": "No description set.",
+    "description": "Lock a forum or forum post.",
     "module": "Server Setup"
   },
   {
     "name": "//gbmsg",
-    "description": "No description set.",
+    "description": "Set the giveaway message.",
     "module": "Server Setup"
   },
   {
     "name": "//gbprev",
-    "description": "No description set.",
+    "description": "Preview the giveaway message.",
     "module": "Server Setup"
   },
   {
     "name": "//gbset",
-    "description": "No description set.",
+    "description": "Configure giveaway settings.",
     "module": "Server Setup"
   },
   {
     "name": "//invdm",
-    "description": "No description set.",
+    "description": "Configure invite tracking direct messages.",
     "module": "Server Setup"
   },
   {
     "name": "//invinf",
-    "description": "No description set.",
+    "description": "View invite tracking information.",
     "module": "Server Setup"
   },
   {
     "name": "//invs",
-    "description": "No description set.",
+    "description": "View server invite statistics.",
     "module": "Server Setup"
   },
   {
     "name": "//invst",
-    "description": "No description set.",
+    "description": "View invite tracking settings.",
     "module": "Server Setup"
   },
   {
     "name": "//jtc",
-    "description": "No description set.",
+    "description": "Configure Join-to-Create voice channels.",
     "module": "Server Setup"
   },
   {
     "name": "//jtcinf",
-    "description": "No description set.",
+    "description": "View Join-to-Create configuration.",
     "module": "Server Setup"
   },
   {
     "name": "//jtcstf",
-    "description": "No description set.",
+    "description": "Configure Join-to-Create staff settings.",
     "module": "Server Setup"
   },
   {
     "name": "//madd",
-    "description": "No description set.",
+    "description": "Add a member to a configured list or system.",
     "module": "Server Setup"
   },
   {
     "name": "//mrm",
-    "description": "No description set.",
+    "description": "Remove a member from a configured list or system.",
     "module": "Server Setup"
   },
   {
     "name": "//msglb",
-    "description": "No description set.",
+    "description": "Configure message logging.",
     "module": "Server Setup"
   },
   {
     "name": "//msgrst",
-    "description": "No description set.",
+    "description": "Reset message-related settings.",
     "module": "Server Setup"
   },
   {
     "name": "//msgss",
-    "description": "No description set.",
+    "description": "Configure message settings.",
     "module": "Server Setup"
   },
   {
     "name": "//msgst",
-    "description": "No description set.",
+    "description": "View message system status.",
     "module": "Server Setup"
   },
   {
     "name": "//mstat",
-    "description": "No description set.",
+    "description": "View moderation or message statistics.",
     "module": "Server Setup"
   },
   {
     "name": "//nplist",
-    "description": "No description set.",
+    "description": "List configured notification subscriptions.",
     "module": "Server Setup"
   },
   {
     "name": "//npremoveserver",
-    "description": "No description set.",
+    "description": "Remove all notification settings for the server.",
     "module": "Server Setup"
   },
   {
     "name": "//npremoveuser",
-    "description": "No description set.",
+    "description": "Remove a user's notification subscription.",
     "module": "Server Setup"
   },
   {
     "name": "//npserver",
-    "description": "No description set.",
+    "description": "Configure server notification settings.",
     "module": "Server Setup"
   },
   {
     "name": "//npservertoggle",
-    "description": "No description set.",
+    "description": "Toggle server notifications.",
     "module": "Server Setup"
   },
   {
     "name": "//nptoggle",
-    "description": "No description set.",
+    "description": "Toggle notification tracking.",
     "module": "Server Setup"
   },
   {
     "name": "//nptrial",
-    "description": "No description set.",
+    "description": "Configure trial notifications.",
     "module": "Server Setup"
   },
   {
     "name": "//npuser",
-    "description": "No description set.",
+    "description": "Configure a user's notification settings.",
     "module": "Server Setup"
   },
   {
     "name": "//owner",
-    "description": "No description set.",
+    "description": "Configure server ownership settings.",
     "module": "Server Setup"
   },
   {
     "name": "//pfx",
-    "description": "No description set.",
+    "description": "Change the server's command prefix.",
     "module": "Server Setup"
   },
   {
     "name": "//rradd",
-    "description": "No description set.",
+    "description": "Add a reaction role.",
     "module": "Server Setup"
   },
   {
     "name": "//rrclr",
-    "description": "No description set.",
+    "description": "Clear reaction-role settings.",
     "module": "Server Setup"
   },
   {
     "name": "//rredit",
-    "description": "No description set.",
+    "description": "Edit a reaction role.",
     "module": "Server Setup"
   },
   {
     "name": "//rrlst",
-    "description": "No description set.",
+    "description": "List configured reaction roles.",
     "module": "Server Setup"
   },
   {
     "name": "//rrpnl",
-    "description": "No description set.",
+    "description": "Create or manage a reaction-role panel.",
     "module": "Server Setup"
   },
   {
     "name": "//rrrm",
-    "description": "No description set.",
+    "description": "Remove a reaction role.",
     "module": "Server Setup"
   },
   {
     "name": "//rstinv",
-    "description": "No description set.",
+    "description": "Reset invite tracking data.",
     "module": "Server Setup"
   },
   {
     "name": "//rstinva",
-    "description": "No description set.",
+    "description": "Reset all invite tracking data.",
     "module": "Server Setup"
   },
   {
     "name": "//rules",
-    "description": "No description set.",
+    "description": "Set or display server rules.",
     "module": "Server Setup"
   },
   {
@@ -2611,7 +2611,7 @@ export const ALL_COMMANDS = [
   },
   {
     "name": "//sinvlog",
-    "description": "No description set.",
+    "description": "Configure invite logging.",
     "module": "Server Setup"
   },
   {
@@ -2621,252 +2621,252 @@ export const ALL_COMMANDS = [
   },
   {
     "name": "//srvcfg",
-    "description": "No description set.",
+    "description": "View or configure server settings.",
     "module": "Server Setup"
   },
   {
     "name": "//tkt",
-    "description": "No description set.",
+    "description": "Configure the ticket system.",
     "module": "Server Setup"
   },
   {
     "name": "//tktac",
-    "description": "No description set.",
+    "description": "Activate ticket system settings.",
     "module": "Server Setup"
   },
   {
     "name": "//tktadc",
-    "description": "No description set.",
+    "description": "Add a ticket category.",
     "module": "Server Setup"
   },
   {
     "name": "//tktadu",
-    "description": "No description set.",
+    "description": "Add a ticket category user or permission.",
     "module": "Server Setup"
   },
   {
     "name": "//tktcat",
-    "description": "No description set.",
+    "description": "Configure a ticket category.",
     "module": "Server Setup"
   },
   {
     "name": "//tktcats",
-    "description": "No description set.",
+    "description": "List ticket categories.",
     "module": "Server Setup"
   },
   {
     "name": "//tktclr",
-    "description": "No description set.",
+    "description": "Clear ticket settings.",
     "module": "Server Setup"
   },
   {
     "name": "//tktcls",
-    "description": "No description set.",
+    "description": "Close a ticket.",
     "module": "Server Setup"
   },
   {
     "name": "//tktcus",
-    "description": "No description set.",
+    "description": "Configure ticket custom settings.",
     "module": "Server Setup"
   },
   {
     "name": "//tktemb",
-    "description": "No description set.",
+    "description": "Configure ticket embeds.",
     "module": "Server Setup"
   },
   {
     "name": "//tktfda",
-    "description": "No description set.",
+    "description": "Add a ticket form field.",
     "module": "Server Setup"
   },
   {
     "name": "//tktfdr",
-    "description": "No description set.",
+    "description": "Remove a ticket form field.",
     "module": "Server Setup"
   },
   {
     "name": "//tkthis",
-    "description": "No description set.",
+    "description": "View ticket history.",
     "module": "Server Setup"
   },
   {
     "name": "//tktinf",
-    "description": "No description set.",
+    "description": "View ticket information.",
     "module": "Server Setup"
   },
   {
     "name": "//tktlog",
-    "description": "No description set.",
+    "description": "Configure ticket logging.",
     "module": "Server Setup"
   },
   {
     "name": "//tktmga",
-    "description": "No description set.",
+    "description": "Add a ticket manager.",
     "module": "Server Setup"
   },
   {
     "name": "//tktmgc",
-    "description": "No description set.",
+    "description": "Configure ticket manager categories.",
     "module": "Server Setup"
   },
   {
     "name": "//tktmgcl",
-    "description": "No description set.",
+    "description": "Clear ticket manager configuration.",
     "module": "Server Setup"
   },
   {
     "name": "//tktmge",
-    "description": "No description set.",
+    "description": "Edit a ticket manager.",
     "module": "Server Setup"
   },
   {
     "name": "//tktmgh",
-    "description": "No description set.",
+    "description": "Set ticket manager permissions.",
     "module": "Server Setup"
   },
   {
     "name": "//tktmgl",
-    "description": "No description set.",
+    "description": "List ticket managers.",
     "module": "Server Setup"
   },
   {
     "name": "//tktmglc",
-    "description": "No description set.",
+    "description": "List ticket manager categories.",
     "module": "Server Setup"
   },
   {
     "name": "//tktmgn",
-    "description": "No description set.",
+    "description": "Set the ticket manager name.",
     "module": "Server Setup"
   },
   {
     "name": "//tktmgr",
-    "description": "No description set.",
+    "description": "Remove a ticket manager.",
     "module": "Server Setup"
   },
   {
     "name": "//tktmgrst",
-    "description": "No description set.",
+    "description": "Reset ticket manager settings.",
     "module": "Server Setup"
   },
   {
     "name": "//tktmgrt",
-    "description": "No description set.",
+    "description": "Configure ticket manager roles.",
     "module": "Server Setup"
   },
   {
     "name": "//tktmgrv",
-    "description": "No description set.",
+    "description": "View ticket manager settings.",
     "module": "Server Setup"
   },
   {
     "name": "//tktmgs",
-    "description": "No description set.",
+    "description": "Set ticket manager support settings.",
     "module": "Server Setup"
   },
   {
     "name": "//tktmgt",
-    "description": "No description set.",
+    "description": "Configure ticket manager timing.",
     "module": "Server Setup"
   },
   {
     "name": "//tktop",
-    "description": "No description set.",
+    "description": "View open tickets.",
     "module": "Server Setup"
   },
   {
     "name": "//tktrac",
-    "description": "No description set.",
+    "description": "Track a ticket.",
     "module": "Server Setup"
   },
   {
     "name": "//tktrmcat",
-    "description": "No description set.",
+    "description": "Remove a ticket category.",
     "module": "Server Setup"
   },
   {
     "name": "//tktrmt",
-    "description": "No description set.",
+    "description": "Remove a ticket manager or ticket setting.",
     "module": "Server Setup"
   },
   {
     "name": "//tktrstcat",
-    "description": "No description set.",
+    "description": "Reset a ticket category.",
     "module": "Server Setup"
   },
   {
     "name": "//tktru",
-    "description": "No description set.",
+    "description": "Add or remove a ticket user.",
     "module": "Server Setup"
   },
   {
     "name": "//tktrv",
-    "description": "No description set.",
+    "description": "View ticket settings.",
     "module": "Server Setup"
   },
   {
     "name": "//tktstf",
-    "description": "No description set.",
+    "description": "Configure ticket staff.",
     "module": "Server Setup"
   },
   {
     "name": "//tktstfg",
-    "description": "No description set.",
+    "description": "Set ticket staff groups.",
     "module": "Server Setup"
   },
   {
     "name": "//tktstfi",
-    "description": "No description set.",
+    "description": "View ticket staff information.",
     "module": "Server Setup"
   },
   {
     "name": "//tktstft",
-    "description": "No description set.",
+    "description": "Configure ticket staff types.",
     "module": "Server Setup"
   },
   {
     "name": "//tkttm",
-    "description": "No description set.",
+    "description": "Configure ticket timing.",
     "module": "Server Setup"
   },
   {
     "name": "//tkttrc",
-    "description": "No description set.",
+    "description": "Configure ticket tracking.",
     "module": "Server Setup"
   },
   {
     "name": "//tktty",
-    "description": "No description set.",
+    "description": "Set the ticket type.",
     "module": "Server Setup"
   },
   {
     "name": "//weldm",
-    "description": "No description set.",
+    "description": "Configure the welcome DM.",
     "module": "Server Setup"
   },
   {
     "name": "//welemb",
-    "description": "No description set.",
+    "description": "Configure the welcome embed.",
     "module": "Server Setup"
   },
   {
     "name": "//welmsg",
-    "description": "No description set.",
+    "description": "Set the welcome message.",
     "module": "Server Setup"
   },
   {
     "name": "//welprev",
-    "description": "No description set.",
+    "description": "Preview the welcome message.",
     "module": "Server Setup"
   },
   {
     "name": "//welset",
-    "description": "No description set.",
+    "description": "Configure welcome settings.",
     "module": "Server Setup"
   },
   {
     "name": "//weltgl",
-    "description": "No description set.",
+    "description": "Enable or disable the welcome system.",
     "module": "Server Setup"
   },
   {
