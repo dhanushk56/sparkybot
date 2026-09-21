@@ -215,139 +215,6 @@ function CategoryMultiSelect({ value, onChange, placeholder = "Select categories
   );
 }
 
-// ---------- Reaction Role Panel Manager ----------
-function ReactionRolesManager({ guildId, panels, onPanelsChange, roleOptions, channelOptions }) {
-  const [editingKey, setEditingKey] = useState(null);
-  const [editingEmbed, setEditingEmbed] = useState(null);
-  const [saving, setSaving] = useState(false);
-
-  const panelList = panels || {};
-  const roleName = (id) => (roleOptions || []).find((r) => r.id === String(id))?.name || `deleted role (${id})`;
-  const channelName = (id) => (channelOptions || []).find((c) => c.id === String(id))?.name || `deleted channel`;
-
-  const hexFromColor = (color) =>
-    color === null || color === undefined ? "" : `#${Number(color).toString(16).padStart(6, "0")}`;
-
-  const startEdit = (key, panel) => {
-    setEditingKey(key);
-    setEditingEmbed({
-      title: panel.embed?.title || "",
-      description: panel.embed?.description || "",
-      color: hexFromColor(panel.embed?.color),
-      footer: panel.embed?.footer || "",
-      image: panel.embed?.image || "",
-    });
-  };
-
-  const handleSaveEdit = async () => {
-    if (!editingKey) return;
-    setSaving(true);
-    try {
-      const res = await fetch(`/api/guilds/${guildId}/reaction-roles/${encodeURIComponent(editingKey)}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editingEmbed),
-      });
-      if (!res.ok) {
-        const error = await res.text();
-        throw new Error(error || "Failed to update panel");
-      }
-      onPanelsChange({
-        ...panelList,
-        [editingKey]: { ...panelList[editingKey], embed: { ...panelList[editingKey].embed, ...editingEmbed, color: editingEmbed.color ? parseInt(editingEmbed.color.replace("#", ""), 16) : null } },
-      });
-      setEditingKey(null);
-      setEditingEmbed(null);
-    } catch (e) {
-      alert(`❌ Failed to save panel: ${e.message}`);
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const handleDelete = async (key) => {
-    if (!confirm("Remove this role panel's data? The original message (if any) will stay in Discord but will no longer hand out roles.")) return;
-    try {
-      const res = await fetch(`/api/guilds/${guildId}/reaction-roles/${encodeURIComponent(key)}`, { method: "DELETE" });
-      if (!res.ok) {
-        const error = await res.text();
-        throw new Error(error || "Failed to delete panel");
-      }
-      const next = { ...panelList };
-      delete next[key];
-      onPanelsChange(next);
-    } catch (e) {
-      alert(`❌ Failed to delete panel: ${e.message}`);
-    }
-  };
-
-  const entries = Object.entries(panelList);
-
-  return (
-    <div>
-      <p className="hint" style={{ marginBottom: "1rem" }}>
-        Panels are created with <code>/rr panel</code> or <code>/br panel</code> and roles are attached with
-        <code> /rr add</code> / <code>/br add</code> — those need a live message to react to, so they still happen in
-        Discord. Everything after that (appearance, and removing a panel) can be managed right here.
-      </p>
-
-      {entries.length === 0 && <p style={{ color: "#aaa" }}>No role panels yet. Use <code>/rr panel</code> or <code>/br panel</code> in Discord to create one — it'll show up here.</p>}
-
-      {entries.map(([key, panel]) => (
-        <div key={key} className="dash-card" style={{ padding: "0.9rem 1.1rem", marginBottom: "0.6rem" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "0.75rem" }}>
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.25rem" }}>
-                <span className="cmd-module">{panel.kind === "button" ? "Button Roles" : "Reaction Roles"}</span>
-                {panel.exclusive && <span className="pill pill-active" style={{ cursor: "default", padding: "0.1rem 0.6rem", fontSize: "0.7rem" }}>Exclusive</span>}
-              </div>
-              <strong style={{ color: "var(--db-text)" }}>{panel.embed?.title || "Untitled panel"}</strong>
-              <div style={{ color: "var(--db-muted)", fontSize: "0.85rem", marginTop: "0.2rem" }}>
-                in #{channelName(panel.channel_id)} · message {key}
-              </div>
-              <div style={{ marginTop: "0.5rem", display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
-                {panel.kind === "button"
-                  ? Object.entries(panel.roles || {}).map(([roleId, meta]) => (
-                      <span key={roleId} style={{ fontSize: "0.8rem", padding: "0.15rem 0.55rem", borderRadius: "0.4rem", background: "rgba(255,255,255,0.05)", color: "var(--db-text)" }}>
-                        {meta.emoji ? `${meta.emoji} ` : ""}{meta.label} → @{roleName(roleId)}
-                      </span>
-                    ))
-                  : Object.entries(panel.roles || {}).map(([emoji, roleId]) => (
-                      <span key={emoji} style={{ fontSize: "0.8rem", padding: "0.15rem 0.55rem", borderRadius: "0.4rem", background: "rgba(255,255,255,0.05)", color: "var(--db-text)" }}>
-                        {emoji} → @{roleName(roleId)}
-                      </span>
-                    ))}
-                {Object.keys(panel.roles || {}).length === 0 && <span style={{ color: "var(--db-muted)", fontSize: "0.8rem" }}>No roles attached yet</span>}
-              </div>
-            </div>
-            <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-              <button className="btn btn-secondary" style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }} onClick={() => startEdit(key, panel)}>Edit Appearance</button>
-              <button className="btn btn-danger" style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }} onClick={() => handleDelete(key)}>Delete</button>
-            </div>
-          </div>
-        </div>
-      ))}
-
-      {editingKey && editingEmbed && (
-        <div className="modal-overlay" style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.8)", display: "flex", justifyContent: "center", alignItems: "center", zIndex: 1000 }} onClick={() => setEditingKey(null)}>
-          <div className="dash-card" style={{ maxWidth: "480px", width: "90%", maxHeight: "80vh", overflow: "auto" }} onClick={(e) => e.stopPropagation()}>
-            <h4 style={{ color: "var(--db-text)" }}>Edit Panel Appearance</h4>
-            <div className="field-group"><label>Title</label><input className="field-input" value={editingEmbed.title} onChange={(e) => setEditingEmbed({ ...editingEmbed, title: e.target.value })} /></div>
-            <div className="field-group"><label>Description</label><textarea className="field-input" rows={3} value={editingEmbed.description} onChange={(e) => setEditingEmbed({ ...editingEmbed, description: e.target.value })} /></div>
-            <div className="field-group"><label>Color (hex)</label><input className="field-input" placeholder="#5865F2" value={editingEmbed.color} onChange={(e) => setEditingEmbed({ ...editingEmbed, color: e.target.value })} /></div>
-            <div className="field-group"><label>Footer</label><input className="field-input" value={editingEmbed.footer} onChange={(e) => setEditingEmbed({ ...editingEmbed, footer: e.target.value })} /></div>
-            <div className="field-group"><label>Image URL</label><input className="field-input" value={editingEmbed.image} onChange={(e) => setEditingEmbed({ ...editingEmbed, image: e.target.value })} /></div>
-            <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
-              <button className="btn btn-primary" onClick={handleSaveEdit} disabled={saving}>{saving ? "Saving..." : "Save"}</button>
-              <button className="btn btn-secondary" onClick={() => setEditingKey(null)}>Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
 // ---------- Application Manager ----------
 function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channelOptions }) {
   const [editingApp, setEditingApp] = useState(null);
@@ -606,15 +473,455 @@ function ApplicationsManager({ guildId, apps, onAppsChange, roleOptions, channel
   );
 }
 
+// ---------- YouTube Notifications ----------
+function YouTubeManager({ guildId, channelOptions }) {
+  const [subs, setSubs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [adding, setAdding] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState(null);
+  const [newSub, setNewSub] = useState({ channel: "", discord_channel: "", custom_message: "" });
+  const [editingId, setEditingId] = useState(null);
+  const [editDraft, setEditDraft] = useState({});
+
+  const load = () => {
+    setLoading(true);
+    fetch(`/api/guilds/${guildId}/youtube`)
+      .then((r) => r.json())
+      .then((d) => setSubs(d.subscriptions || []))
+      .catch(() => setSubs([]))
+      .finally(() => setLoading(false));
+  };
+  useEffect(load, [guildId]);
+
+  const friendlyError = (e) => {
+    const m = String(e.message || e);
+    const match = m.match(/"detail":"([^"]+)"/);
+    return match ? match[1] : m.replace(/^Bot API error \d+:\s*/, "");
+  };
+
+  const handleAdd = async () => {
+    if (!newSub.channel.trim() || !newSub.discord_channel) {
+      setErr("A YouTube channel and a Discord channel are both required.");
+      return;
+    }
+    setBusy(true);
+    setErr(null);
+    try {
+      const res = await fetch(`/api/guilds/${guildId}/youtube`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newSub),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || "Failed to add subscription");
+      setNewSub({ channel: "", discord_channel: "", custom_message: "" });
+      setAdding(false);
+      load();
+    } catch (e) {
+      setErr(friendlyError(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleSaveEdit = async (ytId) => {
+    setBusy(true);
+    setErr(null);
+    try {
+      const res = await fetch(`/api/guilds/${guildId}/youtube/${encodeURIComponent(ytId)}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(editDraft),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || "Failed to update");
+      setEditingId(null);
+      load();
+    } catch (e) {
+      setErr(friendlyError(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleDelete = async (ytId, name) => {
+    if (!confirm(`Stop tracking "${name}"?`)) return;
+    setBusy(true);
+    try {
+      await fetch(`/api/guilds/${guildId}/youtube/${encodeURIComponent(ytId)}`, { method: "DELETE" });
+      load();
+    } catch (e) {
+      setErr(friendlyError(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+        <p style={{ color: "var(--db-muted)", margin: 0 }}>Post an announcement whenever a channel uploads.</p>
+        <button className="btn btn-primary" onClick={() => setAdding(!adding)} style={{ padding: "0.3rem 1rem", fontSize: "0.85rem" }}>{adding ? "Cancel" : "+ Add"}</button>
+      </div>
+
+      {err && <div className="dash-card" style={{ padding: "0.6rem 1rem", marginBottom: "1rem", borderColor: "#ed4245", color: "#ed4245" }}>{err}</div>}
+
+      {adding && (
+        <div className="dash-card" style={{ marginBottom: "1rem", padding: "1rem" }}>
+          <div className="field-group"><label>YouTube Channel (URL, @handle, or ID)</label><input className="field-input" value={newSub.channel} placeholder="https://youtube.com/@example" onChange={(e) => setNewSub({ ...newSub, channel: e.target.value })} /></div>
+          <div className="field-group"><label>Post To</label><select className="field-input" value={newSub.discord_channel} onChange={(e) => setNewSub({ ...newSub, discord_channel: e.target.value })}><option value="">Select a channel...</option>{channelOptions.map((c) => <option key={c.id} value={c.id}>#{c.name}</option>)}</select></div>
+          <div className="field-group"><label>Custom Message (optional)</label><input className="field-input" value={newSub.custom_message} placeholder="🔴 New upload from {channel}!" onChange={(e) => setNewSub({ ...newSub, custom_message: e.target.value })} /></div>
+          <button className="btn btn-primary" onClick={handleAdd} disabled={busy}>{busy ? "Adding..." : "Add Subscription"}</button>
+        </div>
+      )}
+
+      {loading ? (
+        <p style={{ color: "var(--db-muted)" }}>Loading...</p>
+      ) : subs.length === 0 ? (
+        <p style={{ color: "var(--db-muted)" }}>No YouTube channels tracked yet.</p>
+      ) : (
+        subs.map((s) => (
+          <div key={s.yt_channel_id} className="dash-card" style={{ padding: "0.75rem 1rem", marginBottom: "0.5rem" }}>
+            {editingId === s.yt_channel_id ? (
+              <div>
+                <div className="field-group"><label>Post To</label><select className="field-input" value={editDraft.discord_channel ?? s.discord_channel ?? ""} onChange={(e) => setEditDraft({ ...editDraft, discord_channel: e.target.value })}>{channelOptions.map((c) => <option key={c.id} value={c.id}>#{c.name}</option>)}</select></div>
+                <div className="field-group"><label>Custom Message</label><input className="field-input" value={editDraft.custom_message ?? s.custom_message ?? ""} onChange={(e) => setEditDraft({ ...editDraft, custom_message: e.target.value })} /></div>
+                <div style={{ display: "flex", gap: "0.5rem" }}>
+                  <button className="btn btn-primary" onClick={() => handleSaveEdit(s.yt_channel_id)} disabled={busy}>Save</button>
+                  <button className="btn btn-secondary" onClick={() => { setEditingId(null); setEditDraft({}); }}>Cancel</button>
+                </div>
+              </div>
+            ) : (
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
+                <div>
+                  <strong style={{ color: "var(--db-text)" }}>{s.yt_channel_name}</strong>
+                  <span style={{ color: "var(--db-muted)", marginLeft: "0.5rem", fontSize: "0.85rem" }}>
+                    → {channelOptions.find((c) => c.id === s.discord_channel)?.name ? `#${channelOptions.find((c) => c.id === s.discord_channel).name}` : "unknown channel"} • {s.instant ? "⚡ Instant" : "🔁 Polling"}
+                  </span>
+                </div>
+                <div style={{ display: "flex", gap: "0.5rem" }}>
+                  <button className="btn btn-secondary" style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }} onClick={() => { setEditingId(s.yt_channel_id); setEditDraft({}); }}>Edit</button>
+                  <button className="btn btn-danger" style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }} onClick={() => handleDelete(s.yt_channel_id, s.yt_channel_name)}>Remove</button>
+                </div>
+              </div>
+            )}
+          </div>
+        ))
+      )}
+    </div>
+  );
+}
+
+// ---------- Reaction Role Panels ----------
+function ReactionRolesManager({ guildId, channelOptions, roleOptions }) {
+  const [panels, setPanels] = useState([]);
+  const [premium, setPremium] = useState(false);
+  const [limit, setLimit] = useState(5);
+  const [loading, setLoading] = useState(true);
+  const [creating, setCreating] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState(null);
+  const [newPanel, setNewPanel] = useState({ channel_id: "", title: "", description: "" });
+  const [roleDraft, setRoleDraft] = useState({}); // { [messageId]: { role_id, label, emoji, style } }
+  const [embedDraft, setEmbedDraft] = useState({}); // { [messageId]: {...} }
+
+  const load = () => {
+    setLoading(true);
+    fetch(`/api/guilds/${guildId}/reaction-roles`)
+      .then((r) => r.json())
+      .then((d) => { setPanels(d.panels || []); setPremium(!!d.premium); setLimit(d.limit || 5); })
+      .catch(() => setPanels([]))
+      .finally(() => setLoading(false));
+  };
+  useEffect(load, [guildId]);
+
+  const friendlyError = (e) => {
+    const m = String(e.message || e);
+    const match = m.match(/"detail":"([^"]+)"/);
+    return match ? match[1] : m.replace(/^Bot API error \d+:\s*/, "");
+  };
+
+  const handleCreate = async () => {
+    if (!newPanel.channel_id) { setErr("Pick a channel to post the panel in."); return; }
+    setBusy(true); setErr(null);
+    try {
+      const res = await fetch(`/api/guilds/${guildId}/reaction-roles`, {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(newPanel),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || "Failed to create panel");
+      setCreating(false);
+      setNewPanel({ channel_id: "", title: "", description: "" });
+      load();
+    } catch (e) { setErr(friendlyError(e)); } finally { setBusy(false); }
+  };
+
+  const handleSaveEmbed = async (messageId) => {
+    setBusy(true); setErr(null);
+    try {
+      const res = await fetch(`/api/guilds/${guildId}/reaction-roles/${messageId}`, {
+        method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(embedDraft[messageId] || {}),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || "Failed to save");
+      load();
+    } catch (e) { setErr(friendlyError(e)); } finally { setBusy(false); }
+  };
+
+  const handleDeletePanel = async (messageId) => {
+    if (!confirm("Delete this panel? The live message will be removed too.")) return;
+    setBusy(true);
+    try {
+      await fetch(`/api/guilds/${guildId}/reaction-roles/${messageId}`, { method: "DELETE" });
+      load();
+    } catch (e) { setErr(friendlyError(e)); } finally { setBusy(false); }
+  };
+
+  const handleAddRole = async (messageId) => {
+    const draft = roleDraft[messageId] || {};
+    if (!draft.role_id) { setErr("Pick a role to add."); return; }
+    setBusy(true); setErr(null);
+    try {
+      const res = await fetch(`/api/guilds/${guildId}/reaction-roles/${messageId}/roles`, {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(draft),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || "Failed to add role");
+      setRoleDraft({ ...roleDraft, [messageId]: {} });
+      load();
+    } catch (e) { setErr(friendlyError(e)); } finally { setBusy(false); }
+  };
+
+  const handleRemoveRole = async (messageId, roleId) => {
+    setBusy(true);
+    try {
+      await fetch(`/api/guilds/${guildId}/reaction-roles/${messageId}/roles/${roleId}`, { method: "DELETE" });
+      load();
+    } catch (e) { setErr(friendlyError(e)); } finally { setBusy(false); }
+  };
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem", flexWrap: "wrap", gap: "0.5rem" }}>
+        <p style={{ color: "var(--db-muted)", margin: 0 }}>
+          Button-role panels {premium ? <span style={{ color: "#f2c94c" }}>⭐ Premium</span> : <span>— Premium feature, {panels.length}/{limit} slots</span>}
+        </p>
+        <button className="btn btn-primary" onClick={() => setCreating(!creating)} style={{ padding: "0.3rem 1rem", fontSize: "0.85rem" }} disabled={!premium && panels.length >= limit}>{creating ? "Cancel" : "+ Create Panel"}</button>
+      </div>
+      {!premium && <p style={{ color: "var(--db-muted)", fontSize: "0.85rem" }}>Button-role panels require Premium. Free servers can use the classic reaction-emoji panels via the <code>//rrpanel</code> command instead.</p>}
+
+      {err && <div className="dash-card" style={{ padding: "0.6rem 1rem", marginBottom: "1rem", borderColor: "#ed4245", color: "#ed4245" }}>{err}</div>}
+
+      {creating && (
+        <div className="dash-card" style={{ marginBottom: "1rem", padding: "1rem" }}>
+          <div className="field-group"><label>Channel</label><select className="field-input" value={newPanel.channel_id} onChange={(e) => setNewPanel({ ...newPanel, channel_id: e.target.value })}><option value="">Select a channel...</option>{channelOptions.map((c) => <option key={c.id} value={c.id}>#{c.name}</option>)}</select></div>
+          <div className="field-group"><label>Title</label><input className="field-input" value={newPanel.title} placeholder="Get your roles!" onChange={(e) => setNewPanel({ ...newPanel, title: e.target.value })} /></div>
+          <div className="field-group"><label>Description</label><input className="field-input" value={newPanel.description} placeholder="Click a button below." onChange={(e) => setNewPanel({ ...newPanel, description: e.target.value })} /></div>
+          <button className="btn btn-primary" onClick={handleCreate} disabled={busy}>{busy ? "Creating..." : "Create Panel"}</button>
+        </div>
+      )}
+
+      {loading ? (
+        <p style={{ color: "var(--db-muted)" }}>Loading...</p>
+      ) : panels.length === 0 ? (
+        <p style={{ color: "var(--db-muted)" }}>No button-role panels yet.</p>
+      ) : (
+        panels.filter((p) => p.kind === "button").map((p) => (
+          <div key={p.message_id} className="dash-card" style={{ padding: "1rem", marginBottom: "1rem" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "0.5rem", marginBottom: "0.75rem" }}>
+              <strong style={{ color: "var(--db-text)" }}>{p.embed?.title || "(untitled panel)"}</strong>
+              <button className="btn btn-danger" style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }} onClick={() => handleDeletePanel(p.message_id)}>Delete Panel</button>
+            </div>
+            <div className="field-group"><label>Title</label><input className="field-input" value={embedDraft[p.message_id]?.title ?? p.embed?.title ?? ""} onChange={(e) => setEmbedDraft({ ...embedDraft, [p.message_id]: { ...embedDraft[p.message_id], title: e.target.value } })} /></div>
+            <div className="field-group"><label>Description</label><input className="field-input" value={embedDraft[p.message_id]?.description ?? p.embed?.description ?? ""} onChange={(e) => setEmbedDraft({ ...embedDraft, [p.message_id]: { ...embedDraft[p.message_id], description: e.target.value } })} /></div>
+            <button className="btn btn-secondary" style={{ marginBottom: "1rem" }} onClick={() => handleSaveEmbed(p.message_id)} disabled={busy || !embedDraft[p.message_id]}>Save Embed</button>
+
+            <div style={{ borderTop: "1px solid var(--db-card-border)", paddingTop: "0.75rem" }}>
+              <label style={{ display: "block", marginBottom: "0.5rem" }}>Role Buttons ({p.roles.length})</label>
+              {p.roles.map((r) => (
+                <div key={r.role_id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.25rem 0" }}>
+                  <span style={{ color: "var(--db-text)" }}>{r.emoji ? `${r.emoji} ` : ""}{r.label} <span style={{ color: "var(--db-muted)", fontSize: "0.8rem" }}>(@{roleOptions.find((x) => x.id === r.role_id)?.name || r.role_id})</span></span>
+                  <button onClick={() => handleRemoveRole(p.message_id, r.role_id)} style={{ background: "none", border: "none", color: "#ed4245", cursor: "pointer" }}>✕</button>
+                </div>
+              ))}
+              <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginTop: "0.5rem" }}>
+                <select className="field-input" style={{ flex: "1 1 140px" }} value={roleDraft[p.message_id]?.role_id || ""} onChange={(e) => setRoleDraft({ ...roleDraft, [p.message_id]: { ...roleDraft[p.message_id], role_id: e.target.value } })}>
+                  <option value="">Select role...</option>
+                  {roleOptions.map((r) => <option key={r.id} value={r.id}>@{r.name}</option>)}
+                </select>
+                <input className="field-input" style={{ flex: "1 1 100px" }} placeholder="Label" value={roleDraft[p.message_id]?.label || ""} onChange={(e) => setRoleDraft({ ...roleDraft, [p.message_id]: { ...roleDraft[p.message_id], label: e.target.value } })} />
+                <input className="field-input" style={{ flex: "0 1 70px" }} placeholder="Emoji" value={roleDraft[p.message_id]?.emoji || ""} onChange={(e) => setRoleDraft({ ...roleDraft, [p.message_id]: { ...roleDraft[p.message_id], emoji: e.target.value } })} />
+                <select className="field-input" style={{ flex: "0 1 120px" }} value={roleDraft[p.message_id]?.style || "secondary"} onChange={(e) => setRoleDraft({ ...roleDraft, [p.message_id]: { ...roleDraft[p.message_id], style: e.target.value } })}>
+                  <option value="secondary">Grey</option><option value="primary">Blurple</option><option value="success">Green</option><option value="danger">Red</option>
+                </select>
+                <button className="btn btn-secondary" onClick={() => handleAddRole(p.message_id)} disabled={busy}>+ Add</button>
+              </div>
+            </div>
+          </div>
+        ))
+      )}
+    </div>
+  );
+}
+
+// ---------- Giveaways ----------
+function GiveawaysManager({ guildId, channelOptions }) {
+  const [giveaways, setGiveaways] = useState([]);
+  const [activeCount, setActiveCount] = useState(0);
+  const [limit, setLimit] = useState(2);
+  const [premium, setPremium] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [creating, setCreating] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState(null);
+  const [newG, setNewG] = useState({ prize: "", duration: "1h", winners: 1, channel_id: "" });
+  const [editingId, setEditingId] = useState(null);
+  const [editDraft, setEditDraft] = useState({});
+
+  const load = () => {
+    setLoading(true);
+    fetch(`/api/guilds/${guildId}/giveaways`)
+      .then((r) => r.json())
+      .then((d) => { setGiveaways(d.giveaways || []); setActiveCount(d.active_count || 0); setLimit(d.limit || 2); setPremium(!!d.premium); })
+      .catch(() => setGiveaways([]))
+      .finally(() => setLoading(false));
+  };
+  useEffect(load, [guildId]);
+
+  const friendlyError = (e) => {
+    const m = String(e.message || e);
+    const match = m.match(/"detail":"([^"]+)"/);
+    return match ? match[1] : m.replace(/^Bot API error \d+:\s*/, "");
+  };
+
+  const handleCreate = async () => {
+    if (!newG.prize.trim() || !newG.channel_id) { setErr("A prize and channel are required."); return; }
+    setBusy(true); setErr(null);
+    try {
+      const res = await fetch(`/api/guilds/${guildId}/giveaways`, {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(newG),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || "Failed to start giveaway");
+      setCreating(false);
+      setNewG({ prize: "", duration: "1h", winners: 1, channel_id: "" });
+      load();
+    } catch (e) { setErr(friendlyError(e)); } finally { setBusy(false); }
+  };
+
+  const handleSaveEdit = async (giveawayId) => {
+    setBusy(true); setErr(null);
+    try {
+      const res = await fetch(`/api/guilds/${guildId}/giveaways/${giveawayId}`, {
+        method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(editDraft),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || "Failed to update");
+      setEditingId(null);
+      load();
+    } catch (e) { setErr(friendlyError(e)); } finally { setBusy(false); }
+  };
+
+  const handleEnd = async (giveawayId) => {
+    if (!confirm("End this giveaway now and pick winners?")) return;
+    setBusy(true);
+    try {
+      await fetch(`/api/guilds/${guildId}/giveaways/${giveawayId}/end`, { method: "POST" });
+      load();
+    } catch (e) { setErr(friendlyError(e)); } finally { setBusy(false); }
+  };
+
+  const handleReroll = async (giveawayId) => {
+    const winners = parseInt(prompt("How many new winners?", "1") || "1", 10);
+    if (!winners) return;
+    setBusy(true);
+    try {
+      const res = await fetch(`/api/guilds/${guildId}/giveaways/${giveawayId}/reroll`, {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ winners }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || "Failed to reroll");
+      load();
+    } catch (e) { setErr(friendlyError(e)); } finally { setBusy(false); }
+  };
+
+  const handleDelete = async (giveawayId) => {
+    if (!confirm("Delete this giveaway? The message will be removed too.")) return;
+    setBusy(true);
+    try {
+      await fetch(`/api/guilds/${guildId}/giveaways/${giveawayId}`, { method: "DELETE" });
+      load();
+    } catch (e) { setErr(friendlyError(e)); } finally { setBusy(false); }
+  };
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem", flexWrap: "wrap", gap: "0.5rem" }}>
+        <p style={{ color: "var(--db-muted)", margin: 0 }}>{activeCount}/{limit} active {premium && <span style={{ color: "#f2c94c" }}>⭐ Premium</span>}</p>
+        <button className="btn btn-primary" onClick={() => setCreating(!creating)} style={{ padding: "0.3rem 1rem", fontSize: "0.85rem" }} disabled={activeCount >= limit}>{creating ? "Cancel" : "+ Start Giveaway"}</button>
+      </div>
+
+      {err && <div className="dash-card" style={{ padding: "0.6rem 1rem", marginBottom: "1rem", borderColor: "#ed4245", color: "#ed4245" }}>{err}</div>}
+
+      {creating && (
+        <div className="dash-card" style={{ marginBottom: "1rem", padding: "1rem" }}>
+          <div className="field-group"><label>Prize</label><input className="field-input" value={newG.prize} placeholder="Discord Nitro" onChange={(e) => setNewG({ ...newG, prize: e.target.value })} /></div>
+          <div className="field-group"><label>Channel</label><select className="field-input" value={newG.channel_id} onChange={(e) => setNewG({ ...newG, channel_id: e.target.value })}><option value="">Select a channel...</option>{channelOptions.map((c) => <option key={c.id} value={c.id}>#{c.name}</option>)}</select></div>
+          <div style={{ display: "flex", gap: "0.5rem" }}>
+            <div className="field-group" style={{ flex: 1 }}><label>Duration</label><input className="field-input" value={newG.duration} placeholder="1h, 2d, 1w" onChange={(e) => setNewG({ ...newG, duration: e.target.value })} /></div>
+            <div className="field-group" style={{ flex: 1 }}><label>Winners</label><input className="field-input" type="number" min="1" max="20" value={newG.winners} onChange={(e) => setNewG({ ...newG, winners: parseInt(e.target.value) || 1 })} /></div>
+          </div>
+          <button className="btn btn-primary" onClick={handleCreate} disabled={busy}>{busy ? "Starting..." : "Start Giveaway"}</button>
+        </div>
+      )}
+
+      {loading ? (
+        <p style={{ color: "var(--db-muted)" }}>Loading...</p>
+      ) : giveaways.length === 0 ? (
+        <p style={{ color: "var(--db-muted)" }}>No giveaways yet.</p>
+      ) : (
+        giveaways.map((g) => (
+          <div key={g.message_id} className="dash-card" style={{ padding: "0.75rem 1rem", marginBottom: "0.5rem" }}>
+            {editingId === g.giveaway_id ? (
+              <div>
+                <div className="field-group"><label>Prize</label><input className="field-input" value={editDraft.prize ?? g.prize} onChange={(e) => setEditDraft({ ...editDraft, prize: e.target.value })} /></div>
+                <div style={{ display: "flex", gap: "0.5rem" }}>
+                  <div className="field-group" style={{ flex: 1 }}><label>Winners</label><input className="field-input" type="number" min="1" max="20" value={editDraft.winners ?? g.winners} onChange={(e) => setEditDraft({ ...editDraft, winners: parseInt(e.target.value) || 1 })} /></div>
+                  <div className="field-group" style={{ flex: 1 }}><label>Extend By</label><input className="field-input" placeholder="e.g. 1h" onChange={(e) => setEditDraft({ ...editDraft, duration: e.target.value })} /></div>
+                </div>
+                <div style={{ display: "flex", gap: "0.5rem" }}>
+                  <button className="btn btn-primary" onClick={() => handleSaveEdit(g.giveaway_id)} disabled={busy}>Save</button>
+                  <button className="btn btn-secondary" onClick={() => { setEditingId(null); setEditDraft({}); }}>Cancel</button>
+                </div>
+              </div>
+            ) : (
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
+                <div>
+                  <strong style={{ color: "var(--db-text)" }}>{g.prize}</strong>
+                  <span style={{ color: "var(--db-muted)", marginLeft: "0.5rem", fontSize: "0.85rem" }}>
+                    #{channelOptions.find((c) => c.id === g.channel_id)?.name || "?"} • {g.winners} winner(s) • {g.entry_count} entries • {g.ended ? "🔴 Ended" : "🟢 Active"}
+                  </span>
+                </div>
+                <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                  {!g.ended && <button className="btn btn-secondary" style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }} onClick={() => { setEditingId(g.giveaway_id); setEditDraft({}); }}>Edit</button>}
+                  {!g.ended && <button className="btn btn-secondary" style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }} onClick={() => handleEnd(g.giveaway_id)}>End Now</button>}
+                  {g.ended && <button className="btn btn-secondary" style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }} onClick={() => handleReroll(g.giveaway_id)}>Reroll</button>}
+                  <button className="btn btn-danger" style={{ padding: "0.2rem 0.75rem", fontSize: "0.8rem" }} onClick={() => handleDelete(g.giveaway_id)}>Delete</button>
+                </div>
+              </div>
+            )}
+          </div>
+        ))
+      )}
+    </div>
+  );
+}
+
 // ---------- Main SettingsForm ----------
 export default function SettingsForm({ guildId, initial }) {
   const [form, setForm] = useState(initial);
   const [apps, setApps] = useState(initial.applications || {});
-  const [reactionRolePanels, setReactionRolePanels] = useState(initial.reaction_roles || {});
-  const shopRoleItems = initial.shop_roles || []; // read-only metadata: item_key, role_key, label, price
-  const [shopRoles, setShopRoles] = useState(() =>
-    Object.fromEntries(shopRoleItems.map((it) => [it.role_key, it.role_id]))
-  );
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState(null);
   const [activeSection, setActiveSection] = useState("general");
@@ -665,8 +972,6 @@ export default function SettingsForm({ guildId, initial }) {
       delete payload.channels;
       delete payload.roles;
       delete payload.categories;
-      delete payload.reaction_roles;
-      payload.shop_roles = shopRoles;
 
       const res = await fetch(`/api/guilds/${guildId}/settings`, {
         method: "POST",
@@ -735,9 +1040,10 @@ export default function SettingsForm({ guildId, initial }) {
     { icon: "🚩", label: "Reports", section: "reports" },
     { icon: "🔒", label: "Forum Lock", section: "forumlock" },
     { icon: "🌐", label: "Auto-Translate", section: "autotranslate" },
-    { icon: "📋", label: "Applications", section: "applications" },
-    { icon: "💰", label: "Economy", section: "economy" },
+    { icon: "🎉", label: "Giveaways", section: "giveaways" },
     { icon: "🎭", label: "Reaction Roles", section: "reactionroles" },
+    { icon: "📺", label: "YouTube", section: "youtube" },
+    { icon: "📋", label: "Applications", section: "applications" },
   ];
 
   // ----- Render Content -----
@@ -999,6 +1305,30 @@ export default function SettingsForm({ guildId, initial }) {
       </>
     );
 
+    // ----- Giveaways -----
+    const renderGiveaways = () => (
+      <>
+        <SectionHeader icon="🎉" title="Giveaways" />
+        <GiveawaysManager guildId={guildId} channelOptions={effectiveChannels} />
+      </>
+    );
+
+    // ----- Reaction Roles -----
+    const renderReactionRoles = () => (
+      <>
+        <SectionHeader icon="🎭" title="Reaction Roles" />
+        <ReactionRolesManager guildId={guildId} channelOptions={effectiveChannels} roleOptions={effectiveRoles} />
+      </>
+    );
+
+    // ----- YouTube -----
+    const renderYouTube = () => (
+      <>
+        <SectionHeader icon="📺" title="YouTube Notifications" />
+        <YouTubeManager guildId={guildId} channelOptions={effectiveChannels} />
+      </>
+    );
+
     // ----- Applications -----
     const renderApplications = () => (
       <>
@@ -1007,58 +1337,6 @@ export default function SettingsForm({ guildId, initial }) {
           guildId={guildId}
           apps={apps}
           onAppsChange={setApps}
-          roleOptions={effectiveRoles}
-          channelOptions={effectiveChannels}
-        />
-      </>
-    );
-
-    // ----- Economy -----
-    const renderEconomy = () => {
-      const badgeItems = shopRoleItems.filter((it) => !it.item_key.startsWith("color_"));
-      const colorItems = shopRoleItems.filter((it) => it.item_key.startsWith("color_"));
-      const RoleItemRow = ({ item }) => (
-        <div className="field-group" key={item.role_key}>
-          <label>{item.label} <span style={{ color: "var(--db-faint)", fontWeight: 400 }}>· {item.price?.toLocaleString()} coins</span></label>
-          <select
-            className="field-input"
-            value={shopRoles[item.role_key] || ""}
-            onChange={(e) => setShopRoles((s) => ({ ...s, [item.role_key]: e.target.value || null }))}
-          >
-            <option value="">Not for sale (no role assigned)</option>
-            {effectiveRoles.map((r) => (
-              <option key={r.id} value={r.id}>@{r.name}</option>
-            ))}
-          </select>
-        </div>
-      );
-      return (
-        <>
-          <SectionHeader icon="💰" title="Economy — Shop Roles" />
-          <p className="hint" style={{ marginBottom: "1rem" }}>
-            Assign a role to each purchasable shop item. Members buy these with <code>//shop</code> / <code>/shop</code>
-            — an item with no role selected stays hidden from the shop. Prices are set per item and shown for reference.
-          </p>
-          <div style={{ marginBottom: "1.5rem" }}>
-            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: 600, color: "var(--db-text)" }}>Badge Roles</label>
-            {badgeItems.map((item) => <RoleItemRow item={item} key={item.role_key} />)}
-          </div>
-          <div>
-            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: 600, color: "var(--db-text)" }}>Color Roles</label>
-            {colorItems.map((item) => <RoleItemRow item={item} key={item.role_key} />)}
-          </div>
-        </>
-      );
-    };
-
-    // ----- Reaction Roles -----
-    const renderReactionRoles = () => (
-      <>
-        <SectionHeader icon="🎭" title="Reaction Roles" />
-        <ReactionRolesManager
-          guildId={guildId}
-          panels={reactionRolePanels}
-          onPanelsChange={setReactionRolePanels}
           roleOptions={effectiveRoles}
           channelOptions={effectiveChannels}
         />
@@ -1081,9 +1359,10 @@ export default function SettingsForm({ guildId, initial }) {
       case "reports": return renderReports();
       case "forumlock": return renderForumLock();
       case "autotranslate": return renderAutoTranslate();
-      case "applications": return renderApplications();
-      case "economy": return renderEconomy();
+      case "giveaways": return renderGiveaways();
       case "reactionroles": return renderReactionRoles();
+      case "youtube": return renderYouTube();
+      case "applications": return renderApplications();
       default: return renderGeneral();
     }
   };
