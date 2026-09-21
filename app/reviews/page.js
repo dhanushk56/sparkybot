@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 function StarRating({ rating, onRatingChange, readonly = false, size = 28 }) {
   return (
@@ -13,9 +13,12 @@ function StarRating({ rating, onRatingChange, readonly = false, size = 28 }) {
             cursor: readonly ? "default" : "pointer",
             fontSize: size,
             color: star <= rating ? "#FFD700" : "#4a4d52",
-            transition: "color 0.15s",
+            transition: "color 0.2s var(--ease-smooth, ease), transform 0.2s var(--ease-smooth, ease)",
             userSelect: "none",
+            display: "inline-block",
           }}
+          onMouseEnter={(e) => { if (!readonly) e.currentTarget.style.transform = "scale(1.15)"; }}
+          onMouseLeave={(e) => { if (!readonly) e.currentTarget.style.transform = "scale(1)"; }}
         >
           ★
         </span>
@@ -24,7 +27,40 @@ function StarRating({ rating, onRatingChange, readonly = false, size = 28 }) {
   );
 }
 
-function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) {
+// ---------- Rating summary (average + distribution bars) ----------
+function RatingSummary({ reviews }) {
+  const total = reviews.length;
+  const average = total ? reviews.reduce((sum, r) => sum + r.rating, 0) / total : 0;
+  const counts = [5, 4, 3, 2, 1].map((star) => ({
+    star,
+    count: reviews.filter((r) => r.rating === star).length,
+  }));
+
+  if (total === 0) return null;
+
+  return (
+    <div className="rating-summary">
+      <div className="rating-summary-score">
+        <div className="rating-summary-number">{average.toFixed(1)}</div>
+        <StarRating rating={Math.round(average)} readonly size={18} />
+        <div className="rating-summary-count">{total} review{total === 1 ? "" : "s"}</div>
+      </div>
+      <div className="rating-bars">
+        {counts.map(({ star, count }) => (
+          <div className="rating-bar-row" key={star}>
+            <span style={{ width: "3.2em", flexShrink: 0 }}>{star} star</span>
+            <div className="rating-bar-track">
+              <div className="rating-bar-fill" style={{ width: total ? `${(count / total) * 100}%` : "0%" }} />
+            </div>
+            <span style={{ width: "2em", textAlign: "right", flexShrink: 0 }}>{count}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete, featured = false }) {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replyText, setReplyText] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -52,43 +88,41 @@ function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) 
   };
 
   return (
-    <div className="dash-card" style={{ padding: "1rem", marginBottom: "1rem" }}>
+    <div className={`review-card ${featured ? "review-card-featured" : ""}`}>
+      {featured && <span className="featured-tag">★ Featured</span>}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "0.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <img src={review.userAvatar || "https://cdn.discordapp.com/embed/avatars/0.png"} alt={review.username} style={{ width: "32px", height: "32px", borderRadius: "50%" }} />
+          <img src={review.userAvatar || "https://cdn.discordapp.com/embed/avatars/0.png"} alt={review.username} className="review-avatar" />
           <div>
             <strong style={{ color: "var(--db-text)" }}>{review.username}</strong>
-            <span style={{ color: "var(--db-muted)", fontSize: "0.75rem", marginLeft: "0.5rem" }}>
-              {new Date(review.createdAt).toLocaleDateString()}
-            </span>
+            <div style={{ color: "var(--db-faint)", fontSize: "0.75rem" }}>
+              {new Date(review.createdAt).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })}
+            </div>
           </div>
         </div>
-        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: "0.85rem", alignItems: "center", flexWrap: "wrap" }}>
           <span
-            style={{
-              color: isLiked ? "#ed4245" : "var(--db-muted)",
-              fontSize: "0.85rem",
-              cursor: currentUser ? "pointer" : "default",
-            }}
+            className="review-action"
+            style={{ color: isLiked ? "#ed4245" : "var(--db-muted)", cursor: currentUser ? "pointer" : "default" }}
             onClick={() => currentUser && onLike(review.id)}
           >
             {isLiked ? "❤️" : "🤍"} {review.likes || 0}
           </span>
-          <span style={{ color: "var(--db-muted)", fontSize: "0.85rem", cursor: "pointer" }} onClick={() => setShowReplyForm(!showReplyForm)}>
+          <span className="review-action" style={{ color: "var(--db-muted)", cursor: "pointer" }} onClick={() => setShowReplyForm(!showReplyForm)}>
             💬 {review.replies?.length || 0}
           </span>
           {currentUser && currentUser.id === review.userId && canEdit && !isEditing && (
-            <button className="btn btn-secondary" style={{ padding: "0.1rem 0.5rem", fontSize: "0.7rem" }} onClick={() => setIsEditing(true)}>Edit</button>
+            <button className="btn btn-secondary" style={{ padding: "0.15rem 0.6rem", fontSize: "0.72rem" }} onClick={() => setIsEditing(true)}>Edit</button>
           )}
           {currentUser && currentUser.id === review.userId && canEdit && (
-            <button className="btn btn-danger" style={{ padding: "0.1rem 0.5rem", fontSize: "0.7rem" }} onClick={() => onDelete(review.id)}>Delete</button>
+            <button className="btn btn-danger" style={{ padding: "0.15rem 0.6rem", fontSize: "0.72rem" }} onClick={() => onDelete(review.id)}>Delete</button>
           )}
         </div>
       </div>
-      <div style={{ marginTop: "0.25rem" }}><StarRating rating={review.rating} readonly size={20} /></div>
+      <div style={{ marginTop: "0.4rem" }}><StarRating rating={review.rating} readonly size={18} /></div>
       {isEditing ? (
-        <div style={{ marginTop: "0.5rem" }}>
-          <StarRating rating={editRating} onRatingChange={setEditRating} size={24} />
+        <div style={{ marginTop: "0.6rem" }}>
+          <StarRating rating={editRating} onRatingChange={setEditRating} size={22} />
           <textarea className="field-input" rows="2" value={editText} onChange={(e) => setEditText(e.target.value)} style={{ marginTop: "0.5rem", width: "100%" }} />
           <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
             <button className="btn btn-primary" onClick={handleSaveEdit}>Save</button>
@@ -96,28 +130,28 @@ function ReviewItem({ review, currentUser, onLike, onReply, onEdit, onDelete }) 
           </div>
         </div>
       ) : (
-        review.text && <div style={{ marginTop: "0.5rem", color: "var(--db-text)", whiteSpace: "pre-wrap" }}>{review.text}</div>
+        review.text && <div style={{ marginTop: "0.55rem", color: "var(--db-text)", whiteSpace: "pre-wrap", lineHeight: 1.6 }}>{review.text}</div>
       )}
       {(review.replies || []).length > 0 && (
-        <div style={{ marginTop: "0.75rem", paddingLeft: "1rem", borderLeft: "2px solid var(--db-card-border)" }}>
+        <div className="review-replies">
           {review.replies.map((reply) => (
-            <div key={reply.id} style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem", alignItems: "flex-start" }}>
-              <img src={reply.userAvatar || "https://cdn.discordapp.com/embed/avatars/0.png"} alt="" style={{ width: "20px", height: "20px", borderRadius: "50%" }} />
+            <div key={reply.id} style={{ display: "flex", gap: "0.5rem", marginBottom: "0.6rem", alignItems: "flex-start" }}>
+              <img src={reply.userAvatar || "https://cdn.discordapp.com/embed/avatars/0.png"} alt="" style={{ width: "20px", height: "20px", borderRadius: "50%", flexShrink: 0 }} />
               <div>
                 <strong style={{ color: "var(--db-text)", fontSize: "0.85rem" }}>{reply.username}</strong>
-                <span style={{ color: "var(--db-muted)", fontSize: "0.7rem", marginLeft: "0.25rem" }}>{new Date(reply.createdAt).toLocaleDateString()}</span>
-                <div style={{ color: "#c8c8c8", fontSize: "0.85rem" }}>{reply.text}</div>
+                <span style={{ color: "var(--db-faint)", fontSize: "0.7rem", marginLeft: "0.4rem" }}>{new Date(reply.createdAt).toLocaleDateString()}</span>
+                <div style={{ color: "#c8c8c8", fontSize: "0.85rem", marginTop: "0.1rem" }}>{reply.text}</div>
               </div>
             </div>
           ))}
         </div>
       )}
       {showReplyForm && currentUser && (
-        <div style={{ marginTop: "0.5rem", display: "flex", gap: "0.5rem", alignItems: "flex-start" }}>
-          <img src={currentUser.avatar || "https://cdn.discordapp.com/embed/avatars/0.png"} alt="" style={{ width: "24px", height: "24px", borderRadius: "50%" }} />
+        <div style={{ marginTop: "0.6rem", display: "flex", gap: "0.5rem", alignItems: "flex-start" }}>
+          <img src={currentUser.avatar || "https://cdn.discordapp.com/embed/avatars/0.png"} alt="" style={{ width: "24px", height: "24px", borderRadius: "50%", flexShrink: 0 }} />
           <div style={{ flex: 1 }}>
             <textarea className="field-input" rows="2" placeholder="Write a reply..." value={replyText} onChange={(e) => setReplyText(e.target.value)} style={{ width: "100%" }} />
-            <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.25rem" }}>
+            <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.35rem" }}>
               <button className="btn btn-primary" onClick={handleSubmitReply}>Reply</button>
               <button className="btn btn-secondary" onClick={() => setShowReplyForm(false)}>Cancel</button>
             </div>
@@ -321,7 +355,7 @@ export default function ReviewsPage() {
   };
 
   // ----- Sort & Filter -----
-  const processedReviews = reviews
+  const processedReviews = useMemo(() => reviews
     .filter(r => {
       switch (filterBy) {
         case "withText": return r.text && r.text.trim().length > 0;
@@ -340,120 +374,135 @@ export default function ReviewsPage() {
         case "highest": return b.rating - a.rating;
         default: return 0;
       }
-    });
+    }), [reviews, filterBy, sortBy]);
 
-  const highlights = reviews
+  const highlights = useMemo(() => reviews
     .map(r => ({ ...r, score: (r.likes || 0) * 3 + (r.replies || []).length * 2 + r.rating * 2 }))
+    .filter(r => r.score > 0)
     .sort((a, b) => b.score - a.score)
-    .slice(0, 3);
+    .slice(0, 3), [reviews]);
 
-  if (loading) return <div style={{ padding: "2rem", textAlign: "center", color: "var(--db-muted)" }}>Loading reviews...</div>;
+  if (loading) {
+    return (
+      <div className="reviews-page">
+        <div className="reviews-skeleton">
+          <div className="skel-line" style={{ width: "180px", height: "2rem", margin: "0 auto 0.5rem" }} />
+          <div className="skel-line" style={{ width: "260px", height: "1rem", margin: "0 auto 2rem" }} />
+          <div className="skel-line" style={{ width: "100%", maxWidth: "700px", height: "110px", margin: "0 auto 1.5rem", borderRadius: "1rem" }} />
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="skel-line" style={{ width: "100%", maxWidth: "700px", height: "90px", margin: "0 auto 1rem", borderRadius: "1rem" }} />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div style={{ maxWidth: "900px", margin: "0 auto", padding: "2rem 1rem", color: "var(--db-text)" }}>
-      <style jsx>{`
-        @media (max-width: 500px) {
-          .btn { width: 100%; }
-          .filter-group > div { flex: 1 1 100%; }
-        }
-      `}</style>
+    <div className="reviews-page">
+      <div className="reviews-hero">
+        <h1>Reviews</h1>
+        <p>What server owners are saying about SparkyBot</p>
+      </div>
 
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.75rem", marginBottom: "1.5rem" }}>
-        <div><h1 style={{ margin: 0, fontSize: "1.8rem" }}>Reviews</h1><p style={{ color: "var(--db-muted)", margin: "0.25rem 0 0 0", fontSize: "0.9rem" }}>Share your experience</p></div>
-        <div>
+      <div className="reviews-container">
+        <div className="reviews-toolbar">
           {userLoading ? (
-            <div style={{ width: "90px", height: "34px", borderRadius: "0.3rem", background: "rgba(255,255,255,0.06)" }} />
+            <div style={{ width: "90px", height: "34px", borderRadius: "0.5rem", background: "rgba(255,255,255,0.06)" }} />
           ) : user ? (
-            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", flexWrap: "wrap" }}>
               <img src={user.avatar || "https://cdn.discordapp.com/embed/avatars/0.png"} alt="avatar" style={{ width: "32px", height: "32px", borderRadius: "50%" }} />
-              <span style={{ fontSize: "0.9rem" }}>{user.username}</span>
+              <span style={{ fontSize: "0.9rem", color: "var(--db-text)" }}>{user.username}</span>
               <a className="btn btn-secondary" href="/api/auth/logout" style={{ fontSize: "0.8rem", textDecoration: "none" }}>Logout</a>
             </div>
           ) : (
-            <a className="btn btn-primary" href="/login" style={{ textDecoration: "none", display: "inline-block" }}>Login</a>
+            <a className="btn btn-secondary" href="/login" style={{ textDecoration: "none", display: "inline-block", fontSize: "0.85rem" }}>Login with Discord</a>
+          )}
+
+          {user && (
+            <button className="btn btn-primary" onClick={() => setShowSubmitForm(!showSubmitForm)}>
+              {showSubmitForm ? "Cancel" : "✎ Write a Review"}
+            </button>
           )}
         </div>
-      </div>
 
-      {migrating && (
-        <div className="dash-card" style={{ padding: "0.75rem", marginBottom: "1rem", textAlign: "center", color: "#FFD700" }}>
-          Migrating your old reviews to the new system...
-        </div>
-      )}
+        {migrating && (
+          <div className="dash-card" style={{ padding: "0.75rem", marginBottom: "1rem", textAlign: "center", color: "#FFD700" }}>
+            Migrating your old reviews to the new system...
+          </div>
+        )}
 
-      <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
-        {user ? (
-          <button className="btn btn-primary" onClick={() => setShowSubmitForm(!showSubmitForm)} style={{ padding: "0.6rem 1.5rem", fontSize: "1rem" }}>
-            {showSubmitForm ? "Cancel" : "Write a Review"}
-          </button>
-        ) : !userLoading ? (
-          <p style={{ color: "var(--db-muted)", fontSize: "0.9rem" }}>
-            <a href="/login" style={{ color: "#5865F2", fontWeight: 600 }}>Log in with Discord</a> to submit a review.
+        <RatingSummary reviews={reviews} />
+
+        {showSubmitForm && user && (
+          <div className="dash-card review-form-card">
+            <div style={{ marginBottom: "0.85rem" }}>
+              <label style={{ display: "block", marginBottom: "0.35rem", fontSize: "0.9rem", color: "var(--db-text)", fontWeight: 600 }}>Your Rating</label>
+              <StarRating rating={newRating} onRatingChange={setNewRating} size={32} />
+              {newRating === 0 && <span style={{ color: "#ed4245", fontSize: "0.8rem", marginLeft: "0.5rem" }}>Required</span>}
+            </div>
+            <div style={{ marginBottom: "0.85rem" }}>
+              <label style={{ display: "block", marginBottom: "0.35rem", fontSize: "0.9rem", color: "var(--db-text)", fontWeight: 600 }}>
+                Review Text {newRating >= 3 ? "(optional)" : "(required for ratings below 3)"}
+              </label>
+              <textarea className="field-input" rows="4" placeholder="Tell us about your experience with SparkyBot..." value={newText} onChange={(e) => setNewText(e.target.value)} style={{ width: "100%" }} />
+            </div>
+            <button className="btn btn-primary" onClick={handleSubmitReview} disabled={submitting} style={{ width: "100%" }}>
+              {submitting ? "Submitting..." : "Submit Review"}
+            </button>
+          </div>
+        )}
+
+        {!userLoading && !user && (
+          <p style={{ color: "var(--db-muted)", fontSize: "0.9rem", textAlign: "center", margin: "0 0 1.5rem" }}>
+            <a href="/login" style={{ color: "#5865F2", fontWeight: 600 }}>Log in with Discord</a> to leave your own review.
           </p>
-        ) : null}
-      </div>
+        )}
 
-      {showSubmitForm && user && (
-        <div className="dash-card" style={{ padding: "1rem", marginBottom: "1.5rem" }}>
-          <div style={{ marginBottom: "0.75rem" }}>
-            <label style={{ display: "block", marginBottom: "0.25rem", fontSize: "0.9rem" }}>Your Rating</label>
-            <StarRating rating={newRating} onRatingChange={setNewRating} size={32} />
-            {newRating === 0 && <span style={{ color: "#ed4245", fontSize: "0.8rem", marginLeft: "0.5rem" }}>Required</span>}
+        {highlights.length > 0 && (
+          <div className="reviews-featured-section">
+            <h2 className="reviews-section-title">⭐ Top Reviews</h2>
+            <div className="reviews-featured-grid">
+              {highlights.map((review) => (
+                <ReviewItem key={review.id} review={review} currentUser={user} onLike={handleLike} onReply={handleReply} onEdit={handleEdit} onDelete={handleDelete} featured />
+              ))}
+            </div>
           </div>
-          <div style={{ marginBottom: "0.75rem" }}>
-            <label style={{ display: "block", marginBottom: "0.25rem", fontSize: "0.9rem" }}>
-              Review Text {newRating >= 3 ? "(optional)" : "(required for ratings below 3)"}
-            </label>
-            <textarea className="field-input" rows="4" placeholder="Tell us about your experience..." value={newText} onChange={(e) => setNewText(e.target.value)} />
+        )}
+
+        <div className="reviews-toolbar" style={{ marginTop: highlights.length ? "0.5rem" : 0 }}>
+          <h2 className="reviews-section-title" style={{ margin: 0 }}>All Reviews</h2>
+          <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap", alignItems: "center" }}>
+            <select className="select-input" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+              <option value="latest">Latest first</option>
+              <option value="oldest">Oldest first</option>
+              <option value="highest">Highest rated</option>
+            </select>
+            <select className="select-input" value={filterBy} onChange={(e) => setFilterBy(e.target.value)}>
+              <option value="all">All reviews</option>
+              <option value="withText">With text</option>
+              <option value="withoutText">Rating only</option>
+              <option value="rating4+">⭐ 4+ stars</option>
+              <option value="rating3+">⭐ 3+ stars</option>
+              <option value="rating2+">⭐ 2+ stars</option>
+              <option value="rating1+">⭐ 1+ stars</option>
+            </select>
+            <span style={{ color: "var(--db-faint)", fontSize: "0.8rem" }}>{processedReviews.length} shown</span>
           </div>
-          <button className="btn btn-primary" onClick={handleSubmitReview} disabled={submitting} style={{ width: "100%" }}>
-            {submitting ? "Submitting..." : "Submit Review"}
-          </button>
         </div>
-      )}
 
-      <div className="filter-group" style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.5rem" }}>
-        <div style={{ flex: 1, minWidth: "120px" }}>
-          <label style={{ display: "block", marginBottom: "0.25rem", color: "var(--db-muted)", fontSize: "0.85rem" }}>Sort</label>
-          <select className="select-input" value={sortBy} onChange={(e) => setSortBy(e.target.value)} style={{ width: "100%" }}>
-            <option value="latest">Latest</option>
-            <option value="oldest">Oldest</option>
-            <option value="highest">Highest Rated</option>
-          </select>
-        </div>
-        <div style={{ flex: 1, minWidth: "120px" }}>
-          <label style={{ display: "block", marginBottom: "0.25rem", color: "var(--db-muted)", fontSize: "0.85rem" }}>Filter</label>
-          <select className="select-input" value={filterBy} onChange={(e) => setFilterBy(e.target.value)} style={{ width: "100%" }}>
-            <option value="all">All</option>
-            <option value="withText">With Text</option>
-            <option value="withoutText">Without Text</option>
-            <option value="rating1+">⭐ 1+</option>
-            <option value="rating2+">⭐ 2+</option>
-            <option value="rating3+">⭐ 3+</option>
-            <option value="rating4+">⭐ 4+</option>
-          </select>
-        </div>
-        <div style={{ flex: "0 0 auto", display: "flex", alignItems: "flex-end" }}>
-          <span style={{ color: "var(--db-muted)", fontSize: "0.85rem" }}>{processedReviews.length} reviews</span>
-        </div>
+        {processedReviews.length === 0 ? (
+          <div className="reviews-empty">
+            <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>💬</div>
+            <p>No reviews match these filters yet.</p>
+          </div>
+        ) : (
+          <div className="reviews-list">
+            {processedReviews.map((review) => (
+              <ReviewItem key={review.id} review={review} currentUser={user} onLike={handleLike} onReply={handleReply} onEdit={handleEdit} onDelete={handleDelete} />
+            ))}
+          </div>
+        )}
       </div>
-
-      {processedReviews.length === 0 ? (
-        <p style={{ color: "var(--db-muted)", textAlign: "center", padding: "2rem 0" }}>No reviews yet. Be the first!</p>
-      ) : (
-        processedReviews.map((review) => (
-          <ReviewItem key={review.id} review={review} currentUser={user} onLike={handleLike} onReply={handleReply} onEdit={handleEdit} onDelete={handleDelete} />
-        ))
-      )}
-
-      {highlights.length > 0 && (
-        <div style={{ marginTop: "2.5rem", borderTop: "1px solid var(--db-card-border)", paddingTop: "2rem" }}>
-          <h2 style={{ textAlign: "center", marginBottom: "1rem", fontSize: "1.4rem" }}>Top Reviews</h2>
-          {highlights.map((review) => (
-            <ReviewItem key={review.id} review={review} currentUser={user} onLike={handleLike} onReply={handleReply} onEdit={handleEdit} onDelete={handleDelete} />
-          ))}
-        </div>
-      )}
     </div>
   );
 }
