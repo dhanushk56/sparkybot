@@ -263,64 +263,6 @@ select.field-input, .select-input { appearance: none; cursor: pointer; }
 .commands-search-wrap { position: sticky; top: 82px; z-index: 20; padding: 0.75rem 0; background: linear-gradient(var(--db-bg) 70%, transparent); }
 .commands-module-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
 .commands-count { color: var(--db-faint); font-size: 0.82rem; margin: 0 0 1rem; }
-
-/* ----- Slash / Prefix toggle ----- */
-.commands-type-toggle {
-  position: relative; display: inline-flex; gap: 0.2rem; padding: 0.3rem;
-  margin-bottom: 1.25rem; border-radius: 999px; border: 1px solid var(--db-card-border);
-  background: var(--db-card); backdrop-filter: var(--db-blur); -webkit-backdrop-filter: var(--db-blur);
-}
-.type-toggle-btn {
-  position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 0.5rem;
-  padding: 0.55rem 1.1rem; border-radius: 999px; border: none; background: transparent;
-  color: var(--db-muted); font-size: 0.85rem; font-weight: 600; cursor: pointer;
-  transition: color 0.3s var(--ease-smooth, ease);
-}
-.type-toggle-btn.is-active { color: #0a0a0a; }
-.type-toggle-btn i { font-size: 0.78rem; opacity: 0.85; }
-.type-toggle-count {
-  display: inline-flex; align-items: center; justify-content: center; min-width: 1.4rem;
-  padding: 0 0.35rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700;
-  background: rgba(255,255,255,0.08); color: inherit;
-}
-.type-toggle-btn.is-active .type-toggle-count { background: rgba(10,10,10,0.18); }
-.type-toggle-thumb {
-  position: absolute; top: 0.3rem; left: 0.3rem; bottom: 0.3rem;
-  width: calc(50% - 0.3rem); border-radius: 999px;
-  background: linear-gradient(135deg, #FFD700, #FFA500);
-  box-shadow: 0 4px 14px rgba(255, 215, 0, 0.35);
-  transition: transform 0.35s var(--ease-smooth, ease);
-  will-change: transform;
-}
-.type-toggle-thumb.is-slash { transform: translateX(100%); }
-
-/* ----- Module filter dropdown ----- */
-.module-dropdown { position: relative; flex: 0 0 auto; }
-.module-dropdown-btn {
-  display: inline-flex; align-items: center; gap: 0.6rem; min-width: 170px;
-  padding: 0.6rem 0.9rem; border-radius: 0.6rem; border: 1px solid var(--db-card-border);
-  background: rgba(255,255,255,0.04); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  color: var(--db-text); font-size: 0.88rem; font-weight: 500; cursor: pointer;
-  transition: border-color 0.25s var(--ease-smooth, ease), background-color 0.25s var(--ease-smooth, ease);
-}
-.module-dropdown-btn:hover, .module-dropdown-btn.is-open { border-color: rgba(255,215,0,0.4); background: rgba(255,255,255,0.06); }
-.module-dropdown-chevron { margin-left: auto; font-size: 0.7rem; color: var(--db-faint); transition: transform 0.3s var(--ease-smooth, ease); }
-.module-dropdown-btn.is-open .module-dropdown-chevron { transform: rotate(180deg); }
-.module-dropdown-panel {
-  position: absolute; top: calc(100% + 6px); left: 0; min-width: 100%; width: max-content;
-  max-height: 280px; overflow-y: auto; z-index: 100;
-}
-.module-dropdown-item {
-  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-  padding: 0.55rem 0.9rem; font-size: 0.85rem; color: var(--db-text); cursor: pointer;
-  transition: background-color 0.15s var(--ease-smooth, ease);
-}
-.module-dropdown-item:hover { background: rgba(255,255,255,0.05); }
-.module-dropdown-item.is-selected { color: var(--db-gold); }
-.module-dropdown-item i { font-size: 0.72rem; color: var(--db-gold); }
-
-/* Smooth cross-fade when switching between prefix/slash tabs or filtering */
-.commands-fade-in { animation: fadeIn 0.3s var(--ease-smooth, ease); }
 .commands-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
 .command-card {
   background: var(--db-card); border: 1px solid var(--db-card-border); border-radius: 1rem;
@@ -452,24 +394,6 @@ a, button, input, select, textarea,
   transition-duration: 0.12s;
 }
 .btn-primary:active { transform: scale(0.97); }
-
-/* ------------------------------------------------------------------------
-   Scroll-reveal for homepage feature cards (see components/ScrollReveal.js).
-   Cards start slightly lower and transparent, then ease in once the
-   IntersectionObserver adds .visible as they scroll into view.
-   ------------------------------------------------------------------------ */
-.feature-card {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s var(--ease-smooth, ease), transform 0.6s var(--ease-smooth, ease);
-}
-.feature-card.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-@media (prefers-reduced-motion: reduce) {
-  .feature-card { opacity: 1; transform: none; }
-}
 
 /* Mobile slide menu: fade the scrim in alongside the slide instead of it
    just appearing instantly at full opacity. */
