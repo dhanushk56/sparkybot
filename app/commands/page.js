@@ -11,7 +11,7 @@ export default async function CommandsPage() {
       <main className="main">
         <div className="commands-header">
           <h1>All Commands</h1>
-          <p>Default prefix: <code>//</code> — every command is also available as a slash command. Switch tabs, search, or filter by module below.</p>
+          <p>Default prefix: <code>//</code> — slash commands also available. Search or filter by module below.</p>
         </div>
         <CommandsTable commands={ALL_COMMANDS} />
       </main>
