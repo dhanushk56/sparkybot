@@ -2,138 +2,74 @@
 
 import { useMemo, useState } from "react";
 
-// Commands hidden from the public dashboard. These belong to the bot owner
-// (global) or the server owner (extra-owner grants) and shouldn't be surfaced
-// on a public command list.
-const OWNER_ONLY_PATTERNS = [/\(owner only\)/i, /\[owner\]/];
-
-function isOwnerOnly(cmd) {
-  if (cmd.module === "Owner") return true;
-  const d = cmd.description || "";
-  return OWNER_ONLY_PATTERNS.some((re) => re.test(d));
-}
-
-// Preferred display order for the left pane. Anything not listed here falls
-// through to the end alphabetically.
-const MODULE_ORDER = [
-  "Community",
-  "Economy",
-  "Help",
-  "Media & Utility",
-  "Premium",
-  "Security",
-  "Server Setup",
-];
-
-export default function CommandsTable({ commands }) {
-  const visible = useMemo(
-    () => commands.filter((c) => !isOwnerOnly(c)),
-    [commands]
-  );
+export default function CommandsTable({ commands = [] }) {
+  const [module, setModule] = useState("all");
+  const [search, setSearch] = useState("");
 
   const modules = useMemo(() => {
-    const present = new Set(visible.map((c) => c.module));
-    const ordered = MODULE_ORDER.filter((m) => present.has(m));
-    const extras = [...present]
-      .filter((m) => !MODULE_ORDER.includes(m))
-      .sort();
-    return [...ordered, ...extras];
-  }, [visible]);
+    const set = new Set(commands.map((c) => c.module));
+    return ["all", ...Array.from(set).sort()];
+  }, [commands]);
 
-  const [active, setActive] = useState(modules[0] ?? null);
-  const [query, setQuery] = useState("");
-
-  const searching = query.trim().length > 0;
-
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return visible.filter((c) => c.module === active);
-    return visible.filter(
-      (c) =>
-        c.name.toLowerCase().includes(q) ||
-        c.description.toLowerCase().includes(q)
-    );
-  }, [visible, active, query]);
-
-  // Group results by module so search hits are still organized.
-  const grouped = useMemo(() => {
-    const map = new Map();
-    if (searching) {
-      for (const c of filtered) {
-        if (!map.has(c.module)) map.set(c.module, []);
-        map.get(c.module).push(c);
-      }
-    } else if (active) {
-      map.set(active, filtered);
-    }
-    return map;
-  }, [filtered, active, searching]);
-
-  const countFor = (m) => visible.filter((c) => c.module === m).length;
-  const totalCount = visible.length;
+  const filtered = commands.filter((c) => {
+    const matchesModule = module === "all" || c.module === module;
+    const q = search.trim().toLowerCase();
+    const matchesSearch = !q || c.name.toLowerCase().includes(q) || c.description.toLowerCase().includes(q);
+    return matchesModule && matchesSearch;
+  });
 
   return (
-    <div className="cmds-layout">
-      <aside className="cmds-sidebar">
-        <div className="cmds-sidebar-head">
-          <span className="cmds-sidebar-title">Modules</span>
-          <span className="cmds-sidebar-total">{totalCount}</span>
+    <>
+      <div className="commands-search-wrap">
+        <div style={{ position: "relative" }}>
+          <i className="fas fa-magnifying-glass" style={{ position: "absolute", left: "0.9rem", top: "50%", transform: "translateY(-50%)", color: "var(--db-faint)", fontSize: "0.85rem" }}></i>
+          <input
+            type="text"
+            className="field-input"
+            style={{ width: "100%", paddingLeft: "2.2rem" }}
+            placeholder="Search commands by name or description..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
+      </div>
 
-        <input
-          type="search"
-          className="cmds-search"
-          placeholder="Search commands..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          aria-label="Search commands"
-        />
+      <div className="commands-module-pills">
+        {modules.map((m) => (
+          <button
+            key={m}
+            type="button"
+            className={`pill ${module === m ? "pill-active" : "pill-inactive"}`}
+            onClick={() => setModule(m)}
+          >
+            {m === "all" ? "All Modules" : m}
+          </button>
+        ))}
+      </div>
 
-        <nav className="cmds-nav" aria-label="Command modules">
-          {modules.map((m) => {
-            const isActive = !searching && m === active;
-            return (
-              <button
-                key={m}
-                type="button"
-                className={`cmds-nav-item${isActive ? " is-active" : ""}`}
-                onClick={() => {
-                  setActive(m);
-                  setQuery("");
-                }}
-              >
-                <span className="cmds-nav-label">{m}</span>
-                <span className="cmds-nav-count">{countFor(m)}</span>
-              </button>
-            );
-          })}
-        </nav>
-      </aside>
-
-      <section className="cmds-content">
-        {grouped.size === 0 ? (
-          <p className="cmds-empty">
-            No commands match &ldquo;{query}&rdquo;.
+      {filtered.length > 0 ? (
+        <>
+          <p className="commands-count">
+            {filtered.length} command{filtered.length === 1 ? "" : "s"}
+            {module !== "all" ? ` in ${module}` : ""}
           </p>
-        ) : (
-          [...grouped.entries()].map(([module, cmds]) => (
-            <div key={module} className="cmds-group">
-              <h2 className="cmds-group-title">
-                {module}
-                <span className="cmds-group-count">{cmds.length}</span>
-              </h2>
-              <ul className="cmds-list">
-                {cmds.map((c) => (
-                  <li key={c.name} className="cmds-item">
-                    <code className="cmds-name">{c.name}</code>
-                    <p className="cmds-desc">{c.description}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))
-        )}
-      </section>
-    </div>
+          <div className="commands-grid">
+            {filtered.map((c, i) => (
+              <div key={c.name} className="command-card" style={{ animationDelay: `${Math.min(i, 12) * 30}ms` }}>
+                <div className="command-card-top">
+                  <span className="cmd-name">{c.name}</span>
+                  <span className="cmd-module">{c.module}</span>
+                </div>
+                <p className="cmd-desc" style={{ margin: 0 }}>{c.description}</p>
+              </div>
+            ))}
+          </div>
+        </>
+      ) : (
+        <div style={{ textAlign: "center", color: "var(--db-muted)", fontSize: "1.1rem", padding: "3rem 0" }}>
+          No commands found{search ? ` for "${search}"` : ""}.
+        </div>
+      )}
+    </>
   );
 }
