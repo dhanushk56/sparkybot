@@ -7,15 +7,14 @@ export const metadata = { title: "Commands — SparkyBot" };
 export default async function CommandsPage() {
   const user = await getCurrentUser();
   return (
-    <main className="main">
-      <div className="commands-header">
-        <h1>All Commands</h1>
-        <p>
-          Default prefix: <code>//</code> — slash commands also available.
-          Pick a module on the left or search for a command.
-        </p>
-      </div>
-      <CommandsTable commands={ALL_COMMANDS} />
-    </main>
+    <>
+      <main className="main">
+        <div className="commands-header">
+          <h1>All Commands</h1>
+          <p>Default prefix: <code>//</code> — slash commands also available. Search or filter by module below.</p>
+        </div>
+        <CommandsTable commands={ALL_COMMANDS} />
+      </main>
+    </>
   );
 }
