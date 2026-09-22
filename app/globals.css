@@ -294,30 +294,37 @@ select.field-input, .select-input { appearance: none; cursor: pointer; }
 }
 .type-toggle-thumb.is-slash { transform: translateX(100%); }
 
-/* ----- Module filter dropdown ----- */
-.module-dropdown { position: relative; flex: 0 0 auto; }
-.module-dropdown-btn {
-  display: inline-flex; align-items: center; gap: 0.6rem; min-width: 170px;
-  padding: 0.6rem 0.9rem; border-radius: 0.6rem; border: 1px solid var(--db-card-border);
-  background: rgba(255,255,255,0.04); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  color: var(--db-text); font-size: 0.88rem; font-weight: 500; cursor: pointer;
-  transition: border-color 0.25s var(--ease-smooth, ease), background-color 0.25s var(--ease-smooth, ease);
+/* ----- Module accordion sections (Commands page) ----- */
+.module-sections { display: flex; flex-direction: column; gap: 0.75rem; }
+.module-section {
+  border: 1px solid var(--db-card-border); border-radius: 1rem; overflow: hidden;
+  background: var(--db-card); backdrop-filter: var(--db-blur); -webkit-backdrop-filter: var(--db-blur);
+  transition: border-color 0.3s var(--ease-smooth, ease);
 }
-.module-dropdown-btn:hover, .module-dropdown-btn.is-open { border-color: rgba(255,215,0,0.4); background: rgba(255,255,255,0.06); }
-.module-dropdown-chevron { margin-left: auto; font-size: 0.7rem; color: var(--db-faint); transition: transform 0.3s var(--ease-smooth, ease); }
-.module-dropdown-btn.is-open .module-dropdown-chevron { transform: rotate(180deg); }
-.module-dropdown-panel {
-  position: absolute; top: calc(100% + 6px); left: 0; min-width: 100%; width: max-content;
-  max-height: 280px; overflow-y: auto; z-index: 100;
+.module-section.is-open { border-color: rgba(255,215,0,0.3); }
+.module-section-header {
+  width: 100%; display: flex; align-items: center; gap: 0.75rem;
+  padding: 1rem 1.25rem; background: none; border: none; cursor: pointer;
+  font-family: inherit; text-align: left;
 }
-.module-dropdown-item {
-  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-  padding: 0.55rem 0.9rem; font-size: 0.85rem; color: var(--db-text); cursor: pointer;
-  transition: background-color 0.15s var(--ease-smooth, ease);
+.module-section-title { font-size: 1rem; font-weight: 700; color: var(--db-text); }
+.module-section-count {
+  font-size: 0.72rem; font-weight: 700; color: var(--db-gold); background: rgba(255,215,0,0.12);
+  border-radius: 999px; padding: 0.15rem 0.55rem;
 }
-.module-dropdown-item:hover { background: rgba(255,255,255,0.05); }
-.module-dropdown-item.is-selected { color: var(--db-gold); }
-.module-dropdown-item i { font-size: 0.72rem; color: var(--db-gold); }
+.module-section-chevron {
+  margin-left: auto; color: var(--db-faint); font-size: 0.8rem;
+  transition: transform 0.3s var(--ease-smooth, ease);
+}
+.module-section.is-open .module-section-chevron { transform: rotate(180deg); color: var(--db-gold); }
+.module-section-header:hover .module-section-title { color: var(--db-gold); }
+/* Grid-rows trick: animates from 0fr -> 1fr for a smooth, layout-safe "auto height" transition */
+.module-section-body {
+  display: grid; transition: grid-template-rows 0.35s var(--ease-smooth, ease);
+}
+.module-section-inner { overflow: hidden; min-height: 0; }
+.module-section.is-open .module-section-inner { padding: 0 1.25rem 1.25rem; }
+@media (prefers-reduced-motion: reduce) { .module-section-body { transition: none; } }
 
 /* Smooth cross-fade when switching between prefix/slash tabs or filtering */
 .commands-fade-in { animation: fadeIn 0.3s var(--ease-smooth, ease); }
