@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata = {
-  title: "SparkyBot — The Swiss Army Knife for Discord",
+  title: "SparkyBot - Dashboard",
   description:
     "A feature-rich multipurpose Discord bot with economy, moderation, fun, and automation — all managed via an intuitive dashboard.",
 };
