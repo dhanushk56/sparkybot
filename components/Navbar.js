@@ -10,7 +10,6 @@ const NAV_LINKS = [
   { href: "/reviews", label: "Reviews" },
   { href: "/premium", label: "Premium" },
   { href: "/partners", label: "Partners" },
-  { href: "/support", label: "Support" },
 ];
 
 const LEGAL_LINKS = [
