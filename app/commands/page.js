@@ -2,7 +2,7 @@ import CommandsTable from "@/components/CommandsTable";
 import { getCurrentUser } from "@/lib/currentUser";
 import { ALL_COMMANDS } from "@/data/commands";
 
-export const metadata = { title: "Commands — SparkyBot" };
+export const metadata = { title: "Bot Commands" };
 
 export default async function CommandsPage() {
   const user = await getCurrentUser();
