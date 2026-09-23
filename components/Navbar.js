@@ -9,7 +9,6 @@ const NAV_LINKS = [
   { href: "/commands", label: "Commands" },
   { href: "/reviews", label: "Reviews" },
   { href: "/premium", label: "Premium" },
-  { href: "/partners", label: "Partners" },
 ];
 
 const LEGAL_LINKS = [
