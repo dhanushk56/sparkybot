@@ -18,7 +18,7 @@ export default async function PrivacyPage() {
             <li><strong>Changes to Policy:</strong> We may update this Privacy Policy from time to time. Continued use of the Bot constitutes acceptance of the updated Policy.</li>
             <li><strong>Contact:</strong> For privacy concerns, please join our support server.</li>
           </ol>
-          <p>By using SparkyBot, you consent to the collection and use of your data as described in this Privacy Policy.</p>
+          <p>By using Sparky Bot, you consent to the collection and use of your data as described in this Privacy Policy.</p>
         </div>
       </main>
     </>
