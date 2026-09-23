@@ -7,7 +7,7 @@ export default async function TermsPage() {
         <div className="policy-content">
           <h2 style={{ color: "#e8e0d8", marginBottom: "1.5rem" }}>Terms of Service</h2>
           <p><strong>Last updated:</strong> September 2026</p>
-          <p>By using SparkyBot (the &quot;Bot&quot;), you agree to the following terms:</p>
+          <p>By using Sparky Bot, you agree to the following terms:</p>
           <ol>
             <li><strong>Acceptance of Terms:</strong> By inviting the Bot to your server, you accept these Terms of Service.</li>
             <li><strong>Use of the Bot:</strong> You agree to use the Bot in compliance with Discord&apos;s Terms of Service and Community Guidelines.</li>
