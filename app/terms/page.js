@@ -1,4 +1,4 @@
-export const metadata = { title: "Terms of Service — SparkyBot" };
+export const metadata = { title: "Legal - Terms of Service" };
 
 export default async function TermsPage() {
   return (
@@ -6,7 +6,7 @@ export default async function TermsPage() {
       <main className="main">
         <div className="policy-content">
           <h2 style={{ color: "#e8e0d8", marginBottom: "1.5rem" }}>Terms of Service</h2>
-          <p><strong>Last updated:</strong> July 2026</p>
+          <p><strong>Last updated:</strong> September 2026</p>
           <p>By using SparkyBot (the &quot;Bot&quot;), you agree to the following terms:</p>
           <ol>
             <li><strong>Acceptance of Terms:</strong> By inviting the Bot to your server, you accept these Terms of Service.</li>
