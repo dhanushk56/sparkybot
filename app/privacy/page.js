@@ -1,4 +1,4 @@
-export const metadata = { title: "Privacy Policy — SparkyBot" };
+export const metadata = { title: "Legal - Privacy Policy" };
 
 export default async function PrivacyPage() {
   return (
@@ -7,7 +7,7 @@ export default async function PrivacyPage() {
         <div className="policy-content">
           <h2 style={{ color: "#e8e0d8", marginBottom: "1.5rem" }}>Privacy Policy</h2>
           <p><strong>Last updated:</strong> July 2026</p>
-          <p>SparkyBot (&quot;we&quot;, &quot;our&quot;, &quot;us&quot;) respects your privacy. This Privacy Policy explains how we collect, use, and protect your data.</p>
+          <p>SparkyBot respects your privacy. This Privacy Policy explains how we collect, use, and protect your data.</p>
           <ol>
             <li><strong>Data We Collect:</strong> We collect server IDs, user IDs, message content (for logging and auto-moderation), configuration settings, and economy/leveling data.</li>
             <li><strong>How We Use Data:</strong> Data is used solely to provide the Bot&apos;s functionality, including moderation, logging, economy, and user preferences.</li>
