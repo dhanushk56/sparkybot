@@ -87,7 +87,7 @@ export default function PartnersPage() {
 
           <div className="text-center mt-16">
             <p className="text-gray-500 text-sm mb-4">Want to partner with SparkyBot?</p>
-            <Link href="/support" className="btn-secondary inline-flex items-center gap-2 px-8 py-4">
+            <Link href="/contact" className="btn-secondary inline-flex items-center gap-2 px-8 py-4">
               <i className="fas fa-handshake"></i> Get in Touch
             </Link>
           </div>
