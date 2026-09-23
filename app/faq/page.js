@@ -1,4 +1,4 @@
-export const metadata = { title: "FAQ — SparkyBot" };
+export const metadata = { title: "Frequently Asked Questions" };
 
 const faqs = [
   {
