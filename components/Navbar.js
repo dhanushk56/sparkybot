@@ -5,10 +5,9 @@ import { useState, useEffect, useRef } from "react";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/dashboard", label: "Dashboard" },
   { href: "/commands", label: "Commands" },
+  { href: "/premium", label: "Premium", accent: true },
   { href: "/reviews", label: "Reviews" },
-  { href: "/premium", label: "Premium" },
 ];
 
 const LEGAL_LINKS = [
@@ -61,15 +60,25 @@ export default function Navbar() {
             </Link>
 
             <div className="hidden lg:flex items-center gap-1.5">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  className="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 text-white/80 hover:text-white hover:bg-white/8"
-                  href={link.href}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {NAV_LINKS.map((link) =>
+                link.accent ? (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="px-4 py-2 rounded-xl text-sm font-bold text-black bg-gradient-to-br from-gold-primary to-gold-secondary shadow-[0_6px_18px_rgba(255,215,0,0.35)] hover:shadow-[0_8px_22px_rgba(255,215,0,0.5)] hover:-translate-y-0.5 transition-all duration-300"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <Link
+                    key={link.href}
+                    className="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 text-white/80 hover:text-white hover:bg-white/8"
+                    href={link.href}
+                  >
+                    {link.label}
+                  </Link>
+                )
+              )}
 
               <div className="relative" ref={legalRef}>
                 <button
@@ -132,16 +141,27 @@ export default function Navbar() {
             }}
           >
             <div className="p-4 flex flex-col gap-2">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  className="px-4 py-2 rounded-xl text-sm font-semibold hover:bg-white/8 transition-all duration-300"
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {NAV_LINKS.map((link) =>
+                link.accent ? (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="px-4 py-2.5 rounded-xl text-sm font-bold text-black bg-gradient-to-br from-gold-primary to-gold-secondary shadow-[0_6px_18px_rgba(255,215,0,0.35)] text-center transition-all duration-300"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <Link
+                    key={link.href}
+                    className="px-4 py-2 rounded-xl text-sm font-semibold hover:bg-white/8 transition-all duration-300"
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                )
+              )}
 
               <button
                 type="button"
