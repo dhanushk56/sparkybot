@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export const metadata = { title: "Partners — SparkyBot" };
+export const metadata = { title: "Our Partners" };
 
 const partners = [
   {
