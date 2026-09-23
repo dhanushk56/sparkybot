@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/currentUser";
 
-export const metadata = { title: "Login — SparkyBot" };
+export const metadata = { title: "Login" };
 
 export default async function LoginPage({ searchParams }) {
   const user = await getCurrentUser();
