@@ -14,7 +14,6 @@ export default async function PrivacyPage() {
             <li><strong>Data Storage:</strong> Data is stored securely in JSON files or databases. No data is shared with third parties except as required by law.</li>
             <li><strong>Your Rights:</strong> You may request deletion of your data at any time by contacting us through our support server.</li>
             <li><strong>Data Retention:</strong> We retain data for as long as the Bot is in your server. You can remove data by using the <code>//adminreset</code> command or by kicking the Bot.</li>
-            <li><strong>Children&apos;s Privacy:</strong> The Bot is not intended for children under 13. We do not knowingly collect data from children.</li>
             <li><strong>Changes to Policy:</strong> We may update this Privacy Policy from time to time. Continued use of the Bot constitutes acceptance of the updated Policy.</li>
             <li><strong>Contact:</strong> For privacy concerns, please join our support server.</li>
           </ol>
