@@ -65,7 +65,7 @@
     background-clip: text;
   }
   .bg-grid-pattern {
-    background-image: 
+    background-image:
       linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
     background-size: 40px 40px;
@@ -230,64 +230,307 @@ select.field-input, .select-input { appearance: none; cursor: pointer; }
 
 /* ========================================================================
    REVIEWS PAGE
-   The reviews/page.js component (StarRating, RatingSummary, ReviewItem)
-   references all of the classes below -- none of them existed anywhere in
-   this file before, so the page rendered as unstyled plain text. Built to
-   match the existing dash-card glass/gold system, not a new visual style.
    ======================================================================== */
-.reviews-page { max-width: 900px; margin: 0 auto; padding: 6.5rem 1.25rem 4rem; animation: pageIn 0.45s var(--ease-smooth) backwards; }
+.reviews-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 6.5rem 1.25rem 4rem;
+  animation: pageIn 0.45s var(--ease-smooth) backwards;
+}
 .reviews-hero { text-align: center; padding: 1rem 0 2.5rem; }
-.reviews-hero h1 { font-family: 'Orbitron', sans-serif; font-size: 2.1rem; color: var(--db-text); margin: 0 0 0.5rem; }
+.reviews-hero h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.1rem;
+  color: var(--db-text);
+  margin: 0 0 0.5rem;
+}
 .reviews-hero p { color: var(--db-muted); font-size: 1rem; }
 .reviews-container { display: flex; flex-direction: column; }
-.reviews-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem; }
-.reviews-section-title { font-family: 'Orbitron', sans-serif; color: var(--db-text); font-size: 1.15rem; margin: 0 0 1rem; }
+.reviews-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.reviews-section-title {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--db-text);
+  font-size: 1.05rem;
+  margin: 0 0 1rem;
+}
 .reviews-featured-section { margin-bottom: 2rem; }
-.reviews-featured-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
-.reviews-list { display: flex; flex-direction: column; gap: 1rem; }
+.reviews-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+.reviews-list { display: flex; flex-direction: column; gap: 0.9rem; }
 .reviews-empty { text-align: center; color: var(--db-muted); padding: 3rem 1rem; }
-.review-form-card { margin-bottom: 1.5rem; animation: cardIn 0.3s var(--ease-smooth) backwards; }
+.review-form-card {
+  margin-bottom: 1.5rem;
+  animation: cardIn 0.3s var(--ease-smooth) backwards;
+}
 
+/* ---------- Review card ---------- */
 .review-card {
-  position: relative; background: var(--db-card); border: 1px solid var(--db-card-border); border-radius: 1rem;
-  backdrop-filter: var(--db-blur); -webkit-backdrop-filter: var(--db-blur);
-  padding: 1.25rem 1.4rem; animation: cardIn 0.35s var(--ease-smooth) backwards;
-  transition: all 0.4s var(--ease-smooth, ease);
+  position: relative;
+  background: var(--db-card);
+  border: 1px solid var(--db-card-border);
+  border-radius: 1rem;
+  backdrop-filter: var(--db-blur);
+  -webkit-backdrop-filter: var(--db-blur);
+  padding: 1.25rem 1.4rem;
+  animation: cardIn 0.35s var(--ease-smooth) backwards;
+  transition: border-color 0.3s var(--ease-smooth), background 0.3s var(--ease-smooth);
 }
-.review-card:hover { border-color: rgba(255,215,0,0.35); background: rgba(10,10,10,0.55); transform: translateY(-2px); }
-.review-card-featured { border-color: rgba(255,215,0,0.4); background: rgba(20,16,4,0.5); }
+.review-card:hover {
+  border-color: rgba(255, 215, 0, 0.3);
+  background: rgba(10, 10, 10, 0.55);
+}
+.review-card-featured {
+  border-color: rgba(255, 215, 0, 0.35);
+  background: linear-gradient(180deg, rgba(30, 22, 0, 0.5), rgba(10, 10, 10, 0.55));
+}
 .featured-tag {
-  position: absolute; top: -0.6rem; left: 1.1rem; background: linear-gradient(135deg, #FFD700, #FFA500);
-  color: #0a0a0a; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.6rem; border-radius: 999px;
-  letter-spacing: 0.02em; box-shadow: 0 4px 14px rgba(255,215,0,0.35);
+  position: absolute;
+  top: -0.6rem;
+  left: 1.1rem;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #0a0a0a;
+  font-size: 0.66rem;
+  font-weight: 800;
+  padding: 0.18rem 0.65rem;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 14px rgba(255, 215, 0, 0.35);
 }
-.review-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
-.review-action { font-size: 0.85rem; user-select: none; }
-.review-action:hover { color: var(--db-text) !important; }
-.review-replies { margin-top: 0.75rem; padding: 0.75rem 0 0 1rem; border-left: 2px solid var(--db-card-border); }
 
+/* ---------- Header (avatar / name / stars) ---------- */
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding-bottom: 0.85rem;
+}
+.review-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid rgba(255, 215, 0, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+}
+.review-avatar-sm {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+.review-meta { flex: 1; min-width: 0; }
+.review-name {
+  font-weight: 600;
+  color: var(--db-text);
+  font-size: 0.95rem;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.review-timestamp {
+  color: var(--db-faint);
+  font-size: 0.74rem;
+  margin-top: 0.15rem;
+  letter-spacing: 0.01em;
+}
+.review-stars {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 215, 0, 0.06);
+  border: 1px solid rgba(255, 215, 0, 0.12);
+}
+
+/* ---------- Body ---------- */
+.review-body {
+  color: #d4d4d8;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0 0 0.85rem;
+  padding-top: 0.15rem;
+}
+
+/* ---------- Action bar ---------- */
+.review-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.review-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: transparent;
+  color: var(--db-muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+.review-action-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--db-text);
+}
+.review-action-btn:active { transform: scale(0.96); }
+.review-action-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.review-action-btn.liked { color: #ed4245; }
+.review-action-btn.liked:hover {
+  background: rgba(237, 66, 69, 0.1);
+  color: #ff5c5f;
+}
+.review-action-btn.danger:hover {
+  color: var(--db-err);
+  background: rgba(248, 113, 113, 0.08);
+}
+.review-action-spacer { flex: 1; }
+
+/* ---------- Edit form ---------- */
+.review-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+.review-edit textarea { width: 100%; resize: vertical; min-height: 70px; }
+.review-edit-actions { display: flex; gap: 0.5rem; }
+
+/* ---------- Replies ---------- */
+.review-replies {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.review-reply {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.5rem 0 0.5rem 0.85rem;
+  border-left: 2px solid rgba(255, 215, 0, 0.15);
+  margin-left: 0.25rem;
+}
+.review-reply + .review-reply { margin-top: 0.35rem; }
+.review-reply-body { flex: 1; min-width: 0; }
+.review-reply-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.15rem;
+}
+.review-reply-author {
+  color: var(--db-text);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.review-reply-time { color: var(--db-faint); font-size: 0.7rem; }
+.review-reply-text {
+  color: #c8c8c8;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ---------- Reply form ---------- */
+.review-reply-form {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.review-reply-form-body { flex: 1; min-width: 0; }
+.review-reply-form textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 60px;
+}
+.review-reply-form-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+/* ---------- Rating summary ---------- */
 .rating-summary {
-  display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;
-  background: var(--db-card); border: 1px solid var(--db-card-border); border-radius: 1rem;
-  backdrop-filter: var(--db-blur); -webkit-backdrop-filter: var(--db-blur);
-  padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; animation: cardIn 0.3s var(--ease-smooth) backwards;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+  background: var(--db-card);
+  border: 1px solid var(--db-card-border);
+  border-radius: 1rem;
+  backdrop-filter: var(--db-blur);
+  -webkit-backdrop-filter: var(--db-blur);
+  padding: 1.35rem 1.6rem;
+  margin-bottom: 1.5rem;
+  animation: cardIn 0.3s var(--ease-smooth) backwards;
 }
-.rating-summary-score { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; flex-shrink: 0; }
-.rating-summary-number { font-family: 'Orbitron', sans-serif; font-size: 2.4rem; font-weight: 800; color: var(--db-gold); line-height: 1; }
-.rating-summary-count { color: var(--db-faint); font-size: 0.8rem; }
-.rating-bars { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 0.35rem; }
-.rating-bar-row { display: flex; align-items: center; gap: 0.6rem; color: var(--db-muted); font-size: 0.82rem; }
-.rating-bar-track { flex: 1; height: 8px; border-radius: 999px; background: rgba(255,255,255,0.06); overflow: hidden; }
-.rating-bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #FFD700, #FFA500); transition: width 0.4s var(--ease-smooth); }
-
-.reviews-skeleton { text-align: center; padding-top: 1rem; }
-.skel-line {
-  background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
-  background-size: 200% 100%; animation: skeletonShimmer 1.4s ease-in-out infinite;
+.rating-summary-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
 }
-@keyframes skeletonShimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+.rating-summary-number {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: var(--db-gold);
+  line-height: 1;
+}
+.rating-summary-count { color: var(--db-faint); font-size: 0.78rem; }
+.rating-bars {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.rating-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--db-muted);
+  font-size: 0.82rem;
+}
+.rating-bar-track {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+.rating-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #FFD700, #FFA500);
+  transition: width 0.4s var(--ease-smooth);
 }
 
 @media (max-width: 640px) {
@@ -295,44 +538,21 @@ select.field-input, .select-input { appearance: none; cursor: pointer; }
   .reviews-featured-grid { grid-template-columns: 1fr; }
 }
 
-.pill {
-  display: inline-flex; align-items: center; padding: 0.35rem 0.85rem; border-radius: 999px;
-  font-size: 0.78rem; font-weight: 600; cursor: pointer; border: 1px solid var(--db-card-border);
-  background: var(--db-card); backdrop-filter: var(--db-blur); -webkit-backdrop-filter: var(--db-blur);
-  color: var(--db-muted); transition: all 0.25s var(--ease-smooth, ease);
+.reviews-skeleton { text-align: center; padding-top: 1rem; }
+.skel-line {
+  background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.4s ease-in-out infinite;
 }
-.pill-active { background: rgba(255,215,0,0.15); border-color: rgba(255,215,0,0.4); color: var(--db-gold); }
-.pill-inactive:hover { border-color: rgba(255,215,0,0.3); color: var(--db-text); }
-
-.save-bar {
-  position: sticky; bottom: 0; display: flex; justify-content: flex-end; gap: 0.75rem;
-  padding: 1rem; margin-top: 1.5rem; background: rgba(5,5,7,0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid var(--db-card-border); border-radius: 0.75rem;
+@keyframes skeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
-.toast {
-  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200; background: rgba(10,10,10,0.75);
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--db-card-border); border-left: 3px solid var(--db-gold);
-  color: var(--db-text); padding: 0.9rem 1.25rem; border-radius: 0.6rem;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  animation: toastSlideIn 0.3s var(--ease-smooth, ease);
-}
-@keyframes toastSlideIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.modal-overlay { backdrop-filter: blur(6px); background: rgba(0,0,0,0.6); }
-
-.filter-bar { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.25rem; }
-.filter-group { display: flex; gap: 0.4rem; flex-wrap: wrap; }
-
-.commands-header { margin-bottom: 1.5rem; }
 
 /* ========================================================================
    COMMANDS PAGE (two-pane layout)
-   Left: fixed cog list with counts. Right: searchable list of commands,
-   grouped by cog when the search box or type toggle is active.
    ======================================================================== */
+.commands-header { margin-bottom: 1.5rem; }
 
 .commands-shell { display: flex; gap: 1.5rem; align-items: flex-start; }
 
@@ -363,13 +583,8 @@ select.field-input, .select-input { appearance: none; cursor: pointer; }
   background: linear-gradient(var(--db-bg) 70%, transparent);
 }
 
-/* Search field shares the toolbar row with the segmented mode toggle.
-   `min-width: 0` lets it shrink properly inside the flex row instead of
-   overflowing on narrow viewports. */
-.commands-search {
-  flex: 1 1 auto;
-  min-width: 0;
-}
+/* Search field shares the toolbar row with the segmented mode toggle. */
+.commands-search { flex: 1 1 auto; min-width: 0; }
 
 /* Small, labelless prefix/slash segmented toggle. */
 .mode-toggle {
@@ -426,9 +641,7 @@ select.field-input, .select-input { appearance: none; cursor: pointer; }
   font-size: 0.95rem;
 }
 
-/* Keep command rows left-aligned on hover -- the base rule above slides
-   them right, which is wrong inside the two-pane layout where rows should
-   stay aligned to the cog column. */
+/* Keep command rows left-aligned on hover inside the two-pane layout. */
 .command-row:hover {
   transform: none;
   padding-left: 1.25rem;
@@ -471,6 +684,43 @@ input[type="search"]::-webkit-search-cancel-button:hover {
   opacity: 1;
 }
 
+/* ========================================================================
+   PILLS / SAVE BAR / TOAST / MODAL OVERLAY
+   ======================================================================== */
+.pill {
+  display: inline-flex; align-items: center; padding: 0.35rem 0.85rem; border-radius: 999px;
+  font-size: 0.78rem; font-weight: 600; cursor: pointer; border: 1px solid var(--db-card-border);
+  background: var(--db-card); backdrop-filter: var(--db-blur); -webkit-backdrop-filter: var(--db-blur);
+  color: var(--db-muted); transition: all 0.25s var(--ease-smooth, ease);
+}
+.pill-active { background: rgba(255,215,0,0.15); border-color: rgba(255,215,0,0.4); color: var(--db-gold); }
+.pill-inactive:hover { border-color: rgba(255,215,0,0.3); color: var(--db-text); }
+
+.save-bar {
+  position: sticky; bottom: 0; display: flex; justify-content: flex-end; gap: 0.75rem;
+  padding: 1rem; margin-top: 1.5rem; background: rgba(5,5,7,0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--db-card-border); border-radius: 0.75rem;
+}
+.toast {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200; background: rgba(10,10,10,0.75);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--db-card-border); border-left: 3px solid var(--db-gold);
+  color: var(--db-text); padding: 0.9rem 1.25rem; border-radius: 0.6rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  animation: toastSlideIn 0.3s var(--ease-smooth, ease);
+}
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.modal-overlay { backdrop-filter: blur(6px); background: rgba(0,0,0,0.6); }
+
+.filter-bar { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.25rem; }
+.filter-group { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+/* ========================================================================
+   POLICY PAGES
+   ======================================================================== */
 .policy-content {
   color: var(--db-muted); line-height: 1.75;
   background: var(--db-card); border: 1px solid var(--db-card-border); border-radius: 1.25rem;
@@ -485,9 +735,6 @@ input[type="search"]::-webkit-search-cancel-button:hover {
 
 /* ========================================================================
    SMOOTH MOTION SYSTEM
-   Sitewide easing + the keyframes the dashboard already referenced
-   (fadeIn / toastIn) but that were never defined, so those animations
-   were silently doing nothing before.
    ======================================================================== */
 :root { --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1); }
 
@@ -496,7 +743,8 @@ html { scroll-behavior: smooth; }
 a, button, input, select, textarea,
 .btn, .field-input, .select-input, .pill, .guild-card, .dash-card,
 .toggle-row, .switch .slider, .switch .slider::before,
-.dash-sidebar-item, .commands-table td, .commands-table tr {
+.dash-sidebar-item, .commands-table td, .commands-table tr,
+.review-card, .review-action-btn, .review-reply {
   transition: background-color 0.25s var(--ease-smooth), border-color 0.25s var(--ease-smooth),
     color 0.25s var(--ease-smooth), transform 0.25s var(--ease-smooth), box-shadow 0.25s var(--ease-smooth),
     opacity 0.25s var(--ease-smooth), filter 0.25s var(--ease-smooth);
@@ -525,24 +773,15 @@ a, button, input, select, textarea,
 }
 .dropdown-panel { animation: dropdownIn 0.18s var(--ease-smooth); transform-origin: top center; }
 
-/* ------------------------------------------------------------------------
-   Page-level entrance. Every route renders its content inside .main, so
-   this one rule gives every page.js a single, consistent soft fade+rise
-   on load/navigation instead of content just popping in.
-   ------------------------------------------------------------------------ */
+/* Page-level entrance. Every route renders its content inside .main. */
 @keyframes pageIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .main { animation: pageIn 0.45s var(--ease-smooth) backwards; }
 
-/* ------------------------------------------------------------------------
-   Staggered grid entrances. Cards in any grid fade+rise in one at a time
-   rather than all at once -- applies automatically via nth-child, no JS
-   needed (command-card already sets its own inline delay for longer lists;
-   this covers dash-grid/guild-card and anything else built the same way).
-   ------------------------------------------------------------------------ */
-.dash-grid > *, .commands-list > * {
+/* Staggered grid entrances. */
+.dash-grid > *, .commands-list > *, .reviews-list > *, .reviews-featured-grid > * {
   animation: cardIn 0.4s var(--ease-smooth) backwards;
 }
 .dash-grid > *:nth-child(1)  { animation-delay: 0ms; }
@@ -553,11 +792,7 @@ a, button, input, select, textarea,
 .dash-grid > *:nth-child(6)  { animation-delay: 200ms; }
 .dash-grid > *:nth-child(n+7) { animation-delay: 240ms; }
 
-/* ------------------------------------------------------------------------
-   Refined hover/press physics -- a touch more lift and glow on hover,
-   plus a tactile little "settle" on press, applied consistently across
-   every interactive surface sitewide.
-   ------------------------------------------------------------------------ */
+/* Refined hover/press physics. */
 .dash-card:hover, .command-card:hover, .guild-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 215, 0, 0.08);
@@ -568,8 +803,7 @@ a, button, input, select, textarea,
 }
 .btn-primary:active { transform: scale(0.97); }
 
-/* Mobile slide menu: fade the scrim in alongside the slide instead of it
-   just appearing instantly at full opacity. */
+/* Mobile slide menu fade-in */
 .mobile-slide-menu {
   opacity: 0;
   transition: transform 0.3s var(--ease-smooth), opacity 0.3s var(--ease-smooth);
@@ -579,10 +813,7 @@ a, button, input, select, textarea,
 .dash-sidebar-item:hover { background: rgba(255,255,255,0.06) !important; }
 .dash-sidebar-item.active { background: rgba(255,215,0,0.1); }
 
-/* Native <select> dropdown popups render with a browser-controlled (usually
-   white) background regardless of our dark theme, so the light text color
-   we use for the closed box becomes invisible inside the open list. Force
-   readable, high-contrast text on every option, sitewide. */
+/* Native <select> dropdown popups need a readable option color. */
 select { color: var(--db-text); }
 select option {
   color: #111417 !important;
@@ -606,11 +837,7 @@ select option {
 .clock-label { color: var(--db-faint); font-size: 0.7rem; text-transform: uppercase; margin-top: 0.3rem; }
 .number { font-family: 'Orbitron', sans-serif; font-weight: 800; color: var(--db-gold); }
 
-/* ------------------------------------------------------------------------
-   Scroll-reveal for homepage feature cards (see components/ScrollReveal.js).
-   Cards start slightly lower and transparent, then ease in once the
-   IntersectionObserver adds .visible as they scroll into view.
-   ------------------------------------------------------------------------ */
+/* Scroll-reveal for homepage feature cards. */
 .feature-card {
   opacity: 0;
   transform: translateY(24px);
