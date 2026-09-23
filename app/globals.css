@@ -550,3 +550,21 @@ select option {
 .digit-top, .digit-bottom { line-height: 1; }
 .clock-label { color: var(--db-faint); font-size: 0.7rem; text-transform: uppercase; margin-top: 0.3rem; }
 .number { font-family: 'Orbitron', sans-serif; font-weight: 800; color: var(--db-gold); }
+
+/* ------------------------------------------------------------------------
+   Scroll-reveal for homepage feature cards (see components/ScrollReveal.js).
+   Cards start slightly lower and transparent, then ease in once the
+   IntersectionObserver adds .visible as they scroll into view.
+   ------------------------------------------------------------------------ */
+.feature-card {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s var(--ease-smooth, ease), transform 0.6s var(--ease-smooth, ease);
+}
+.feature-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .feature-card { opacity: 1; transform: none; }
+}
