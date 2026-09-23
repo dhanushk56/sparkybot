@@ -23,6 +23,17 @@
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
   }
+  /* Heavier-frost variant, used for the mobile hamburger slide-out panel.
+     Higher blur + saturation so the gold accents behind it don't go grey,
+     plus a slightly denser fill and stronger shadow so the panel reads as
+     a distinct layer sitting above the page content. */
+  .glass-nav-heavy {
+    background: rgba(12, 18, 38, 0.82);
+    backdrop-filter: blur(48px) saturate(140%);
+    -webkit-backdrop-filter: blur(48px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  }
   .glass-card {
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(16px);
