@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export const metadata = { title: "SparkyBot - Premium" };
 
-// Perks are placeholders -- swap these arrays out once the actual plan
-// content is decided. Keep prices/names here too, they're just samples.
+const DISCORD_SERVER = "https://support.sparkybot.bond";
+
 const PLANS = [
   {
     name: "Starter",
@@ -13,6 +13,7 @@ const PLANS = [
     highlight: false,
     cta: "Get Started",
     ctaHref: "/invite",
+    external: false,
     perks: [
       "Perk coming soon",
       "Perk coming soon",
@@ -26,7 +27,8 @@ const PLANS = [
     tagline: "For servers that want more headroom.",
     highlight: true,
     cta: "Upgrade to Pro",
-    ctaHref: "/support",
+    ctaHref: DISCORD_SERVER,
+    external: true,
     perks: [
       "Perk coming soon",
       "Perk coming soon",
@@ -41,7 +43,8 @@ const PLANS = [
     tagline: "The full SparkyBot experience.",
     highlight: false,
     cta: "Upgrade to Ultimate",
-    ctaHref: "/support",
+    ctaHref: DISCORD_SERVER,
+    external: true,
     perks: [
       "Perk coming soon",
       "Perk coming soon",
@@ -107,19 +110,30 @@ export default function PremiumPage() {
                   ))}
                 </ul>
 
-                <Link
-                  href={plan.ctaHref}
-                  className={plan.highlight ? "btn-primary text-center" : "btn-secondary text-center"}
-                >
-                  {plan.cta}
-                </Link>
+                {plan.external ? (
+                  <a
+                    href={plan.ctaHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={plan.highlight ? "btn-primary text-center" : "btn-secondary text-center"}
+                  >
+                    {plan.cta}
+                  </a>
+                ) : (
+                  <Link
+                    href={plan.ctaHref}
+                    className={plan.highlight ? "btn-primary text-center" : "btn-secondary text-center"}
+                  >
+                    {plan.cta}
+                  </Link>
+                )}
               </div>
             ))}
           </div>
 
           <p className="text-center text-gray-500 text-sm mt-12 max-w-lg mx-auto">
             Questions about Premium? <Link href="/contact" className="text-gold-primary hover:underline">Contact us</Link> or{" "}
-            <Link href="/support" className="text-gold-primary hover:underline">join our support server</Link>.
+            <a href={DISCORD_SERVER} target="_blank" rel="noopener noreferrer" className="text-gold-primary hover:underline">join our Discord server</a>.
           </p>
         </div>
       </section>
