@@ -4,7 +4,7 @@ import { getMutualGuildIds } from "@/lib/botApi";
 import { guildIconUrl } from "@/lib/discord";
 import Link from "next/link";
 
-export const metadata = { title: "Dashboard — SparkyBot" };
+export const metadata = { title: "Control Center" };
 
 const INVITE_BASE =
   "https://discord.com/oauth2/authorize?client_id=1541574404717285417&scope=bot+applications.commands&permissions=1099800112246";
