@@ -1,21 +1,31 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/dashboard", label: "Dashboard" },
   { href: "/commands", label: "Commands" },
   { href: "/reviews", label: "Reviews" },
+  { href: "/premium", label: "Premium" },
   { href: "/partners", label: "Partners" },
   { href: "/support", label: "Support" },
 ];
 
+const LEGAL_LINKS = [
+  { href: "/privacy", label: "Privacy Policy" },
+  { href: "/terms", label: "Terms of Service" },
+  { href: "/contact", label: "Contact Us" },
+];
+
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [legalOpen, setLegalOpen] = useState(false);
+  const [mobileLegalOpen, setMobileLegalOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [loadingUser, setLoadingUser] = useState(true);
+  const legalRef = useRef(null);
 
   useEffect(() => {
     fetch("/api/auth/me")
@@ -24,6 +34,18 @@ export default function Navbar() {
       .catch(() => setUser(null))
       .finally(() => setLoadingUser(false));
   }, []);
+
+  // Close the desktop Legal dropdown on outside click.
+  useEffect(() => {
+    if (!legalOpen) return;
+    const handleClick = (e) => {
+      if (legalRef.current && !legalRef.current.contains(e.target)) {
+        setLegalOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [legalOpen]);
 
   return (
     <nav className="fixed top-0 inset-x-0 z-[70] px-4 sm:px-6 lg:px-8 pt-4">
@@ -50,6 +72,36 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
+
+              <div className="relative" ref={legalRef}>
+                <button
+                  type="button"
+                  onClick={() => setLegalOpen((v) => !v)}
+                  className="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 text-white/80 hover:text-white hover:bg-white/8 flex items-center gap-1.5"
+                  aria-expanded={legalOpen}
+                  aria-haspopup="true"
+                >
+                  Legal
+                  <i
+                    className="fas fa-chevron-down text-[10px] transition-transform duration-300"
+                    style={{ transform: legalOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                  ></i>
+                </button>
+                {legalOpen && (
+                  <div className="dropdown-panel absolute top-[calc(100%+0.5rem)] right-0 min-w-[180px] rounded-xl glass-nav p-1.5 z-10">
+                    {LEGAL_LINKS.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setLegalOpen(false)}
+                        className="block px-3.5 py-2 rounded-lg text-sm font-medium text-white/80 hover:text-white hover:bg-white/8 transition-all duration-200 whitespace-nowrap"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="flex items-center gap-2 sm:gap-3">
@@ -75,7 +127,7 @@ export default function Navbar() {
           <div
             className="lg:hidden absolute top-full left-0 right-0 mt-2 rounded-[26px] glass-nav overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
             style={{
-              maxHeight: mobileMenuOpen ? "480px" : "0px",
+              maxHeight: mobileMenuOpen ? "640px" : "0px",
               opacity: mobileMenuOpen ? 1 : 0,
               transform: mobileMenuOpen ? "translateY(0)" : "translateY(-8px)",
               pointerEvents: mobileMenuOpen ? "auto" : "none",
@@ -92,6 +144,36 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
+
+              <button
+                type="button"
+                onClick={() => setMobileLegalOpen((v) => !v)}
+                className="px-4 py-2 rounded-xl text-sm font-semibold hover:bg-white/8 transition-all duration-300 flex items-center justify-between"
+              >
+                Legal
+                <i
+                  className="fas fa-chevron-down text-[10px] transition-transform duration-300"
+                  style={{ transform: mobileLegalOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                ></i>
+              </button>
+              <div
+                className="overflow-hidden transition-all duration-300"
+                style={{ maxHeight: mobileLegalOpen ? "200px" : "0px" }}
+              >
+                <div className="flex flex-col gap-1 pl-4">
+                  {LEGAL_LINKS.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => { setMobileMenuOpen(false); setMobileLegalOpen(false); }}
+                      className="px-4 py-2 rounded-xl text-sm font-medium text-white/70 hover:bg-white/8 hover:text-white transition-all duration-300"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
               <div className="mt-2">
                 <AccountControl user={user} loading={loadingUser} mobile />
               </div>
