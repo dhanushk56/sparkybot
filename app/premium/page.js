@@ -37,7 +37,7 @@ const PLANS = [
     ],
   },
   {
-    name: "Combo Pack (User + Server)",
+    name: "Combo Pack (Starter + Server)",
     price: "5 boosts",
     period: "/ month",
     tagline: "The full Sparky Bot experience.",
