@@ -27,7 +27,7 @@ const PLANS = [
     tagline: "For servers that want more headroom.",
     highlight: true,
     cta: "Upgrade to Pro",
-    ctaHref: DISCORD_SERVER,
+    ctaHref: "/support",
     external: true,
     perks: [
       "Perk coming soon",
@@ -43,7 +43,7 @@ const PLANS = [
     tagline: "The full Sparky Bot experience.",
     highlight: false,
     cta: "Upgrade to Ultimate",
-    ctaHref: DISCORD_SERVER,
+    ctaHref: "/support",
     external: true,
     perks: [
       "Perk coming soon",
