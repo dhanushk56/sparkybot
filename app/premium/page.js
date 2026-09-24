@@ -11,7 +11,7 @@ const PLANS = [
     period: "/ month",
     tagline: "For personal use",
     highlight: false,
-    cta: "Get Started",
+    cta: "Upgrade Now",
     ctaHref: "/support",
     external: false,
     perks: [
@@ -25,7 +25,7 @@ const PLANS = [
     period: "/ month",
     tagline: "For servers that want more headroom.",
     highlight: true,
-    cta: "Upgrade to Pro",
+    cta: "Upgrade Now",
     ctaHref: "/support",
     external: true,
     perks: [
@@ -42,7 +42,7 @@ const PLANS = [
     period: "/ month",
     tagline: "The full Sparky Bot experience.",
     highlight: false,
-    cta: "Upgrade to Ultimate",
+    cta: "Upgrade Now",
     ctaHref: "/support",
     external: true,
     perks: [
