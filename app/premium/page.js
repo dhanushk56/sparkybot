@@ -40,7 +40,7 @@ const PLANS = [
     name: "Ultimate",
     price: "$9.99",
     period: "/ month",
-    tagline: "The full SparkyBot experience.",
+    tagline: "The full Sparky Bot experience.",
     highlight: false,
     cta: "Upgrade to Ultimate",
     ctaHref: DISCORD_SERVER,
