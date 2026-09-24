@@ -20,7 +20,7 @@ const PLANS = [
     ],
   },
   {
-    name: "Pro",
+    name: "Server",
     price: "2 boosts",
     period: "/ month",
     tagline: "For servers that want more headroom.",
@@ -37,7 +37,7 @@ const PLANS = [
     ],
   },
   {
-    name: "Ultimate",
+    name: "Combo Pack (User + Server)",
     price: "5 boosts",
     period: "/ month",
     tagline: "The full Sparky Bot experience.",
@@ -46,11 +46,9 @@ const PLANS = [
     ctaHref: "/support",
     external: true,
     perks: [
-      "Perk coming soon",
-      "Perk coming soon",
-      "Perk coming soon",
-      "Perk coming soon",
-      "Perk coming soon",
+      "All user and server perks+",
+      "Early access to new features",
+      "Priority support by the bot developers"
     ],
   },
 ];
