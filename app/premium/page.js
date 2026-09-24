@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export const metadata = { title: "SparkyBot - Premium" };
+export const metadata = { title: "Plans" };
 
 const DISCORD_SERVER = "https://support.sparkybot.bond";
 
