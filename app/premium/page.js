@@ -9,10 +9,10 @@ const PLANS = [
     name: "Starter",
     price: "1 boost",
     period: "/ month",
-    tagline: "Everything you need to get going.",
+    tagline: "For personal use",
     highlight: false,
     cta: "Get Started",
-    ctaHref: "/invite",
+    ctaHref: "/support",
     external: false,
     perks: [
       "Global No-prefix",
