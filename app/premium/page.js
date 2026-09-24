@@ -68,7 +68,7 @@ export default function PremiumPage() {
             Pick the plan that <span className="gradient-text">fits your server</span>
           </h1>
           <p className="text-lg text-gray-400 max-w-xl mx-auto leading-relaxed">
-            Plan perks are still being finalized — pricing and features below are placeholders for now.
+            Please choose a plan of your liking and enjoy using Sparky Bot
           </p>
         </div>
       </section>
